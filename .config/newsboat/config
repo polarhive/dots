@@ -1,0 +1,3 @@
+browser "xdg-open '%u'
+auto-reload yes
+reload-threads 25
