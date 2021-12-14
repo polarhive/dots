@@ -4,13 +4,11 @@
 🍚 ricin'
 ```
 
-<p align="center">
-  <img src="./assets/apps.png">
-</p>
+![terminal](./assets/terminal.png)
+free RAM is wasted RAM!
 
-<p align="center">
-  <img src="./assets/terminal.png">
-</p>
+![home](./assets/apps.png)
+i use arch btw
 
 ``` text
 - sway
@@ -19,6 +17,7 @@
 - alacritty
 - firefox
 - material ocean
+- lollypop
 ```
 
 ---

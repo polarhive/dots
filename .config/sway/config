@@ -18,7 +18,7 @@ set $browser firefox
 
 ### Shortcuts
 bindsym $mod+i exec /usr/bin/$browser
-bindsym $mod+alt+l exec swaylock
+bindsym $mod+F9 exec swaylock
 bindsym Print exec "grim"
 
 # Your preferred application launcher
@@ -30,7 +30,7 @@ set $menu wofi -S drun -G
 font pango:Product Sans Regular 10
 default_border pixel 1
 gaps inner 5
-gaps outer 1
+gaps outer 3
 
 ### brightnessctl
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
@@ -66,7 +66,8 @@ input "1267:91:Elan_Touchpad" {
 
     # Start a terminal
     bindsym $mod+Return exec $term
-    bindsym $mod+Shift+q kill
+    #bindsym $mod+Shift+q kill
+    bindsym $mod+Q kill
     bindsym $mod+d exec $menu
     floating_modifier $mod normal
     bindsym $mod+Shift+c reload
