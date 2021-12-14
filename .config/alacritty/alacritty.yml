@@ -24,4 +24,4 @@ font:
   offset:
     y: 1
   normal:
-    family: "Cascadia Mono"
+     family: "JetBrains Mono"
