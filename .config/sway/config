@@ -65,11 +65,12 @@ input "1267:91:Elan_Touchpad" {
 
     # Start a terminal
     bindsym $mod+Return exec $term
-    #bindsym $mod+Shift+q kill
     bindsym $mod+Q kill
     bindsym $mod+d exec $menu
     floating_modifier $mod normal
     bindsym $mod+Shift+c reload
+    bindsym $mod+Alt+s exec systemctl poweroff
+    bindsym $mod+Alt+r exec systemctl reboot
 
 ## Moving around
     
