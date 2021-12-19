@@ -24,6 +24,7 @@ bindsym $mod+F9 exec swaylock
 bindsym $mod+Alt+s exec systemctl poweroff
 bindsym $mod+Alt+r exec systemctl reboot
 bindsym $mod+Alt+t exec org.telegram.desktop
+bindsym $mod+Alt+l exec org.gnome.Lollypop
 bindsym $mod+Alt+e exec thunar
 bindsym $mod+Q kill
 bindsym $mod+Shift+c reload
