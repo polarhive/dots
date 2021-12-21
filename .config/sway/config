@@ -16,7 +16,7 @@ set $wall ~/Pictures/Walls/app.png
 set $font Product Sans Regular
 
 ## User Shortcuts
-bindsym $mod+i exec /usr/bin/$browser
+bindsym $mod+i exec $browser
 bindsym $mod+Return exec $term
 bindsym Print exec $screenshot
 bindsym $mod+d exec $menu
