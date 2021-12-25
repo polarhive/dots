@@ -1,5 +1,5 @@
 # ZSH configs
-export ZSH="/home/polarhive/.oh-my-zsh"
+export ZSH="/home/polarhive/.config/oh-my-zsh"
 ZSH_THEME="simple"
 plugins=(zsh-syntax-highlighting zsh-autosuggestions git)
 
@@ -10,6 +10,7 @@ alias z="exit"
 alias c="clear"
 alias b="acpi"
 alias v="nvim"
+alias code="codium"
 alias wifi="nmcli connection show"
 alias pi="ping gnu.org"
 alias g="cd ~/Documents/Git/Codeberg"
