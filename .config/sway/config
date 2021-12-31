@@ -13,6 +13,7 @@ set $term alacritty
 set $menu wofi -S drun 
 set $wall ~/Pictures/Walls/app.png
 set $font Product Sans Regular
+set $browser firefox
 
 ## User Shortcuts
 bindsym $mod+Return exec $term
@@ -21,9 +22,8 @@ bindsym $mod+d exec $menu
 bindsym $mod+F9 exec swaylock
 bindsym $mod+Alt+s exec systemctl poweroff
 bindsym $mod+Alt+r exec systemctl reboot
-bindsym $mod+Alt+t exec org.telegram.desktop
-bindsym $mod+Alt+l exec org.gnome.Lollypop
 bindsym $mod+Alt+e exec thunar
+bindsym $mod+Alt+f exec $browser
 bindsym $mod+Q kill
 bindsym $mod+Shift+c reload
 floating_modifier $mod normal
@@ -57,7 +57,7 @@ exec swayidle -w \
 
 ## Input configuration
 input "1267:91:Elan_Touchpad" {
-       dwt enabled
+       dwt disabled
        tap enabled
 }
 
