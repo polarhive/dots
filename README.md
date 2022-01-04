@@ -4,10 +4,10 @@
 🍚 ricin'
 ```
 
-![terminal](./assets/terminal.png)
+![terminal](assets/terminal.png)
 free RAM is wasted RAM!
 
-![home](./assets/apps.png)
+![home](assets/apps.png)
 i use arch btw
 
 ``` text
