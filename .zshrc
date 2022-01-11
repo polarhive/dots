@@ -1,5 +1,6 @@
 # ZSH configs
 export ZSH="/home/polarhive/.config/oh-my-zsh"
+export EDITOR='nvim'
 ZSH_THEME="simple"
 plugins=(zsh-syntax-highlighting zsh-autosuggestions git)
 
@@ -9,7 +10,7 @@ source $ZSH/oh-my-zsh.sh
 alias z="exit"
 alias c="clear"
 alias b="acpi"
-alias v="nvim"
+alias v="$EDITOR"
 alias wifi="nmcli connection show"
 alias pm="mpv ~/Music/*.mp3 --shuffle --no-audio-display"
 alias pl="playerctl metadata | grep "title"; playerctl metadata | grep "artist";"
