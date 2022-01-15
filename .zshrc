@@ -7,9 +7,11 @@ plugins=(zsh-syntax-highlighting zsh-autosuggestions git)
 source $ZSH/oh-my-zsh.sh
 
 ### aliases
-alias z="exit"
-alias c="clear"
 alias b="acpi"
+alias cat="bat"
+alias ls="exa"
+alias du="duf"
+alias curl="curlie"
 alias v="$EDITOR"
 alias wifi="nmcli connection show"
 alias pm="mpv ~/Music/*.mp3 --shuffle --no-audio-display"

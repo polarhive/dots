@@ -17,7 +17,7 @@ set $browser firefox
 
 ## User Shortcuts
 bindsym $mod+Return exec $term
-bindsym Print exec $screenshot
+bindsym Print exec $screenshot; exec mv 2022* ~/Pictures/Screenshots 
 bindsym $mod+d exec $menu
 bindsym $mod+F9 exec swaylock
 bindsym $mod+Alt+s exec systemctl poweroff
