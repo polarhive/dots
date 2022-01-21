@@ -10,7 +10,7 @@ source $ZSH/oh-my-zsh.sh
 alias b="acpi"
 alias cat="bat"
 alias ls="exa"
-alias du="duf"
+alias du="du -h"
 alias curl="curlie"
 alias v="$EDITOR"
 alias wifi="nmcli connection show"
