@@ -17,7 +17,6 @@ i use arch btw
 - alacritty
 - firefox
 - material ocean
-- lollypop
 ```
 
 ---

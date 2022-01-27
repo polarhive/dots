@@ -64,6 +64,7 @@ exec swayidle -w \
 input "1267:91:Elan_Touchpad" {
        dwt disabled
        tap enabled
+       accel_profile adaptive
 }
 
 ## Moving around
@@ -132,7 +133,6 @@ bindsym $mod+r mode "resize"
 bar { 
     position bottom
     status_command while date +'%H:%M'; do sleep 1; done
-
     colors {
         statusline #ffffff
         background #0a0b11
