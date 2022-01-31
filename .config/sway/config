@@ -11,7 +11,7 @@ set $right l
 set $screenshot grim
 set $term alacritty
 set $menu wofi -S drun 
-set $wall ~/Pictures/Walls/app.png
+set $wall ~/Pictures/Walls/boomer.jpg
 set $font Product Sans Regular
 set $browser firefox
 
@@ -31,9 +31,9 @@ floating_modifier $mod normal
 ### Appearance
 output * bg $wall fill
 font pango:$font 10
-default_border pixel 1
-gaps inner 5
-gaps outer 3
+default_border pixel 0
+gaps inner 3
+gaps outer 1
 
 ### brightnessctl
 bindsym --locked XF86MonBrightnessDown exec brightnessctl set 10%-
