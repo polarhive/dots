@@ -23,5 +23,6 @@ alias u="sh ~/Documents/Scripts/all.sh"
 alias s="sh ~/Documents/Scripts/yt-dl/school.sh"
 alias yt="sh ~/Documents/Scripts/yt-dl/yt.sh"
 alias m="sh ~/Documents/Scripts/yt-dl/yt-mpv.sh"
+alias c="sh ~/Documents/Scripts/misc/commit.sh"
 alias p="sh ~/Documents/Scripts/misc/powersave.sh"
 
