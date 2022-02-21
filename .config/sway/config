@@ -20,10 +20,7 @@ bindsym $mod+Return exec $term
 bindsym Print exec $screenshot; exec mv ~/Pictures/2022* ~/Pictures/Screenshots 
 bindsym $mod+d exec $menu
 bindsym $mod+F9 exec swaylock
-bindsym $mod+Alt+s exec systemctl poweroff
-bindsym $mod+Alt+r exec systemctl reboot
 bindsym $mod+Alt+e exec thunar
-bindsym $mod+Alt+f exec $browser
 bindsym $mod+Q kill
 bindsym $mod+Shift+c reload
 floating_modifier $mod normal
@@ -49,10 +46,6 @@ bindsym --locked XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ to
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
-
-## GTK startup-lag hotfix
-exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
-exec hash dbus-update-activation-environment 2>/dev/null && dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
 
 ### Idle configuration
 exec swayidle -w \

@@ -14,8 +14,8 @@ alias du="du -h"
 alias v="$EDITOR"
 alias wifi="nmcli connection show"
 alias g="cd ~/Documents/Git/Codeberg"
-alias poweroff="systemctl poweroff"
-alias reboot="systemctl reboot"
+alias poweroff="sudo poweroff"
+alias reboot="sudo reboot"
 
 #### scripts
 alias u="sh ~/Documents/Scripts/misc/link.sh"
@@ -23,4 +23,3 @@ alias s="sh ~/Documents/Scripts/yt-dl/school.sh"
 alias yt="sh ~/Documents/Scripts/yt-dl/yt.sh"
 alias m="sh ~/Documents/Scripts/yt-dl/yt-mpv.sh"
 alias c="sh ~/Documents/Scripts/misc/commit.sh"
-
