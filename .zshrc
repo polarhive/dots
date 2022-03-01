@@ -1,6 +1,7 @@
 # ZSH configs
 export ZSH="/home/polarhive/.config/oh-my-zsh"
 export EDITOR='nvim'
+export $(dbus-launch)
 ZSH_THEME="simple"
 plugins=(zsh-syntax-highlighting zsh-autosuggestions git)
 

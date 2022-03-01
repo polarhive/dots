@@ -17,10 +17,10 @@ set $browser firefox
 
 ## User Shortcuts
 bindsym $mod+Return exec $term
-bindsym Print exec $screenshot; exec mv ~/Pictures/2022* ~/Pictures/Screenshots 
+bindsym Print exec $screenshot; exec mv ~/2022* ~/Pictures/Screenshots 
 bindsym $mod+d exec $menu
 bindsym $mod+F9 exec swaylock
-bindsym $mod+Alt+e exec thunar
+bindsym $mod+Alt+e exec nautilus
 bindsym $mod+Q kill
 bindsym $mod+Shift+c reload
 floating_modifier $mod normal
@@ -29,7 +29,7 @@ floating_modifier $mod normal
 output * bg $wall fill
 font pango:$font 10
 default_border pixel 0
-gaps inner 3
+gaps inner 2
 gaps outer 1
 
 ### brightnessctl
