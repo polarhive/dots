@@ -1,26 +1,23 @@
-########################
-# Nathan's sway config #
-########################
-
 # Variables
 set $mod Mod4
 set $left h
 set $down j
 set $up k
 set $right l
-set $screenshot grim
+set $screenshot grim ~/Pictures/Screenshots/$(date +'%s_grim.png')
 set $term alacritty
 set $menu wofi -S drun 
 set $wall ~/Pictures/Walls/boomer.jpg
 set $font Product Sans Regular
 set $browser firefox
 
-## User Shortcuts
+## Shortcuts
 bindsym $mod+Return exec $term
-bindsym Print exec $screenshot; exec mv ~/2022* ~/Pictures/Screenshots 
+bindsym Print exec $screenshot;
+bindsym Shift+Print exec grim -g "$(slurp)" - | wl-copy
 bindsym $mod+d exec $menu
 bindsym $mod+F9 exec swaylock
-bindsym $mod+Alt+e exec nautilus
+bindsym $mod+Alt+e exec thunar
 bindsym $mod+Q kill
 bindsym $mod+Shift+c reload
 floating_modifier $mod normal
