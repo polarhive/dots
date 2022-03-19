@@ -1,6 +1,10 @@
+/* 
+ UPSTREAM: https://github.com/fosskers/dotfiles/blob/master/.config/waybar/config
+*/
+
 {
     "layer": "top",
-    "position": "top",
+    "position": "bottom",
     "height": 24,
     "modules-left": ["sway/workspaces"],
     "modules-right": ["custom/media", "network", "battery", "clock", "tray"],
