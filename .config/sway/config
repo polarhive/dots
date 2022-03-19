@@ -7,7 +7,7 @@ set $right l
 set $screenshot grim ~/Pictures/Screenshots/$(date +'%s_grim.png')
 set $term alacritty
 set $menu wofi -S drun 
-set $wall ~/Pictures/Walls/app.png
+set $wall ~/Pictures/Walls/boomer.jpg
 set $font Product Sans Regular
 set $browser firefox
 set $song notify-send --expire-time=800 "$(playerctl metadata title) ~ $(playerctl metadata artist)" 
@@ -123,14 +123,8 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-bar { 
-    position bottom
-    status_command while date +'%H:%M'; do sleep 1; done
-    colors {
-        statusline #ffffff
-        background #0a0b11
-        inactive_workspace #0f111a #0f111a #ff4151 
-    }
+bar {
+    swaybar_command waybar
 }
 
 include /etc/sway/config.d/*

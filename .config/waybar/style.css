@@ -1,0 +1,38 @@
+* {
+  border: none;
+  border-radius: 0;
+  font-family: "JetBrains Mono";
+  font-size: 10px;
+  min-height: 0;
+}
+
+window#waybar {
+  background: black;
+  color: white;
+}
+
+#window {
+  font-family: "JetBrains Mono";
+  margin-top: 5px;
+}
+
+#workspaces button {
+  padding: 0 5px;
+  background: transparent;
+  color: white;
+  border-top: 2px solid transparent;
+}
+
+#workspaces button.focused {
+  color: white;
+  border-top: 2px solid white;
+}
+
+#tray,
+#clock,
+#custom-media,
+#battery,
+#network {
+  padding: 0 5px;
+}
+
