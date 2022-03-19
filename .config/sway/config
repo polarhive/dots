@@ -7,9 +7,10 @@ set $right l
 set $screenshot grim ~/Pictures/Screenshots/$(date +'%s_grim.png')
 set $term alacritty
 set $menu wofi -S drun 
-set $wall ~/Pictures/Walls/boomer.jpg
+set $wall ~/Pictures/Walls/app.png
 set $font Product Sans Regular
 set $browser firefox
+set $song notify-send --expire-time=800 "$(playerctl metadata title) ~ $(playerctl metadata artist)" 
 
 ## Shortcuts
 bindsym $mod+Return exec $term
@@ -43,6 +44,8 @@ bindsym --locked XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ to
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
+
+bindsym Shift+XF86AudioPlay exec $song
 
 ### Idle configuration
 exec swayidle -w \

@@ -23,8 +23,6 @@ alias ls="exa"
 alias l="exa -l -a"
 alias du="du -h"
 alias g="cd ~/Documents/Git/Codeberg"
-alias poweroff="sudo poweroff"
-alias reboot="sudo reboot"
 
 #### scripts
 alias u="sh ~/Documents/Scripts/misc/link.sh"
