@@ -27,15 +27,15 @@
         "format-icons": ["", "", "", "", ""]
     },
 
-    "custom/media": {
+/*    "custom/media": {
         "format": "{}",
         "interval": 1,
         "exec": "~/Documents/Scripts/media.sh"
     },
-
+*/
     "network": {
         "format-wifi": " ",
-        "format-disconnected": "! "
+        "format-disconnected": ""
     },
 
 }

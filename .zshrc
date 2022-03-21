@@ -1,8 +1,10 @@
 ## themeing
 autoload -U compinit
 autoload -U colors && colors
-PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 setopt autocd
+zstyle ':completion:*' menu select
+zmodload zsh/complist
+PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
 # env variables
 export MOZ_ENABLE_WAYLAND=1
@@ -14,6 +16,13 @@ export READER="zathura"
 export XDG_SESSION_TYPE="wayland"
 export XDG_CURRENT_DESKTOP="sway"
 
+# History
+HISTSIZE=10000000
+SAVEHIST=10000000
+HISTFILE=~/.local/share/zsh/history
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+
 ### aliases
 alias wifi="nmcli connection show"
 alias b="acpi"
@@ -23,6 +32,7 @@ alias ls="exa"
 alias l="exa -l -a"
 alias du="du -h"
 alias g="cd ~/Documents/Git/Codeberg"
+alias x="cd ~/Documents/Scripts/"
 
 #### scripts
 alias u="sh ~/Documents/Scripts/misc/link.sh"

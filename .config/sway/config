@@ -10,25 +10,29 @@ set $menu wofi -S drun
 set $wall ~/Pictures/Walls/boomer.jpg
 set $font Product Sans Regular
 set $browser firefox
-set $song notify-send --expire-time=800 "$(playerctl metadata title) ~ $(playerctl metadata artist)" 
+set $laptop eDP-1
+set $display HDMI-A-1
 
 ## Shortcuts
+floating_modifier $mod normal
 bindsym $mod+Return exec $term
 bindsym Print exec $screenshot;
 bindsym Shift+Print exec grim -g "$(slurp)" - | wl-copy
 bindsym $mod+d exec $menu
 bindsym $mod+F9 exec swaylock
-bindsym $mod+Alt+e exec thunar
 bindsym $mod+Q kill
 bindsym $mod+Shift+c reload
-floating_modifier $mod normal
+bindsym $mod+Alt+e exec thunar
+bindsym $mod+Alt+f exec firefox
+bindsym $mod+Alt+s exec poweroff
+bindsym $mod+Alt+r exec reboot
 
 ### Appearance
 output * bg $wall fill
 font pango:$font 10
 default_border pixel 0
-gaps inner 2
-gaps outer 1
+gaps inner 1
+gaps outer 0
 
 ### brightnessctl
 bindsym --locked XF86MonBrightnessDown exec brightnessctl set 10%-
@@ -45,8 +49,6 @@ bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
-bindsym Shift+XF86AudioPlay exec $song
-
 ### Idle configuration
 exec swayidle -w \
         timeout 1200 'swaylock -f -c 000000' \
@@ -59,6 +61,11 @@ input "1267:91:Elan_Touchpad" {
        tap enabled
        accel_profile adaptive
 }
+
+## Multi Display
+focus output $display
+bindswitch --reload --locked lid:on output $laptop disable
+bindswitch --reload --locked lid:off output $laptop enable
 
 ## Moving around
 bindsym $mod+$left focus left
