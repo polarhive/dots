@@ -4,11 +4,7 @@
 🍚 ricin'
 ```
 
-![terminal](assets/terminal.png)
-free RAM is wasted RAM!
-
-![home](assets/apps.png)
-i use arch btw
+![terminal](assets/desktop.jpg)
 
 ``` text
 - sway
