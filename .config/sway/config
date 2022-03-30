@@ -7,7 +7,7 @@ set $right l
 set $screenshot grim ~/Pictures/Screenshots/$(date +'%s_grim.png')
 set $term alacritty
 set $menu wofi -S drun 
-set $wall ~/Pictures/Walls/boomer.jpg
+set $wall ~/Pictures/Walls/windows.png
 set $font Product Sans Regular
 set $browser firefox
 set $laptop eDP-1
@@ -28,11 +28,11 @@ bindsym $mod+Alt+s exec poweroff
 bindsym $mod+Alt+r exec reboot
 
 ### Appearance
-output * bg $wall fill
 font pango:$font 10
 default_border pixel 0
 gaps inner 1
 gaps outer 0
+output $laptop bg $wall stretch
 
 ### brightnessctl
 bindsym --locked XF86MonBrightnessDown exec brightnessctl set 10%-
@@ -130,8 +130,16 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-bar {
-    swaybar_command waybar
+
+bar { 
+    position bottom
+    status_command while date +'%H:%M'; do sleep 1; done
+    colors {
+        statusline #ffffff
+        background #0a0b11
+        inactive_workspace #0f111a #0f111a #ff4151 
+	}
 }
 
 include /etc/sway/config.d/*
+
