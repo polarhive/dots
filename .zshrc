@@ -13,8 +13,10 @@ export EDITOR="nvim"
 export TERMINAL="alacritty"
 export BROWSER="firefox"
 export READER="zathura"
+export VIDEO="mpv"
 export XDG_SESSION_TYPE="wayland"
 export XDG_CURRENT_DESKTOP="sway"
+export LESSHISTFILE=-
 
 # History
 HISTSIZE=10000000
@@ -42,5 +44,6 @@ alias m="sh ~/Documents/Scripts/yt-dl/yt-mpv.sh"
 alias c="sh ~/Documents/Scripts/misc/commit.sh"
 
 # plugins
-source ~/Documents/Apps/local/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+source ~/Documents/Apps/local/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/Documents/Apps/local/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 

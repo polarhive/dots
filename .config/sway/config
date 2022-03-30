@@ -32,7 +32,15 @@ font pango:$font 10
 default_border pixel 0
 gaps inner 1
 gaps outer 0
+smart_borders on
+smart_gaps on
+
 output $laptop bg $wall stretch
+
+### Custom
+for_window [app_id="firefox" title="^Picture-in-Picture$"] floating enable
+for_window [app_id="org.gnome.Calculator"] floating enable
+for_window [app_id="mpv"] inhibit_idle visible; border none; max_render_time off; floating enable
 
 ### brightnessctl
 bindsym --locked XF86MonBrightnessDown exec brightnessctl set 10%-

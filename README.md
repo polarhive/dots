@@ -11,6 +11,7 @@
 - zsh
 - arch
 - alacritty
+- ncmpcpp
 - firefox
 - material ocean
 ```
