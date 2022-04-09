@@ -1,2 +1,2 @@
  #!/bin/sh
- sh ~/Documents/Scripts/misc/dots.sh
+ sh ~/Documents/Scripts/dots.sh

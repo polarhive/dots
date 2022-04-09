@@ -41,8 +41,10 @@ output $laptop bg $wall stretch
 for_window [app_id="firefox" title="^Picture-in-Picture$"] floating enable
 for_window [app_id="org.gnome.Calculator"] floating enable
 for_window [app_id="mpv"] inhibit_idle visible; border none; max_render_time off
+#exec "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 
 ### brightnessctl
+exec brightnessctl set 0%
 bindsym --locked XF86MonBrightnessDown exec brightnessctl set 10%-
 bindsym --locked XF86MonBrightnessUp exec brightnessctl set 10%+
 
@@ -127,7 +129,6 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
-
 
 bar { 
     position bottom

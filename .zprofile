@@ -1,4 +1,2 @@
 #!/bin/zsh
-if [[ -z $DISPLAY && $TTY = /dev/tty1 ]]; then
-  exec sway
-fi
+[ "$(tty)" = "/dev/tty1" ] && exec sway
