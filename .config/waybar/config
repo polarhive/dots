@@ -1,41 +1,64 @@
-/* 
- UPSTREAM: https://github.com/fosskers/dotfiles/blob/master/.config/waybar/config
-*/
-
+// UPSTREAM: https://github.com/fosskers/dotfiles/blob/master/.config/waybar/config 
 {
     "layer": "top",
     "position": "bottom",
-    "height": 24,
-    "modules-left": ["sway/workspaces"],
-    "modules-right": ["custom/media", "network", "battery", "clock", "tray"],
-
+    "height": 22,
+    "spacing": 5,
+    "modules-left": ["sway/workspaces", "mpd"],
+    "modules-right": ["network", "pulseaudio", "battery", "clock", "tray"],
     "tray": {
         "spacing": 10,
+	"icon-size": 15
     },
     "clock": {
-        "format": "{:%R}"
+        "format": "{:%R}",
+	"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
     },
     "battery": {
         "bat": "BAT0",
         "full-at": 95,
         "states": {
-            "good": 95,
-            "warning": 30,
-            "critical": 15
+            "good": 90,
+            "warning": 35,
+            "critical": 20
         },
         "format": "{icon}",
         "format-icons": ["", "", "", "", ""]
     },
-
-/*    "custom/media": {
-        "format": "{}",
-        "interval": 1,
-        "exec": "~/Documents/Scripts/media.sh"
-    },
-*/
     "network": {
-        "format-wifi": " ",
-        "format-disconnected": ""
+    	"format-wifi": "{essid} ({signalStrength}%) ",
+        "format-ethernet": "{ipaddr}/{cidr} ",
+        "tooltip-format": "{ifname} via {gwaddr} ",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "!",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}" 
+   },
+    "pulseaudio": {
+        "format": "{volume}% ~ {icon} ~ {format_source} :",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": " {format_source}",
+        "format-source": "",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
     },
-
+    "mpd": {
+    	"format": "{stateIcon} {artist} - {title}",
+	"format-disconnected": "music stopped",
+        "format-stopped": "Stopped ",
+        "interval": 5,
+        "state-icons": {
+            "paused": "",
+            "playing": ""
+        },
+	"on-click": "alacritty -e ncmpcpp"
+	},
 }
