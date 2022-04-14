@@ -4,16 +4,18 @@
 🍚 ricin'
 ```
 
-![terminal](assets/desktop.jpg)
+![terminal](assets/desktop.png)
 
 ``` text
+- arch
+- firefox
+- foot
+- mpd
+- ncmpcpp
+- newsboat
+- nvim
 - sway
 - zsh
-- arch
-- alacritty
-- ncmpcpp
-- firefox
-- material ocean
 ```
 
 ---
