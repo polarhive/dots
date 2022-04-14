@@ -5,7 +5,7 @@ set $down j
 set $up k
 set $right l
 set $screenshot grim ~/Pictures/Screenshots/$(date +'%s_grim.png')
-set $term alacritty
+set $term foot
 set $menu wofi -S drun 
 set $wall ~/.local/share/backgrounds/windows.png
 set $font Product Sans Regular
@@ -29,13 +29,13 @@ bindsym $mod+Alt+r exec reboot
 
 ### Appearance
 font pango:$font 10
-default_border pixel 1
-gaps inner 1
-gaps outer 0
+default_border pixel 2
+gaps inner 5
+gaps outer 3
 smart_borders on
 smart_gaps on
-
 output $laptop bg $wall stretch
+output $laptop scale 0.75
 
 ### Custom
 for_window [app_id="firefox" title="^Picture-in-Picture$"] floating enable
