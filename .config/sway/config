@@ -4,7 +4,7 @@ set $left h
 set $down j
 set $up k
 set $right l
-set $screenshot grim ~/Pictures/Screenshots/$(date +'%s_grim.png')
+set $screenshot grim ~/Pictures/Screenshots/$(date +'Screenshot_%Y-%m-%d:%H:%M:%S.png')
 set $term foot
 set $menu wofi -S drun 
 set $wall ~/.local/share/backgrounds/windows.png
