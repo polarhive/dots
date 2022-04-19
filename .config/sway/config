@@ -1,23 +1,22 @@
-# Variables
+# variables
 set $mod Mod4
 set $left h
 set $down j
 set $up k
 set $right l
-set $screenshot grim ~/Pictures/Screenshots/$(date +'Screenshot_%Y-%m-%d:%H:%M:%S.png')
+set $screenshot ~/Pictures/Screenshots/$(date +'Screenshot_%Y-%m-%d:%H:%M:%S.png')
 set $term foot
 set $menu wofi -S drun 
 set $wall ~/.local/share/backgrounds/windows.png
 set $font Product Sans Regular
-set $browser firefox
 set $laptop eDP-1
 set $display HDMI-A-1
 
-## Shortcuts
+## shortcuts
 floating_modifier $mod normal
 bindsym $mod+Return exec $term
-bindsym Print exec $screenshot;
-bindsym Shift+Print exec grim -g "$(slurp)" - | wl-copy
+bindsym Print exec grim $screenshot;
+bindsym Shift+Print exec grim $screenshot -g "$(slurp)"
 bindsym $mod+d exec $menu
 bindsym $mod+F9 exec swaylock
 bindsym $mod+Q kill
@@ -27,31 +26,33 @@ bindsym $mod+Alt+f exec firefox
 bindsym $mod+Alt+s exec poweroff
 bindsym $mod+Alt+r exec reboot
 
-### Appearance
-font pango:$font 10
-default_border pixel 2
+## output
+output * bg $wall stretch
+output $laptop scale 0.75
+output $display scale 1
+
+### appearance
+font pango:$font 0
+default_border pixel 1
 gaps inner 5
 gaps outer 3
 smart_borders on
 smart_gaps on
-output $laptop bg $wall stretch
-output $laptop scale 0.75
 
-### Custom
+### custom window rules
 for_window [app_id="firefox" title="^Picture-in-Picture$"] floating enable
 for_window [app_id="org.gnome.Calculator"] floating enable
 for_window [app_id="mpv"] inhibit_idle visible; border none; max_render_time off
 #exec "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 
 ### brightnessctl
-exec brightnessctl set 0%
 bindsym --locked XF86MonBrightnessDown exec brightnessctl set 10%-
 bindsym --locked XF86MonBrightnessUp exec brightnessctl set 10%+
 
 ### pactl
 bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -20%
+bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +20%
 bindsym --locked XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
 ### playerctl
@@ -59,25 +60,26 @@ bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
-### Idle configuration
+### idle configuration
 exec swayidle -w \
-        timeout 1200 'swaylock -f -c 000000' \
-        timeout 1500 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-        before-sleep 'swaylock -f -c 000000'
+                timeout 600 'swaylock -f -c 000000' \
+                timeout 1200 'swaymsg "output * dpms off"' \
+                     resume 'swaymsg "output * dpms on"' \
+                before-sleep 'swaylock -f -c 000000'
 
-## Input configuration
+## input configuration
 input "1267:91:Elan_Touchpad" {
        dwt disabled
        tap enabled
        accel_profile adaptive
 }
 
-## Multi Display
+## multi display
 focus output $display
 bindswitch --reload --locked lid:on output $laptop disable
 bindswitch --reload --locked lid:off output $laptop enable
 
-## Moving around
+## moving around
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down
 bindsym $mod+$up focus up
@@ -117,15 +119,15 @@ bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
 mode "resize" {
-    bindsym $left resize shrink width 10px
-    bindsym $down resize grow height 10px
-    bindsym $up resize shrink height 10px
-    bindsym $right resize grow width 10px
-    bindsym Left resize shrink width 10px
-    bindsym Down resize grow height 10px
-    bindsym Up resize shrink height 10px
-    bindsym Right resize grow width 10px
-    bindsym Return mode "default"
+    bindsym $left resize shrink width 20px
+    bindsym $down resize grow height 20px
+    bindsym $up resize shrink height 20px
+    bindsym $right resize grow width 20px
+    bindsym Left resize shrink width 20px
+    bindsym Down resize grow height 20px
+    bindsym Up resize shrink height 20px
+    bindsym Right resize grow width 20px
+    bindsym Return mode "default:
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
