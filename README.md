@@ -18,6 +18,11 @@
 - zsh
 ```
 
+## Setup?
+
+- [Here's](https://polarhive.ml/blog/how-i-do-my-computing) how I do my computing 
+- [Here's](https://polarhive.ml/blog/foss-music-setup) a post on my music streaming setup
+
 ---
 This repo is hosted on [Codeberg](https://polarhive.ml/dots) & mirrored to [GitHub](https://polarhive.ml/github) for traffic.
 
