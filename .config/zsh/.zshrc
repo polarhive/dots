@@ -54,4 +54,5 @@ function yta() {
 source ~/Documents/Apps/local/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/Documents/Apps/local/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/Documents/Apps/local/zsh-cd/zsh-cd.zsh
+source ~/.local/share/cargo/env
 
