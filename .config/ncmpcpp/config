@@ -1,7 +1,7 @@
 restore_paused "yes"
 playlist_shorten_total_times = "yes"
 lyrics_directory  = ~/.local/share/lyrics
-mpd_music_dir  = ~/Music
+mpd_music_dir  = ~/.local/share/.Music
 
 visualizer_data_source          = "/tmp/mpd.fifo"
 visualizer_output_name          = "my_fifo"
