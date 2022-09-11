@@ -51,8 +51,8 @@ function yta() {
 }
 
 # plugins
-source ~/Documents/Apps/local/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/Documents/Apps/local/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/Documents/Apps/local/zsh-cd/zsh-cd.zsh
+source ~/.local/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.local/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.local/zsh/zsh-cd/zsh-cd.zsh
 source ~/.local/share/cargo/env
 
