@@ -4,7 +4,7 @@
 🍚 ricin'
 ```
 
-![terminal](assets/desktop.png)
+![terminal](.local/share/backgrounds/desktop.png)
 
 ``` text
 - arch
