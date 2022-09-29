@@ -7,32 +7,32 @@ set $right l
 set $screenshot ~/Pictures/Screenshots/$(date +'Screenshot_%Y-%m-%d:%H:%M:%S.png')
 set $term foot
 set $menu wofi -S drun 
-set $wall ~/.local/share/backgrounds/windows.png
 set $font Product Sans Regular
 set $laptop eDP-1
 set $display HDMI-A-1
+xwayland disable
+
 
 ## shortcuts
 floating_modifier $mod normal
 bindsym $mod+Return exec $term
 bindsym Print exec grim $screenshot;
-bindsym Shift+Print exec grim $screenshot -g "$(slurp)"
+bindsym Shift+Print exec grim -g "$(slurp)" $screenshot
 bindsym $mod+d exec $menu
-bindsym $mod+F9 exec swaylock
+bindsym $mod+F2 exec foot -e bat ~/Documents/note.txt -p
 bindsym $mod+Q kill
 bindsym $mod+Shift+c reload
 bindsym $mod+Alt+e exec thunar
-bindsym $mod+Alt+f exec firefox
-bindsym $mod+Alt+s exec poweroff
-bindsym $mod+Alt+r exec reboot
+bindsym $mod+Alt+f exec org.mozilla.firefox
+bindsym $mod+Alt+a exec systemctl suspend
+bindsym $mod+Alt+s exec systemctl poweroff
+bindsym $mod+Alt+d exec systemctl reboot
 
-## output
-output * bg $wall stretch
-output $laptop scale 0.75
-output $display scale 1
+output $laptop scale 1.00
+#output $display scale 1
 
 ### appearance
-font pango:$font 0
+font pango:$font 8
 default_border pixel 1
 gaps inner 5
 gaps outer 3
@@ -40,9 +40,12 @@ smart_borders on
 smart_gaps on
 
 ### custom window rules
-for_window [app_id="firefox" title="^Picture-in-Picture$"] floating enable
+for_window [app_id="thunar" title="^Rename$"] floating enable
+for_window [app_id="file-roller"] floating enable
+for_window [app_id="org.mozilla.firefox" title="^Picture-in-Picture$"] floating enable
 for_window [app_id="org.gnome.Calculator"] floating enable
 for_window [app_id="mpv"] inhibit_idle visible; border none; max_render_time off
+for_window [shell="xwayland"] title_format "%title [XWayland]"
 #exec "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 
 ### brightnessctl
@@ -60,13 +63,6 @@ bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
-### idle configuration
-exec swayidle -w \
-                timeout 600 'swaylock -f -c 000000' \
-                timeout 1200 'swaymsg "output * dpms off"' \
-                     resume 'swaymsg "output * dpms on"' \
-                before-sleep 'swaylock -f -c 000000'
-
 ## input configuration
 input "1267:91:Elan_Touchpad" {
        dwt disabled
@@ -75,7 +71,7 @@ input "1267:91:Elan_Touchpad" {
 }
 
 ## multi display
-focus output $display
+#focus output $display
 bindswitch --reload --locked lid:on output $laptop disable
 bindswitch --reload --locked lid:off output $laptop enable
 
@@ -108,13 +104,12 @@ bindsym $mod+Shift+4 move container to workspace number 4
 bindsym $mod+Shift+5 move container to workspace number 5
 bindsym $mod+b splith
 bindsym $mod+v splitv
-bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 bindsym $mod+f fullscreen
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
-bindsym $mod+a focus parent
+bindsym $mod+a exec swaymsg "output $laptop dpms toggle"
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
@@ -132,8 +127,14 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-bar { 
-    swaybar_command waybar
+
+bar {
+    position bottom
+    status_command while ~/.config/sway/status.sh; do sleep 1; done
+    colors {
+        statusline #ffffff
+        background #0a0b11
+    }
 }
 
 include /etc/sway/config.d/*
