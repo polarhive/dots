@@ -23,36 +23,18 @@ setopt prompt_subst
 setopt share_history
 zmodload zsh/complist
 zstyle ':completion:*' menu select
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^[OA" history-beginning-search-backward-end
+bindkey "^[OB" history-beginning-search-forward-end
 
 # history
 HISTSIZE=10000000
 SAVEHIST=10000000
 HISTFILE=~/.local/share/zsh/history
 
-# aliases
-alias v="$EDITOR"
-alias cat="bat"
-alias ls="exa"
-alias l="exa -l -a"
-alias x="cd $SCRIPTS"
-alias g="cd ~/Documents/Git/Codeberg"
-
-# scripts
-alias u="sh $SCRIPTS/link.sh"
-alias s="sh $SCRIPTS/yt-dl/school.sh"
-alias yt="sh $SCRIPTS/yt-dl/yt.sh"
-alias m="sh $SCRIPTS/yt-dl/yt-mpv.sh"
-alias c="sh $SCRIPTS/commit.sh"
-alias k="sh $SCRIPTS/search.sh"
-alias n="ncmpcpp"
-
-function yta() {
-    mpv --ytdl-format=bestaudio ytdl://ytsearch:"$*"
-}
-
-# plugins
-source ~/.local/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.local/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.local/zsh/zsh-cd/zsh-cd.zsh
-source ~/.local/share/cargo/env
-
+# source
+source ~/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.config/zsh/aliases
+export PATH="$PATH:${$(find ~/.local/bin -type d -printf %p:)%%:}"

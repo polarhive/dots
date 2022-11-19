@@ -1,0 +1,5 @@
+#!/bin/sh
+cd ~/Videos/yt-dl
+nvim ~/.local/bin/yt-dl/yt_playlist.txt
+yt-dlp -f "best[height<=480]" -a ~/.local/bin/yt-dl/yt_playlist.txt
+

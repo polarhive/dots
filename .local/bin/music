@@ -1,0 +1,4 @@
+#!/bin/sh
+systemctl --user start mpd mpdscribble
+swaymsg exec mpd-mpris
+ncmpcpp

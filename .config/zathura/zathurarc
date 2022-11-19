@@ -1,1 +1,5 @@
+set page-padding 1
+set sandbox none
 set selection-clipboard clipboard
+set statusbar-h-padding 0
+set statusbar-v-padding 0
