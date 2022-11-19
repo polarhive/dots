@@ -12,14 +12,13 @@ set $laptop eDP-1
 set $display HDMI-A-1
 xwayland disable
 
-
 ## shortcuts
 floating_modifier $mod normal
 bindsym $mod+Return exec $term
 bindsym Print exec grim $screenshot;
-bindsym Shift+Print exec grim -g "$(slurp)" $screenshot
+bindsym Shift+Print exec grim -g "$(slurp)" - | wl-copy
+bindsym Shift+Control+Print exec grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') $screenshot
 bindsym $mod+d exec $menu
-bindsym $mod+F2 exec foot -e bat ~/Documents/note.txt -p
 bindsym $mod+Q kill
 bindsym $mod+Shift+c reload
 bindsym $mod+Alt+e exec thunar
@@ -29,7 +28,7 @@ bindsym $mod+Alt+s exec systemctl poweroff
 bindsym $mod+Alt+d exec systemctl reboot
 
 output $laptop scale 1.00
-#output $display scale 1
+#output $display scale 1.00
 
 ### appearance
 font pango:$font 8
@@ -44,7 +43,8 @@ for_window [app_id="thunar" title="^Rename$"] floating enable
 for_window [app_id="file-roller"] floating enable
 for_window [app_id="org.mozilla.firefox" title="^Picture-in-Picture$"] floating enable
 for_window [app_id="org.gnome.Calculator"] floating enable
-for_window [app_id="mpv"] inhibit_idle visible; border none; max_render_time off
+for_window [app_id="mpv"] floating enable; inhibit_idle visible; border none; max_render_time off
+for_window [class="[.]*"] floating enable
 for_window [shell="xwayland"] title_format "%title [XWayland]"
 #exec "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 
@@ -126,7 +126,6 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
-
 
 bar {
     position bottom
