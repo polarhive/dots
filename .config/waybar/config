@@ -1,11 +1,10 @@
-// UPSTREAM: https://github.com/fosskers/dotfiles/blob/master/.config/waybar/config 
 {
+    "mode": "dock",
     "layer": "top",
-    "position": "top",
-    "height": 20,
-    "modules-left": ["sway/workspaces"],
-    "modules-center": ["clock"],
-    "modules-right": ["mpd", "tray", "network", "battery"],
+    "position": "bottom",
+    "modules-left": ["clock"],
+    "modules-center": ["mpd"],
+    "modules-right": ["tray", "network", "battery"],
     "tray": {
         "spacing": 10,
 	"icon-size": 15
@@ -34,14 +33,14 @@
         "format-alt": "{ifname}: {ipaddr}/{cidr}" 
    },
     "mpd": {
-    	"format": "{stateIcon} {title} ",
-	"format-disconnected": "",
-        "format-stopped": "!",
+    	"format": " {stateIcon} {title}",
+	"format-disconnected": "...",
+	"format-stopped": "!",
         "interval": 5,
         "state-icons": {
             "paused": "",
             "playing": ""
         },
-	"on-click": "foot -e ncmpcpp"
-	},
+	"on-click": "foot -e ~/.local/bin/wm/ncmpv"
+   },
 }

@@ -7,25 +7,13 @@
 }
 
 window#waybar {
-  background: black;
   color: white;
+  background: transparent;
 }
 
 #window {
   font-family: "JetBrains Mono";
   margin-top: 5px;
-}
-
-#workspaces button {
-  padding: 0 5px;
-  background: transparent;
-  color: white;
-  border-top: 2px solid transparent;
-}
-
-#workspaces button.focused {
-  color: white;
-  border-top: 2px solid white;
 }
 
 #tray,
