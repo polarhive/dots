@@ -3,3 +3,8 @@ set sandbox none
 set selection-clipboard clipboard
 set statusbar-h-padding 0
 set statusbar-v-padding 0
+set incremental-search true
+set window-height "800"
+set window-width "600"
+set adjust-open "width"
+set statusbar-home-tilde "true"
