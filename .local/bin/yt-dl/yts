@@ -1,0 +1,5 @@
+#!/bin/sh
+cd ~/Videos/School
+$EDITOR ~/.local/bin/yt-dl/s_playlist.txt
+yt-dlp -f "best[height<=480]" -a ~/.local/bin/yt-dl/s_playlist.txt
+
