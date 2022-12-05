@@ -1,138 +1,106 @@
-# variables
-set $mod Mod4
+## variables
+set $font Product Sans Regular
+set $menu wofi -S drun
+set $laptop eDP-1
 set $left h
 set $down j
 set $up k
 set $right l
-set $screenshot ~/Pictures/Screenshots/$(date +'Screenshot_%Y-%m-%d:%H:%M:%S.png')
+set $mod Mod4
 set $term foot
-set $menu wofi -S drun 
-set $font Product Sans Regular
-set $laptop eDP-1
-set $display HDMI-A-1
+set $wm ~/.local/bin/wm
 xwayland disable
 
 ## shortcuts
-floating_modifier $mod normal
-bindsym $mod+Return exec $term
-bindsym Print exec grim $screenshot;
-bindsym Shift+Print exec grim -g "$(slurp)" - | wl-copy
-bindsym Shift+Control+Print exec grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') $screenshot
-bindsym $mod+d exec $menu
-bindsym $mod+Q kill
-bindsym $mod+Shift+c reload
+bindsym $mod+Alt+a exec systemctl suspend
+bindsym $mod+Alt+d exec systemctl reboot
 bindsym $mod+Alt+e exec thunar
 bindsym $mod+Alt+f exec org.mozilla.firefox
-bindsym $mod+Alt+a exec systemctl suspend
 bindsym $mod+Alt+s exec systemctl poweroff
-bindsym $mod+Alt+d exec systemctl reboot
+bindsym $mod+F3 exec $wm/emdash
+bindsym $mod+Q kill
+bindsym $mod+Return exec $term
+bindsym $mod+d exec $menu
+bindsym $mod+Print exec $wm/screenshotc
+bindsym Print exec $wm/screenshot
+bindsym Shift+Print exec $wm/screenshotp
+floating_modifier $mod normal
 
-output $laptop scale 1.00
-#output $display scale 1.00
-
-### appearance
-font pango:$font 8
+## appearance
 default_border pixel 1
-gaps inner 5
-gaps outer 3
+font pango:$font 8
+gaps inner 2
+gaps outer 2
 smart_borders on
 smart_gaps on
 
-### custom window rules
-for_window [app_id="thunar" title="^Rename$"] floating enable
-for_window [app_id="file-roller"] floating enable
-for_window [app_id="org.mozilla.firefox" title="^Picture-in-Picture$"] floating enable
-for_window [app_id="org.gnome.Calculator"] floating enable
+## window rules
 for_window [app_id="mpv"] floating enable; inhibit_idle visible; border none; max_render_time off
+for_window [app_id="org.gnome.Calculator"] floating enable
+for_window [app_id="org.mozilla.firefox" title="^Picture-in-Picture$"] floating enable
+for_window [app_id="thunar" title="^Rename$"] floating enable
 for_window [class="[.]*"] floating enable
 for_window [shell="xwayland"] title_format "%title [XWayland]"
-#exec "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 
-### brightnessctl
+## brightnessctl
+bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -10%
+bindsym --locked XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +10%
 bindsym --locked XF86MonBrightnessDown exec brightnessctl set 10%-
 bindsym --locked XF86MonBrightnessUp exec brightnessctl set 10%+
 
-### pactl
-bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -20%
-bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +20%
-bindsym --locked XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
-
-### playerctl
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
-
 ## input configuration
 input "1267:91:Elan_Touchpad" {
+       accel_profile adaptive
        dwt disabled
        tap enabled
-       accel_profile adaptive
 }
 
-## multi display
-#focus output $display
-bindswitch --reload --locked lid:on output $laptop disable
-bindswitch --reload --locked lid:off output $laptop enable
-
 ## moving around
-bindsym $mod+$left focus left
 bindsym $mod+$down focus down
-bindsym $mod+$up focus up
+bindsym $mod+$left focus left
 bindsym $mod+$right focus right
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
-bindsym $mod+Shift+$left move left
-bindsym $mod+Shift+$down move down
-bindsym $mod+Shift+$up move up
-bindsym $mod+Shift+$right move right
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+bindsym $mod+$up focus up
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
 bindsym $mod+3 workspace number 3
 bindsym $mod+4 workspace number 4
 bindsym $mod+5 workspace number 5
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$right move right
+bindsym $mod+Shift+$up move up
 bindsym $mod+Shift+1 move container to workspace number 1
 bindsym $mod+Shift+2 move container to workspace number 2
 bindsym $mod+Shift+3 move container to workspace number 3
 bindsym $mod+Shift+4 move container to workspace number 4
 bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+a exec swaymsg "output $laptop dpms toggle"
 bindsym $mod+b splith
-bindsym $mod+v splitv
-bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 bindsym $mod+f fullscreen
-bindsym $mod+Shift+space floating toggle
-bindsym $mod+space focus mode_toggle
-bindsym $mod+a exec swaymsg "output $laptop dpms toggle"
-bindsym $mod+Shift+minus move scratchpad
-bindsym $mod+minus scratchpad show
+bindsym $mod+r mode "resize"
+bindsym $mod+v splitv
+bindsym $mod+w layout tabbed
 
 mode "resize" {
     bindsym $left resize shrink width 20px
     bindsym $down resize grow height 20px
     bindsym $up resize shrink height 20px
     bindsym $right resize grow width 20px
-    bindsym Left resize shrink width 20px
-    bindsym Down resize grow height 20px
-    bindsym Up resize shrink height 20px
-    bindsym Right resize grow width 20px
     bindsym Return mode "default:
     bindsym Escape mode "default"
 }
-bindsym $mod+r mode "resize"
 
 bar {
     position bottom
-    status_command while ~/.config/sway/status.sh; do sleep 1; done
+    status_command while $wm/status; do sleep 1; done
     colors {
-        statusline #ffffff
-        background #0a0b11
+ 	statusline #ffffff
+	background #000000
+        inactive_workspace #000000 #000000 #ffffff
     }
 }
 

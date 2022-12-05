@@ -3,5 +3,4 @@ clear
 printf "PASTE YOUR LINK\n"
 echo "---------------"
 read link
-mpv $link
-
+curl -L -O -C - "${link}"
