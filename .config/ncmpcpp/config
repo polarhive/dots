@@ -10,7 +10,7 @@ visualizer_type                 = "spectrum"
 visualizer_look                 = "+│"
 visualizer_spectrum_smooth_look = "no"
 playlist_disable_highlight_delay = 0
-message_delay_time               = 2
+message_delay_time               = 10
 
 song_list_format                    = "{%a - }{%t}|{%f}$R{ %l}"
 song_status_format                  = "{{%a {"%b" }- }{%t}}|{%f}"
@@ -29,12 +29,12 @@ browser_sort_format                 = "{%a - }{%t}|{%f} {%l}"
 song_columns_list_format = (35)[]{t|f:Title} (30)[]{aE} (30)[]{bE} (5)[]{lrE}
 
 playlist_display_mode                       = classic
-volume_change_step                          = 5
-seek_time = "5"
+volume_change_step                          = 10
+seek_time                                   = "5"
 progressbar_look                            = "──"
 user_interface                              = classic
 media_library_primary_tag                   = album_artist
-header_visibility                           = no
+header_visibility                           = yes
 statusbar_visibility                        = yes
 jump_to_now_playing_song_at_start           = yes
 display_volume_level                        = yes
@@ -44,5 +44,4 @@ use_console_editor                          = yes
 
 colors_enabled            = yes
 progressbar_color         = black
-progressbar_elapsed_color = yellow
-window_border_color       = black
+progressbar_elapsed_color = blue

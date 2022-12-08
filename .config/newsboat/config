@@ -1,5 +1,5 @@
 auto-reload yes
-reload-threads 20
+reload-threads 15
 browser "xdg-open %u"
 macro m set browser "setsid -f mpv --really-quiet --no-terminal"; open-in-browser; set browser "xdg-open %u"
 macro n set browser "setsid -f echo >> ~/.local/share/newsboat/todo.txt"; open-in-browser; set browser "xdg-open %u"
@@ -14,4 +14,4 @@ bind-key k up
 bind-key l open
 bind-key H prev-feed
 bind-key L next-feed
-bind-key t toggle-show-read-feeds
+bind-key . toggle-show-read-feeds
