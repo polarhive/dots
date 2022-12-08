@@ -1,0 +1,5 @@
+#!/bin/sh
+printf "ENTER SEARCH TERM\n"
+read search
+find . | grep "${search}"
+

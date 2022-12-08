@@ -2,4 +2,6 @@
 printf "ENTER ARCHIVE NAME\n"
 read name
 tar -czvf ${name}.tar.gz ${name}
-printf "\n" 
+notify-send "archived!"
+printf "\n"
+

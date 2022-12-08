@@ -3,4 +3,6 @@ printf "ENTER ARCHIVE TERM\n"
 read name
 mkdir ${name}_extracted
 tar -xvf ${name}.tar.gz -C ${name}_extracted
-printf "\n" 
+notify-send "extracted!"
+printf "\n"
+

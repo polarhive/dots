@@ -1,46 +1,58 @@
 {
-    "mode": "dock",
     "layer": "top",
     "position": "bottom",
-    "modules-left": ["clock"],
-    "modules-center": ["mpd"],
+    "modules-left": ["clock", "mpd"],
     "modules-right": ["tray", "network", "battery"],
+    "height": 15,
     "tray": {
-        "spacing": 10,
+        "spacing": 4,
 	"icon-size": 15
     },
     "clock": {
-        "format": "{:%R}",
+        "format": "{:%R} |",
 	"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
     },
     "battery": {
         "bat": "BAT0",
         "full-at": 95,
         "states": {
-            "good": 90,
-            "warning": 35,
+            "good": 80,
+            "warning": 45,
             "critical": 20
         },
         "format": "{icon}",
         "format-icons": ["", "", "", "", ""]
     },
     "network": {
-    	"format-wifi": " ",
+    	"format-wifi": "",
         "format-ethernet": "{ipaddr}/{cidr} ",
         "tooltip-format": "{ifname} via {gwaddr} ",
         "format-linked": "{ifname} (No IP) ",
         "format-disconnected": "!",
         "format-alt": "{ifname}: {ipaddr}/{cidr}" 
    },
+    "pulseaudio": {
+        "format": "| {icon} — {format_source}",
+        "format-muted": "|   — {format_source}",
+        "format-source": "",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    },
     "mpd": {
     	"format": " {stateIcon} {title}",
 	"format-disconnected": "...",
-	"format-stopped": "!",
         "interval": 5,
         "state-icons": {
             "paused": "",
             "playing": ""
         },
-	"on-click": "foot -e ~/.local/bin/wm/ncmpv"
    },
 }

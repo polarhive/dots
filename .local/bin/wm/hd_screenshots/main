@@ -1,0 +1,3 @@
+#!/bin/sh
+grim -o eDP-1 -l 0
+
