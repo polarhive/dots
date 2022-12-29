@@ -1,4 +1,3 @@
-# polarhive.ml/dots
 # themeing
 PS1="%~%{$fg[red]%}%{$reset_color%} "
 
@@ -38,6 +37,6 @@ source ~/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.config/zsh/aliases
 export PATH="$PATH:${$(find ~/.local/bin -type d -printf %p:)%%:}"
-export SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
-export SUDO_PROMPT='[sudo] %p 🔑: '
-
+export SUDO_PROMPT='[sudo] %p 🗝  '
+export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+export GPG_TTY=$(tty)
