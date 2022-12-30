@@ -1,3 +1,3 @@
 #!/bin/zsh
-[ "$(tty)" = "/dev/tty1" ] && exec Hyprland
+[ "$(tty)" = "/dev/tty1" ] && exec sway
 
