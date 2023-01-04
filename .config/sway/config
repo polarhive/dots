@@ -10,7 +10,6 @@ set $mod Mod4
 set $term foot
 set $wm ~/.local/bin/wm
 exec $wm/iplink
-exec $wm/mpdsima
 xwayland disable
 
 ## shortcuts
@@ -21,6 +20,7 @@ bindsym $mod+Alt+f exec org.mozilla.firefox
 bindsym $mod+Alt+s exec systemctl poweroff
 bindsym $mod+F3 exec $wm/emdash
 bindsym $mod+F2 exec $wm/ncmpv
+bindsym $mod+F4 exec $wm/ytmpv 
 bindsym $mod+Q kill
 bindsym $mod+Return exec $term
 bindsym $mod+d exec $menu
@@ -37,6 +37,7 @@ gaps outer 2
 hide_edge_borders smart
 smart_borders on
 smart_gaps on
+output * bg ~/.local/share/backgrounds/skew.jpg stretch
 
 ## window rules
 for_window [app_id="mpv"] floating enable; inhibit_idle visible; border none; max_render_time off
@@ -44,7 +45,6 @@ for_window [app_id="org.gnome.Calculator"] floating enable
 for_window [app_id="org.mozilla.firefox" title="Firefox — Sharing Indicator"] kill
 for_window [app_id="org.mozilla.firefox" title="^Picture-in-Picture$"] floating enable
 for_window [app_id="thunar" title="^Rename$"] floating enable
-for_window [class="[.]*"] floating enable
 for_window [shell="xwayland"] title_format "%title [XWayland]"
 
 ## buttons
@@ -57,6 +57,7 @@ bindsym --locked XF86MonBrightnessUp exec brightnessctl set 10%+
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPrev exec playerctl previous
+
 
 ## input configuration
 input "1267:91:Elan_Touchpad" {
