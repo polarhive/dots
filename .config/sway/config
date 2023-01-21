@@ -58,7 +58,6 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPrev exec playerctl previous
 
-
 ## input configuration
 input "1267:91:Elan_Touchpad" {
        accel_profile adaptive
