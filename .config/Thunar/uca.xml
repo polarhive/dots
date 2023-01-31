@@ -3,9 +3,9 @@
 <action>
 	<icon>utilities-terminal</icon>
 	<name>Open Terminal Here</name>
-	<unique-id>1668881986728355-1</unique-id>
-	<command>foot</command>
-	<description>Example for a custom action</description>
+	<unique-id>1670416576712119-1</unique-id>
+	<command>foot -e</command>
+	<description>Open in Terminal</description>
 	<patterns>*</patterns>
 	<startup-notify/>
 	<directories/>
