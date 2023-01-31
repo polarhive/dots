@@ -4,4 +4,3 @@ read name
 gpg -r 56E9398E24BDB4F0 -e ${name}
 notify-send "en-crypted!"
 printf "\n"
-

@@ -1,5 +1,4 @@
 #!/bin/sh
-printf "ENTER SEARCH TERM\n"
+printf "DEPTH SEARCH\n"
 read search
 grep --color=always -ir "${search}" .
-

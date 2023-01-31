@@ -5,4 +5,3 @@ mkdir ${name}_extracted
 tar -xvf ${name}.tar.gz -C ${name}_extracted
 notify-send "extracted!"
 printf "\n"
-

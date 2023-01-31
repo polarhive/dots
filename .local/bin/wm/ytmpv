@@ -1,3 +1,2 @@
 #!/bin/sh
-foot -e mpv $(wl-paste)
-
+foot -e mpv $(wl-paste) --no-terminal --really-quiet

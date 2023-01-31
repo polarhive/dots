@@ -4,4 +4,3 @@ read name
 gpg -o ${name}_dec -d ${name}.gpg
 notify-send "de-crypted!"
 printf "\n"
-

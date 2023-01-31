@@ -4,4 +4,3 @@ read name
 tar -czvf ${name}.tar.gz ${name}
 notify-send "archived!"
 printf "\n"
-

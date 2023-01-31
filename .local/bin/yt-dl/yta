@@ -4,4 +4,3 @@ printf "SEARCH YOUTUBE\n"
 echo "---------------"
 read link
 mpv --ytdl-format=bestaudio ytdl://ytsearch:"$link"
-

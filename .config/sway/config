@@ -18,9 +18,10 @@ bindsym $mod+Alt+d exec systemctl reboot
 bindsym $mod+Alt+e exec thunar
 bindsym $mod+Alt+f exec org.mozilla.firefox
 bindsym $mod+Alt+s exec systemctl poweroff
-bindsym $mod+F3 exec $wm/emdash
 bindsym $mod+F2 exec $wm/ncmpv
+bindsym $mod+F3 exec $wm/emdash
 bindsym $mod+F4 exec $wm/ytmpv 
+bindsym $mod+F5 exec $wm/arceopaste 
 bindsym $mod+Q kill
 bindsym $mod+Return exec $term
 bindsym $mod+d exec $menu
@@ -37,7 +38,7 @@ gaps outer 2
 hide_edge_borders smart
 smart_borders on
 smart_gaps on
-output * bg ~/.local/share/backgrounds/skew.jpg stretch
+output * bg ~/.local/share/backgrounds/woods.jpeg stretch
 
 ## window rules
 for_window [app_id="mpv"] floating enable; inhibit_idle visible; border none; max_render_time off
