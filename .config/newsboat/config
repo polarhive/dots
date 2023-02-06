@@ -1,9 +1,10 @@
 auto-reload yes
 browser "setsid -f xdg-open %u"
+cleanup-on-quit yes
 macro m set browser "setsid -f mpv --really-quiet --no-terminal"; open-in-browser; set browser "xdg-open %u"
 macro n set browser "setsid -f echo >> ~/.local/share/newsboat/todo.txt"; open-in-browser; set browser "xdg-open %u"
 macro x set browser "setsid -f echo >> ~/.local/bin/yt-dl/yt_playlist.txt"; open-in-browser; set browser "xdg-open %u"
-reload-threads 5
+reload-threads 10
 show-read-feeds no 
 text-width 80
 
@@ -17,3 +18,4 @@ bind-key H prev-feed
 bind-key L next-feed
 bind-key . toggle-show-read-feeds
 
+include /usr/share/doc/newsboat/contrib/colorschemes/solarized-dark
