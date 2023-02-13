@@ -1,2 +1,4 @@
 #!/bin/sh
-grim ~/Pictures/Screenshots/$(date +'Screenshot_%Y-%m-%d:%H:%M:%S.png')
+sname="$(date +'Screenshot_%Y-%m-%d:%H:%M:%S.png')"
+grim ~/Pictures/Screenshots/$sname
+wl-copy < ~/Pictures/Screenshots/$sname
