@@ -9,7 +9,6 @@ set $right l
 set $mod Mod4
 set $term foot
 set $wm ~/.local/bin/wm
-exec $wm/iplink
 xwayland disable
 
 ## shortcuts
@@ -18,14 +17,13 @@ bindsym $mod+Alt+d exec systemctl reboot
 bindsym $mod+Alt+e exec thunar
 bindsym $mod+Alt+f exec org.mozilla.firefox
 bindsym $mod+Alt+s exec systemctl poweroff
-bindsym $mod+F2 exec $wm/ncmpv
+bindsym $mod+Alt+t exec org.telegram.desktop
+bindsym $mod+F1 exec $wm/jee
 bindsym $mod+F3 exec $wm/emdash
-bindsym $mod+F4 exec $wm/ytmpv 
-bindsym $mod+F5 exec $wm/arceopaste 
-bindsym $mod+Q kill
+bindsym $mod+Print exec $wm/screenshotc
 bindsym $mod+Return exec $term
 bindsym $mod+d exec $menu
-bindsym $mod+Print exec $wm/screenshotc
+bindsym $mod+q kill
 bindsym Print exec $wm/screenshot
 bindsym Shift+Print exec $wm/screenshotp
 floating_modifier $mod normal
@@ -76,6 +74,10 @@ bindsym $mod+2 workspace number 2
 bindsym $mod+3 workspace number 3
 bindsym $mod+4 workspace number 4
 bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
 bindsym $mod+Shift+$down move down
 bindsym $mod+Shift+$left move left
 bindsym $mod+Shift+$right move right
@@ -85,27 +87,31 @@ bindsym $mod+Shift+2 move container to workspace number 2
 bindsym $mod+Shift+3 move container to workspace number 3
 bindsym $mod+Shift+4 move container to workspace number 4
 bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+a exec swaymsg "output $laptop dpms toggle"
-bindsym $mod+b splith
+bindsym $mod+b splitv
 bindsym $mod+e layout toggle split
 bindsym $mod+f fullscreen
 bindsym $mod+r mode "resize"
-bindsym $mod+v splitv
+bindsym $mod+v splith
 bindsym $mod+w layout tabbed
 
 mode "resize" {
-    bindsym $left resize shrink width 20px
-    bindsym $down resize grow height 20px
-    bindsym $up resize shrink height 20px
-    bindsym $right resize grow width 20px
+    bindsym $left resize shrink width 30px
+    bindsym $down resize grow height 50px
+    bindsym $up resize shrink height 30px
+    bindsym $right resize grow width 50px
     bindsym Return mode "default:
     bindsym Escape mode "default"
 }
 
 bar {
     position bottom
-    status_command while $wm/status; do sleep 1; done
+    status_command while $wm/status; do sleep 150; done
     colors {
  	statusline #ffffff
 	background #000000
@@ -114,4 +120,3 @@ bar {
 }
 
 include /etc/sway/config.d/*
-
