@@ -1,4 +1,6 @@
 #!/bin/sh
+clear
 printf "FAST FIND\n"
+echo "---------"
 read search
 find . | grep "${search}"

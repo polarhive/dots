@@ -1,0 +1,6 @@
+#!/bin/sh
+clear
+wl-copy localhost:1313
+gpg --armor --export polarhive@riseup.net > ~/.local/repos/website/static/.well-known/polarhive_gpg.txt
+cd ~/.local/repos/website
+hugo server --buildFuture

@@ -1,0 +1,17 @@
+#!/bin/sh
+clear
+printf "ready?"
+sleep 0.75
+clear
+printf "let's go\n"
+sleep 0.5
+start="$(($(date +%s) + 120))"
+clear
+while [ "$start" -ge `date +%s` ]; do
+ sleep 1
+ time="$(( $start - `date +%s` ))"
+ printf '%s\r' "$(date -u -d "@$time" +%M:%S)"
+done
+notify-send "q: done"
+sh ~/.local/bin/utils/bell
+exit

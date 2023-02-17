@@ -1,6 +1,6 @@
 #!/bin/sh
 clear
 printf "SEARCH YOUTUBE\n"
-echo "---------------"
+echo "--------------"
 read link
 mpv --ytdl-format=bestaudio ytdl://ytsearch:"$link"
