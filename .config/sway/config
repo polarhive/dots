@@ -19,10 +19,14 @@ bindsym $mod+Alt+d exec systemctl reboot
 bindsym $mod+Alt+s exec systemctl poweroff
 bindsym $mod+Alt+f exec org.mozilla.firefox
 bindsym $mod+Alt+t exec org.telegram.desktop
-bindsym $mod+c exec foot ncmpcpp -q
+bindsym $mod+Alt+l exec swaymsg exit
 bindsym $mod+a exec swaymsg "output $laptop dpms toggle"
-bindsym $mod+d exec $menu
+bindsym $mod+c exec foot ncmpcpp -q
 bindsym $mod+q kill
+bindsym $mod+d exec $menu
+bindsym $mod+m exec $wm/m
+bindsym $mod+y exec $wm/bluetooth/blc
+bindsym $mod+t exec $wm/bluetooth/bld
 bindsym Print exec $wm/screenshot
 bindsym Shift+Print exec $wm/screenshotp
 
@@ -106,14 +110,5 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 
-bar {
-    position bottom
-    status_command while $wm/status; do sleep 150; done
-    colors {
- 	statusline #ffffff
-	background #000000
-	inactive_workspace #000000 #000000 #ffffff
-    }
-}
-
+bar swaybar_command waybar
 include /etc/sway/config.d/*
