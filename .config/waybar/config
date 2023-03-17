@@ -3,7 +3,7 @@
     "position": "bottom",
     "modules-left": ["clock", "mpd"],
     "modules-right": ["tray", "network", "battery"],
-    "height": 15,
+    "height": 12,
     "tray": {
         "spacing": 4,
 	"icon-size": 15
