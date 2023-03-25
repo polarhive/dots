@@ -1,7 +1,6 @@
 # environment variables
 export ANDROID_SDK_HOME="~/.config/android"
 export ANKI_WAYLAND="1"
-export BROWSER="firefox"
 export BROWSER="org.mozilla.firefox"
 export CARGO_HOME=".local/share/cargo"
 export EDITOR="nvim"
@@ -16,9 +15,10 @@ export QT_AUTO_SCREEN_SCALE_FACTOR="1"
 export QT_QPA_PLATFORM="wayland;xcb"
 export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
 export RUSTUP_HOME=".local/share/rustup"
+export SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
+export SUDO_PROMPT='[sudo] %p 🗝  '
 export TERMINAL="foot"
-export WGETRC="/home/polarhive/.config/wget/wgetrc"
 export XDG_CURRENT_DESKTOP="sway"
 export XDG_SESSION_DESKTOP="sway"
 export XDG_SESSION_TYPE="wayland"
-export ZDOTDIR="/home/polarhive/.config/zsh"
+export PATH="$PATH:${$(find ~/.local/bin -type d -printf %p:)%%:}"

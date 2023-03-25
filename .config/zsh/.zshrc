@@ -1,7 +1,5 @@
-# themeing
-PS1="%~%{$fg[red]%}%{$reset_color%} "
-
 # tweaks
+PS1="%~%{$fg[red]%}%{$reset_color%} "
 autoload -U colors && colors
 autoload -U compinit
 bindkey "^[3;5~" delete-char
@@ -36,6 +34,3 @@ HISTFILE=~/.local/share/zsh/history
 source ~/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.config/zsh/aliases
-export PATH="$PATH:${$(find ~/.local/bin -type d -printf %p:)%%:}"
-export SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
-export SUDO_PROMPT='[sudo] %p 🗝  '
