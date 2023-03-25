@@ -1,2 +1,2 @@
-# set default size
--f "best[height<=480]"
+-f "best[height<=720]"
+#--add-metadata

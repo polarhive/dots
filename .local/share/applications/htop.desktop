@@ -5,6 +5,6 @@ Name=htop
 GenericName=Process Viewer
 Comment=Show System Processes
 Icon=htop
-Exec=foot -e htop
+Exec=footclient -e htop
 Categories=System;Monitor;ConsoleOnly;
 Keywords=system;process;task

@@ -1,9 +1,9 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=vim
+Name=nvim
 GenericName=Text Editor
 Comment=Edit text files
-Exec=foot -e nvim
+Exec=footclient -e nvim
 Type=Application
 Keywords=Text;editor;
 Icon=nvim
