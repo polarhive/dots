@@ -1,0 +1,6 @@
+#!/bin/sh
+while true
+do
+ echo $(curl -s --max-time 10 'https://wttr.in/?format=%c+%f' || echo ⚡️) > /tmp/weather
+ sleep 900
+done

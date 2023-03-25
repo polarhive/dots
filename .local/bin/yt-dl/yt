@@ -1,0 +1,4 @@
+#!/bin/sh
+cd ~/Videos/yt-dl
+$EDITOR ~/.local/bin/yt-dl/yt_playlist.txt
+yt-dlp -a ~/.local/bin/yt-dl/yt_playlist.txt

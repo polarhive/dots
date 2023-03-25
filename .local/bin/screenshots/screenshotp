@@ -2,3 +2,4 @@
 sname="$(date +'Screenshot_%Y-%m-%d:%H:%M:%S.png')"
 grim -g "$(slurp)" ~/Pictures/Screenshots/$sname
 wl-copy < ~/Pictures/Screenshots/$sname
+paplay /usr/share/sounds/freedesktop/stereo/screen-capture.oga

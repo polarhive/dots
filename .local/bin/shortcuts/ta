@@ -1,4 +1,5 @@
 #!/bin/sh
+clear
 printf "ENTER ARCHIVE NAME\n"
 echo "------------------"
 read name

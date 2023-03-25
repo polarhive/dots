@@ -1,0 +1,3 @@
+#!/bin/sh
+q=$(wofi -d)
+mpc search any $q | wofi -d | mpc add

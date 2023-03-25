@@ -1,2 +1,0 @@
-#!/bin/sh
-paplay ~/.local/share/sounds/ting.mp3

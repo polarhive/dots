@@ -1,6 +1,0 @@
-#!/bin/sh
-clear
-printf "SEARCH YOUTUBE\n"
-echo "---------------"
-read link
-mpv ytdl://ytsearch:"$link"

@@ -1,5 +1,0 @@
-#!/bin/sh
-link=$(wl-paste)
-link="0.0.0.0 ${link}"
-echo $link >> ~/.local/repos/arceo/lists/all.txt
-nvim +"sort u" ~/.local/repos/arceo/lists/all.txt

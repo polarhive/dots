@@ -1,0 +1,6 @@
+#!/bin/sh
+d=$(date "+%H:%M")
+m=$(mpc current)
+w=$(cat /tmp/weather)
+b=$(cat /sys/class/power_supply/BAT0/capacity)
+echo $m " | " $w " | " $d "—" $b
