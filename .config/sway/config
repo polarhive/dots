@@ -1,6 +1,7 @@
 # startup
 exec foot -s
 exec $bin/bluetooth/blc
+exec $bin/shortcuts/lock
 exec $bin/shortcuts/weather
 exec_always $bin/shortcuts/startup
 
@@ -12,6 +13,7 @@ set $left h
 set $right l
 set $bin ~/.local/bin
 set $term footclient
+set $laptop eDP-1
 
 ## gestures
 bindgesture swipe:up floating disable
@@ -42,10 +44,11 @@ bindsym $mod+Return exec $term
 bindsym $mod+space floating toggle
 bindsym $mod+Alt+d exec systemctl reboot
 bindsym $mod+Alt+s exec systemctl poweroff
+bindsym $mod+Alt+l exec swaylock
 bindsym $mod+Alt+f exec $BROWSER
 bindsym $mod+Alt+e exec thunar
 bindsym $mod+d exec wofi -S drun
-bindsym $mod+a exec swaymsg "output eDP-1 dpms toggle"
+bindsym $mod+a exec swaymsg "output $laptop dpms toggle"
 bindsym $mod+s exec $bin/shortcuts/music
 bindsym $mod+t exec $bin/bluetooth/bld
 bindsym $mod+y exec $bin/bluetooth/blc
@@ -72,6 +75,8 @@ bindsym --locked XF86MonBrightnessDown exec brightnessctl set 10%-
 bindsym --locked XF86AudioPlay exec playerctl play-pause
 bindsym --locked XF86AudioNext exec playerctl next
 bindsym --locked XF86AudioPrev exec playerctl previous
+bindswitch --reload --locked lid:on output $laptop disable
+bindswitch --reload --locked lid:off output $laptop enable
 input "1267:91:Elan_Touchpad" {
        accel_profile adaptive
        dwt disabled
@@ -116,7 +121,7 @@ mode "resize" {
 ## swaybar
 bar {
     position bottom
-    status_command while $bin/shortcuts/status; do sleep 10; done
+    status_command while $bin/shortcuts/status; do sleep 60; done
     height 0
     mode hide
     gaps 5
