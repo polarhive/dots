@@ -1,9 +1,6 @@
 # startup
 exec foot -s
-exec $bin/bluetooth/blc
-exec $bin/shortcuts/lock
-exec $bin/shortcuts/weather
-exec_always $bin/shortcuts/startup
+xwayland disable
 
 # variables
 set $mod Mod4
@@ -14,67 +11,79 @@ set $right l
 set $bin ~/.local/bin
 set $term footclient
 set $laptop eDP-1
+set $monitor HDMI-A-1
+set $font Product Sans Regular
 
 ## gestures
 bindgesture swipe:up floating disable
 bindgesture swipe:down floating enable
 bindgesture swipe:right workspace prev
 bindgesture swipe:left workspace next
-bindgesture pinch:outward mode resize
 
 ## appearance
-font pango:Product Sans Regular 8
+font pango:$font 8
 output * bg ~/.local/share/backgrounds/waves.png stretch
-default_border pixel 2 
-gaps inner 1
-gaps outer 1
+default_border pixel 1
+gaps inner 0
+gaps outer 0
 hide_edge_borders smart
 
+## swayfx-tweaks
+shadows on
+corner_radius 2
+smart_corner_radius on
+shadow_blur_radius 20
+default_dim_inactive 0.10
+
 ## window rules
-for_window [shell="xwayland"] title_format "%title [XWayland]"
-for_window [app_id="thunar" title="^Rename$"] floating enable
-for_window [app_id="mpv"] inhibit_idle visible; border none; max_render_time off
+for_window [urgent=latest] focus
+for_window [app_id=".*"] inhibit_idle fullscreen
+for_window [app_id="^.*"] inhibit_idle fullscreen
 for_window [app_id="firefox" title="Firefox — Sharing Indicator"] kill
 for_window [app_id="firefox" title="^Picture-in-Picture$"] floating enable
-for_window [app_id="org.gnome.Calculator"] floating enable
+for_window [app_id="mpv"] inhibit_idle visible; border none; max_render_time off
 for_window [app_id="org.telegram.desktop" title="^TelegramDesktop$"] floating enable
+for_window [app_id="thunar" title="^Rename$"] floating enable
+for_window [class=".*"] inhibit_idle fullscreen
+for_window [class="^.*"] inhibit_idle fullscreen
+for_window [shell="xwayland"] title_format "%title [XWayland]"
 
 ## buttons
 bindsym $mod+Return exec $term
 bindsym $mod+space floating toggle
 bindsym $mod+Alt+d exec systemctl reboot
+bindsym $mod+Alt+a exec systemctl suspend
 bindsym $mod+Alt+s exec systemctl poweroff
-bindsym $mod+Alt+l exec swaylock
-bindsym $mod+Alt+f exec $BROWSER
 bindsym $mod+Alt+e exec thunar
-bindsym $mod+d exec wofi -S drun
+bindsym $mod+Alt+l exec swaylock -f
+bindsym $mod+Alt+f exec $BROWSER
 bindsym $mod+a exec swaymsg "output $laptop dpms toggle"
-bindsym $mod+s exec $bin/shortcuts/music
-bindsym $mod+t exec $bin/bluetooth/bld
-bindsym $mod+y exec $bin/bluetooth/blc
-bindsym $mod+m exec $bin/yt-dl/ytpaste
-bindsym $mod+q kill
-bindsym $mod+f fullscreen
+bindsym $mod+m exec $bin/yt-dl/ytp
+bindsym $mod+d exec wofi -S drun
 bindsym $mod+b splitv
 bindsym $mod+v splith
+bindsym $mod+q kill
+bindsym $mod+f fullscreen
 bindsym $mod+r mode "resize"
-bindsym $mod+w layout toggle all
-bindsym $mod+c layout all
-bindsym Print exec $bin/screenshots/screenshot
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout splith
+bindsym $mod+XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ 100%
+bindsym $mod+XF86AudioPlay exec notify-send "$(mpc current)"
+bindsym Shift+XF86AudioPlay exec $bin/shortcuts/music
 bindsym Shift+Print exec $bin/screenshots/screenshotp
-workspace_layout tabbed
-floating_modifier $mod inverse 
+bindsym Print exec $bin/screenshots/screenshot
+floating_modifier $mod normal
 
 ## hardware
 bindsym --locked XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +10%
 bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -10%
 bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym --locked XF86MonBrightnessUp exec brightnessctl set 10%+
-bindsym --locked XF86MonBrightnessDown exec brightnessctl set 10%-
 bindsym --locked XF86AudioPlay exec playerctl play-pause
 bindsym --locked XF86AudioNext exec playerctl next
 bindsym --locked XF86AudioPrev exec playerctl previous
+bindsym --locked XF86MonBrightnessUp exec brightnessctl set 10%+
+bindsym --locked XF86MonBrightnessDown exec brightnessctl set 10%-
 bindswitch --reload --locked lid:on output $laptop disable
 bindswitch --reload --locked lid:off output $laptop enable
 input "1267:91:Elan_Touchpad" {
@@ -115,7 +124,7 @@ mode "resize" {
     bindsym $down resize grow height 45px
     bindsym $up resize shrink height 25px
     bindsym $right resize grow width 45px
-    bindgesture pinch:inward mode default
+    bindsym $mod+r mode default
 }
 
 ## swaybar
@@ -123,8 +132,6 @@ bar {
     position bottom
     status_command while $bin/shortcuts/status; do sleep 60; done
     height 0
-    mode hide
-    gaps 5
     colors {
 	background #000000
 	inactive_workspace #000000 #000000 #ffffff
