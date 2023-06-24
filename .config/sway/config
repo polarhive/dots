@@ -1,8 +1,13 @@
-# startup
+## startup
 exec foot -s
-xwayland disable
 
-# variables
+## gestures
+bindgesture swipe:up floating disable
+bindgesture swipe:down floating enable
+bindgesture swipe:right workspace prev
+bindgesture swipe:left workspace next
+
+## variables
 set $mod Mod4
 set $up k
 set $down j
@@ -14,26 +19,18 @@ set $laptop eDP-1
 set $monitor HDMI-A-1
 set $font Product Sans Regular
 
-## gestures
-bindgesture swipe:up floating disable
-bindgesture swipe:down floating enable
-bindgesture swipe:right workspace prev
-bindgesture swipe:left workspace next
-
 ## appearance
+smart_corner_radius on
+shadows on
+shadow_blur_radius 20
+corner_radius 2
+default_dim_inactive 0.10
+hide_edge_borders smart
+default_border pixel 1
+gaps inner 3
+gaps outer 1
 font pango:$font 8
 output * bg ~/.local/share/backgrounds/waves.png stretch
-default_border pixel 1
-gaps inner 0
-gaps outer 0
-hide_edge_borders smart
-
-## swayfx-tweaks
-shadows on
-corner_radius 2
-smart_corner_radius on
-shadow_blur_radius 20
-default_dim_inactive 0.10
 
 ## window rules
 for_window [urgent=latest] focus
@@ -47,6 +44,8 @@ for_window [app_id="thunar" title="^Rename$"] floating enable
 for_window [class=".*"] inhibit_idle fullscreen
 for_window [class="^.*"] inhibit_idle fullscreen
 for_window [shell="xwayland"] title_format "%title [XWayland]"
+assign [app_id="firefox"] workspace 2
+assign [app_id="org.telegram.desktop"] workspace 2
 
 ## buttons
 bindsym $mod+Return exec $term
@@ -59,6 +58,7 @@ bindsym $mod+Alt+l exec swaylock -f
 bindsym $mod+Alt+f exec $BROWSER
 bindsym $mod+a exec swaymsg "output $laptop dpms toggle"
 bindsym $mod+m exec $bin/yt-dl/ytp
+bindsym $mod+t exec $bin/shortcuts/td
 bindsym $mod+d exec wofi -S drun
 bindsym $mod+b splitv
 bindsym $mod+v splith
@@ -127,7 +127,7 @@ mode "resize" {
     bindsym $mod+r mode default
 }
 
-## swaybar
+# swaybar
 bar {
     position bottom
     status_command while $bin/shortcuts/status; do sleep 60; done
