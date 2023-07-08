@@ -1,5 +1,7 @@
 ## startup
 exec foot -s
+exec "sleep 1; footclient -e tmux"
+xwayland disable
 
 ## gestures
 bindgesture swipe:up floating disable
@@ -30,6 +32,7 @@ default_border pixel 1
 gaps inner 3
 gaps outer 1
 font pango:$font 8
+focus output $monitor
 output * bg ~/.local/share/backgrounds/waves.png stretch
 
 ## window rules
@@ -44,8 +47,11 @@ for_window [app_id="thunar" title="^Rename$"] floating enable
 for_window [class=".*"] inhibit_idle fullscreen
 for_window [class="^.*"] inhibit_idle fullscreen
 for_window [shell="xwayland"] title_format "%title [XWayland]"
+assign [app_id="tmux"] workspace 1
 assign [app_id="firefox"] workspace 2
-assign [app_id="org.telegram.desktop"] workspace 2
+assign [app_id="thunar"] workspace 3
+assign [app_id="thunderbird"] workspace 4
+assign [app_id="org.telegram.desktop"] workspace 4
 
 ## buttons
 bindsym $mod+Return exec $term
@@ -68,8 +74,6 @@ bindsym $mod+r mode "resize"
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout splith
 bindsym $mod+XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ 100%
-bindsym $mod+XF86AudioPlay exec notify-send "$(mpc current)"
-bindsym Shift+XF86AudioPlay exec $bin/shortcuts/music
 bindsym Shift+Print exec $bin/screenshots/screenshotp
 bindsym Print exec $bin/screenshots/screenshot
 floating_modifier $mod normal
@@ -129,7 +133,7 @@ mode "resize" {
 
 # swaybar
 bar {
-    position bottom
+    position top
     status_command while $bin/shortcuts/status; do sleep 60; done
     height 0
     colors {
