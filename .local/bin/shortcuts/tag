@@ -1,4 +1,4 @@
 #!/bin/sh
-mv ~/.var/app/org.telegram.desktop/data/TelegramDesktop/tdata/temp_data\#2/*.mp3 ~/.local/share/.Music/new
-xdg-open "Music"
+mv ~/.var/app/org.telegram.desktop/data/TelegramDesktop/tdata/temp_data\#2/*.mp3 ~/.local/share/.Music/.tmp
+xdg-open ".local/share/.Music/.tmp"
 ncmpcpp --screen tag_editor -q

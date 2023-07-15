@@ -1,7 +1,6 @@
 #!/bin/sh
 clear
-printf "ENTER ARCHIVE NAME\n"
-echo "------------------"
+printf "ENTER NAME\n"
 read name
 gpg -o ${name}_dec -d ${name}.gpg
 notify-send "de-crypted!"

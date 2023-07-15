@@ -1,0 +1,3 @@
+#!/bin/sh
+cd ~/Videos/.tmp
+yt-dlp -a ~/.local/bin/yt-dl/yt_playlist.txt

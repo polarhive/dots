@@ -1,0 +1,7 @@
+#!/bin/bash
+nvim ~/.local/share/newsboat/todo.txt
+while IFS="" read -r p || [ -n "$p" ]
+do
+  sleep 1
+  $BROWSER --new-tab $p
+done < ~/.local/share/newsboat/todo.txt

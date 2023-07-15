@@ -1,2 +1,0 @@
-#!/bin/sh
-imv -x ~/Pictures/Screenshots/study -t 0.5 -b 000000

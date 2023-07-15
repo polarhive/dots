@@ -1,0 +1,7 @@
+#!/bin/sh
+systemctl --user stop mpdscribble
+q=$(wofi -d)
+notify-send "downloading"
+mpc -q add $(yt-dlp --ignore-config --default-search "https://music.youtube.com/search?q=" "$q" --playlist-end 1 -f 'ba' --get-url) && notify-send "playing"
+mpc -q next
+systemctl --user stop mpdscribble

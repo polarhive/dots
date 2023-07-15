@@ -3,4 +3,4 @@ clear
 printf "DEPTH SEARCH\n"
 echo "------------"
 read search
-grep --color=always -irI "${search}" .
+grep -irI "${search}" .

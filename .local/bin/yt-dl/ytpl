@@ -1,0 +1,2 @@
+#!/bin/sh
+mpv --playlist=/home/polarhive/.local/bin/yt-dl/yt_playlist.txt

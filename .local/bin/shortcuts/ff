@@ -3,4 +3,4 @@ clear
 printf "FAST FIND\n"
 echo "---------"
 read search
-find . | grep "${search}"
+find . | batgrep "${search}"

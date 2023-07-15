@@ -1,0 +1,6 @@
+#!/bin/sh
+gio mount mtp://${VINCE}/
+rsync -rtvzP /run/user/1000/gvfs/mtp:host=${VINCE}/Internal\ shared\ storage/DCIM/Camera/ ~/Pictures/.dump/vince/Camera -h
+gio mount -u mtp://${VINCE}/
+notify-send "vince: done"
+bell

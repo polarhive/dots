@@ -1,3 +1,2 @@
 #!/bin/sh
-clear
 qrencode -t ANSIUTF8 $(wl-paste)

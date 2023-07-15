@@ -1,0 +1,5 @@
+#!/bin/sh
+rsync -rtvzP ~/.local/share/.Music/ /run/media/polarhive/WD\ Silver\ LIVE\ TECH\ 1T\ lenovo/backups/Nathan/cider/Music -h
+notify-send "music: done"
+bell
+

@@ -1,0 +1,3 @@
+#!/bin/sh
+link=$(wl-paste)
+echo $link >> ~/.local/share/newsboat/todo.txt

@@ -1,8 +1,7 @@
 #!/bin/sh
 clear
-printf "ENTER ARCHIVE NAME\n"
-echo "------------------"
+printf "ENTER NAME\n"
 read name
-gpg -r 56E9398E24BDB4F0 -e ${name}
+gpg -r 0x78DBFBE8B325A5A9 -e ${name}
 notify-send "en-crypted!"
 printf "\n"

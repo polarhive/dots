@@ -1,2 +1,5 @@
 #!/bin/sh
-grim -o eDP-1 -l 0
+sname="$(date +'HD_Screenshot_%Y-%m-%d:%H:%M:%S.png')"
+grim -o eDP-1 -l 0 ~/Pictures/Screenshots/$sname
+wl-copy < ~/Pictures/Screenshots/$sname
+paplay /usr/share/sounds/freedesktop/stereo/screen-capture.oga

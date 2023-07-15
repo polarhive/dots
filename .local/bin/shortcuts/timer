@@ -1,11 +1,6 @@
 #!/bin/sh
 clear
-printf "ready?"
-sleep 0.75
-clear
-printf "let's go\n"
-sleep 0.5
-start="$(($(date +%s) + 120))"
+start="$(($(date +%s) + 59))"
 clear
 while [ "$start" -ge `date +%s` ]; do
  sleep 1
