@@ -1,7 +1,14 @@
 #!/bin/sh
-systemctl --user stop mpdscribble
 q=$(wofi -d)
-notify-send "downloading"
-mpc -q add $(yt-dlp --ignore-config --default-search "https://music.youtube.com/search?q=" "$q" --playlist-end 1 -f 'ba' --get-url) && notify-send "playing"
-mpc -q next
-systemctl --user stop mpdscribble
+cd ~/.local/share/.Music/.tmp && rm *.opus
+
+notify-send "searching: $q"
+id=$(yt-dlp --default-search "https://music.youtube.com/search?q=" "$q" --playlist-end 1 --get-id)
+title=$(yt-dlp --get-title $id)
+
+notify-send "downloading: $title"
+yt-dlp --ignore-config $id -f 'ba' -x --add-metadata --restrict-filenames
+cp -n *.opus ../.archive
+
+notify-send "playing: $title"
+mpc -q update && mpc -q insert .tmp && mpc -q next
