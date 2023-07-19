@@ -3,7 +3,7 @@ clear
 printf "polarhive's: arch-rice\n"
 sleep 1
 clear
-printf "# works best with a fresh arch-install\n"
+printf "# works best on a fresh arch-install\n"
 sleep 3
 clear
 
@@ -33,58 +33,9 @@ clear
 
 printf "# installing packages"
 sleep 0.5
-pkglist=$(cat <<EOF
-adw-gtk3-git
-bat-extras
-brightnessctl
-exa
-flatpak
-foot
-gnome-keyring
-grim
-gvfs-mtp
-htop
-imv
-libva-mesa-driver
-mako
-mpv
-mpv-mpris
-neovim
-newsboat
-noto-fonts-cjk
-ntfs-3g
-paru
-pfetch
-playerctl
-polkit-gnome
-progress
-qrencode
-slurp
-sound-theme-freedesktop
-swaybg
-swayfx
-swayidle
-swaylock
-tailscale
-thunar
-tmux
-tree
-ttf-jetbrains-mono
-wf-recorder
-wget
-wireplumber
-wl-clipboard
-wofi
-xdg-desktop-portal-gtk
-xdg-desktop-portal-wlr
-xdg-utils
-xorg-xwayland
-yt-dlp
-zathura-pdf-mupdf
-zsh
-EOF
-)
-sudo pacman -Syyu --needed --noconfirm - < $pkglist
+curl -sO "https://codeberg.org/polarhive/dots/raw/branch/main/pkglist.txt"
+sudo pacman -Syyu --needed --noconfirm - < pkglist.txt
+rm pkglist.txt
 printf "done\n"
 sleep 1
 clear
