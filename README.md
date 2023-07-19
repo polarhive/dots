@@ -1,7 +1,7 @@
 # dotfiles
 
-``` text
-🍚 ricin'
+``` sh
+curl -sL polarhive.net/arch.sh | sh
 ```
 
 ![terminal](.local/share/backgrounds/desktop.png)
@@ -10,22 +10,20 @@
 - arch
 - firefox
 - foot
-- mpd
-- ncmpcpp
+- mpd/ncmpcpp
 - newsboat
 - nvim
+- tmux
 - sway
 - zsh
 ```
 
-## Setup?
-
-```curl -sL polarhive.net/arch.sh | sh```
-
+### misc
 - [Here's](https://polarhive.net/blog/how-i-do-my-computing) how I do my computing
-- [Here's](https://polarhive.net/blog/foss-music-setup) a post on my music streaming setup
+- [Here's](https://polarhive.net/blog/foss-music-setup) my music-streaming setup
 
 ---
-This repo is hosted on [Codeberg](https://polarhive.net/dots) & mirrored to [GitHub](https://polarhive.ml/github) for traffic.
+This repo is hosted on [Codeberg](https://polarhive.net/dots) & mirrored to [GitHub](https://polarhive.net/github) for traffic.
 
 [![license: GPLv3 or Later](https://polarhive.net/assets/badges/gpl-3.svg)](https://www.gnu.org/licenses/gpl-3.0.txt)
+
