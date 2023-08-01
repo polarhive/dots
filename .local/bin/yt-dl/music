@@ -1,14 +1,15 @@
 #!/bin/sh
 q=$(wofi -d)
-cd ~/.local/share/.Music/.tmp && rm *.opus
+[ -z "$q" ] && exit 1
 
-notify-send "searching: $q"
+# song folder
+music_folder="Music" && cd ~/$music_folder/.tmp/dl
+
+# yt-dl
 id=$(yt-dlp --default-search "https://music.youtube.com/search?q=" "$q" --playlist-end 1 --get-id)
-title=$(yt-dlp --get-title $id)
+yt-dlp --parse-metadata "title:%(title)s" --parse-metadata "artist:%(artist)s" --add-metadata -f 'ba' -x --ignore-config -q --progress --restrict-filenames "$id" || notify-send "ERROR" && break
 
-notify-send "downloading: $title"
-yt-dlp --ignore-config $id -f 'ba' -x --add-metadata --restrict-filenames
-cp -n *.opus ../.archive
-
-notify-send "playing: $title"
-mpc -q update && mpc -q insert .tmp && mpc -q next
+# mpc
+rm ~/$music_folder/.tmp/dl/*.part -f
+name=$(ls -u | head -1)
+mpc -q update && mpc -q add ".tmp/dl/${name}" && mpc -q play
