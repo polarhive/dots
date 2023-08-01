@@ -1,0 +1,7 @@
+[Desktop Entry]
+Version=1.0
+Name=YouTube Studio
+Exec=/usr/bin/flatpak run --branch=stable --arch=x86_64 --command=firefox --file-forwarding org.mozilla.firefox -P yt --kiosk "https://studio.youtube.com" @@u %u @@
+Terminal=false
+Type=Application
+StartupNotify=true
