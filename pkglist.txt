@@ -1,5 +1,6 @@
 adw-gtk3-git
 bat-extras
+bind
 brightnessctl
 exa
 flatpak
@@ -8,7 +9,9 @@ gnome-keyring
 grim
 gvfs-mtp
 htop
+hugo
 imv
+inter-font
 libva-mesa-driver
 mako
 mpv
@@ -17,12 +20,14 @@ neovim
 newsboat
 noto-fonts-cjk
 ntfs-3g
+p7zip
 paru
 pfetch
 playerctl
 polkit-gnome
 progress
 qrencode
+rsync
 slurp
 sound-theme-freedesktop
 swaybg
