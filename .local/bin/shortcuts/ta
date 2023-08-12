@@ -1,8 +1,2 @@
 #!/bin/sh
-clear
-printf "ENTER ARCHIVE NAME\n"
-echo "------------------"
-read name
-tar -czvf ${name}.tar.gz ${name}
-notify-send "archived!"
-printf "\n"
+tar -czvf ${1}.tar.gz $1

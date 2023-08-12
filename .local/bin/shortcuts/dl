@@ -1,6 +1,2 @@
 #!/bin/sh
-clear
-printf "PASTE YOUR LINK\n"
-echo "---------------"
-read link
-curl -L -o /tmp/dl -C - "${link}"
+curl -L -o /tmp/dl -C - "${1}"

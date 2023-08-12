@@ -1,8 +1,2 @@
 #!/bin/sh
-clear
-printf "ENTER ARCHIVE TERM\n"
-echo "------------------"
-read name
-tar -xvf ${name}.tar.gz
-notify-send "extracted!"
-printf "\n"
+tar -xvf $1
