@@ -29,6 +29,6 @@ HISTFILE=~/.local/share/zsh/history
 
 # source
 source ~/.local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.local/share/zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+source ~/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.config/zsh/aliases
 
