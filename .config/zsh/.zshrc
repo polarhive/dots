@@ -1,6 +1,6 @@
 # tweaks
-PS1="%~%{$fg[red]%}%{$reset_color%} "
 autoload -U colors && colors
+PS1="[%m:%F{red}%~%f%{$reset_color%}]$%b "
 bindkey "^[3;5~" delete-char
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
@@ -31,4 +31,3 @@ HISTFILE=~/.local/share/zsh/history
 source ~/.local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.config/zsh/aliases
-

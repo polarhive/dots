@@ -1,20 +1,12 @@
 # environment variables
-export ANDROID_SDK_HOME="~/.config/android"
 export ANKI_WAYLAND="1"
-export BROWSER="org.mozilla.firefox"
 export CARGO_HOME=".local/share/cargo"
 export EDITOR="nvim"
 export GDK_BACKEND="wayland"
 export GNUPGHOME="~/.local/share/gnupg"
 export GOPATH="/home/$USER/.local/share/go"
 export LESSHISTFILE="-"
-export MOZ_DBUS_REMOTE="1"
-export MOZ_ENABLE_WAYLAND="1"
-export MOZ_USE_XINPUT2="1"
 export PATH="$PATH:${$(find ~/.local/bin -type d -printf %p:)%%:}"
-export QT_AUTO_SCREEN_SCALE_FACTOR="1"
-export QT_QPA_PLATFORM="wayland;xcb"
-export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
 export RUSTUP_HOME=".local/share/rustup"
 export SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
 export SUDO_PROMPT='[sudo] %p 🗝  '
