@@ -1,2 +1,0 @@
-#!/bin/sh
-$EDITOR ~/.local/bin/yt-dl/yt_playlist.txt

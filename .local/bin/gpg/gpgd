@@ -1,7 +1,3 @@
 #!/bin/sh
-clear
-printf "ENTER NAME\n"
-read name
-gpg -o ${name}_dec -d ${name}.gpg
-notify-send "de-crypted!"
-printf "\n"
+gpg -o ${1}_dec -d $1
+notify-send "decrypted!"

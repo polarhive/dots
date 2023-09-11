@@ -1,5 +1,2 @@
 #!/bin/sh
-printf "ENTER SOURCE FILE\n"
-echo "-----------------"
-read source
-ffmpeg -i "$source" -c:v libx265 -crf 28 -c:a aac -b:a 128k ~/Videos/transcoded_output.mp4
+ffmpeg -i "$1" -c:v libx265 -crf 28 -c:a aac -b:a 128k "$1_transcoded.mp4"

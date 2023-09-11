@@ -1,0 +1,2 @@
+#!/bin/sh
+ffmpeg -vaapi_device /dev/dri/renderD128 -i "$1" -vf 'format=nv12,hwupload' -c:v hevc_vaapi -rc_mode 2 -b:v 5M -c:a aac -b:a 128k "$1_transcoded.mp4";

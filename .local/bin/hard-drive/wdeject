@@ -1,2 +1,0 @@
-#!/bin/sh
-udisksctl power-off -b /dev/sdb1

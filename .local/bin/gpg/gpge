@@ -1,7 +1,3 @@
 #!/bin/sh
-clear
-printf "ENTER NAME\n"
-read name
-gpg -r 0x78DBFBE8B325A5A9 -e ${name}
-notify-send "en-crypted!"
-printf "\n"
+gpg -r 0x78DBFBE8B325A5A9 -e $1
+notify-send "encrypted"
