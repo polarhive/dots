@@ -1,13 +1,8 @@
 {
-    "layer": "top",
+    "layer": "bottom",
     "position": "bottom",
     "modules-left": ["clock", "mpd"],
     "modules-right": ["tray", "network", "battery"],
-    "height": 12,
-    "tray": {
-        "spacing": 4,
-	"icon-size": 15
-    },
     "clock": {
         "format": "{:%R} |",
 	"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
@@ -29,11 +24,11 @@
         "tooltip-format": "{ifname} via {gwaddr} ",
         "format-linked": "{ifname} (No IP) ",
         "format-disconnected": "!",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}" 
+        "format-alt": "{ifname}: {ipaddr}/{cidr}"
    },
     "pulseaudio": {
-        "format": "| {icon} — {format_source}",
-        "format-muted": "|   — {format_source}",
+        "format": "{icon} {format_source}",
+        "format-muted": "  — {format_source}",
         "format-source": "",
         "format-source-muted": "",
         "format-icons": {

@@ -14,3 +14,5 @@ export TERMINAL="foot"
 export XDG_CURRENT_DESKTOP="sway"
 export XDG_SESSION_DESKTOP="sway"
 export XDG_SESSION_TYPE="wayland"
+export npm_config_cache=~/.cache/npm
+export npm_config_userconfig=~/.config/npm/config

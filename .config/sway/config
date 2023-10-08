@@ -1,13 +1,12 @@
 ## startup
+#exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec foot -s
-exec "sleep 1; footclient -e tmux"
-xwayland disable
 
 ## gestures
 bindgesture swipe:up floating disable
 bindgesture swipe:down floating enable
-bindgesture swipe:right workspace prev
-bindgesture swipe:left workspace next
+bindgesture swipe:right workspace next
+bindgesture swipe:left workspace prev
 
 ## variables
 set $mod Mod4
@@ -18,7 +17,7 @@ set $right l
 set $bin ~/.local/bin
 set $term footclient
 set $laptop eDP-1
-set $monitor HDMI-A-1
+set $tv HDMI-A-1
 set $font Product Sans Regular
 
 ## appearance
@@ -32,7 +31,8 @@ default_border pixel 1
 gaps inner 3
 gaps outer 1
 font pango:$font 8
-focus output $monitor
+#output $laptop scale 0.75
+output $tv scale 1.25
 output * bg ~/.local/share/backgrounds/waves.png stretch
 
 ## window rules
@@ -47,11 +47,9 @@ for_window [app_id="thunar" title="^Rename$"] floating enable
 for_window [class=".*"] inhibit_idle fullscreen
 for_window [class="^.*"] inhibit_idle fullscreen
 for_window [shell="xwayland"] title_format "%title [XWayland]"
-assign [app_id="tmux"] workspace 1
 assign [app_id="firefox"] workspace 2
-assign [app_id="thunar"] workspace 3
-assign [app_id="thunderbird"] workspace 4
-assign [app_id="org.telegram.desktop"] workspace 4
+assign [app_id="org.telegram.desktop"] workspace 3
+assign [app_id="thunderbird"] workspace 3
 
 ## buttons
 bindsym $mod+Return exec $term
@@ -60,12 +58,17 @@ bindsym $mod+Alt+d exec systemctl reboot
 bindsym $mod+Alt+a exec systemctl suspend
 bindsym $mod+Alt+s exec systemctl poweroff
 bindsym $mod+Alt+e exec thunar
+bindsym $mod+Alt+b exec beeper --ozone-platform=wayland
+bindsym $mod+Alt+t exec org.telegram.desktop
+bindsym $mod+Alt+m exec org.mozilla.Thunderbird
 bindsym $mod+Alt+l exec swaylock -f
-bindsym $mod+Alt+f exec $BROWSER
+bindsym $mod+Alt+f exec org.mozilla.firefox
 bindsym $mod+a exec swaymsg "output $laptop dpms toggle"
 bindsym $mod+m exec $bin/yt-dl/ytp
+bindsym $mod+y exec $bin/bluetooth/blc
+bindsym $mod+u exec $bin/bluetooth/bld
 bindsym $mod+t exec $bin/shortcuts/td
-bindsym $mod+d exec wofi -S drun
+bindsym $mod+d exec wofi
 bindsym $mod+b splitv
 bindsym $mod+v splith
 bindsym $mod+q kill
@@ -74,6 +77,7 @@ bindsym $mod+r mode "resize"
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout splith
 bindsym $mod+XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ 100%
+bindsym $mod+XF86AudioPlay exec $bin/yt-dl/music
 bindsym Shift+Print exec $bin/screenshots/screenshotp
 bindsym Print exec $bin/screenshots/screenshot
 floating_modifier $mod normal
@@ -133,9 +137,8 @@ mode "resize" {
 
 # swaybar
 bar {
-    position top
     status_command while $bin/shortcuts/status; do sleep 60; done
-    height 0
+    position top
     colors {
 	background #000000
 	inactive_workspace #000000 #000000 #ffffff

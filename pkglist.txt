@@ -7,7 +7,7 @@ bind
 bluez-libs
 bluez-utils
 brightnessctl
-exa
+eza
 flatpak
 foot
 gnome-keyring
@@ -63,7 +63,6 @@ tectonic
 thunar
 tmux
 tree
-ttf-jetbrains-mono
 ttf-ms-fonts
 udisks2
 wf-recorder
