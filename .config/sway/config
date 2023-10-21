@@ -1,6 +1,6 @@
 ## startup
-#exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec foot -s
+#exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 ## gestures
 bindgesture swipe:up floating disable
@@ -23,7 +23,7 @@ set $font Product Sans Regular
 ## appearance
 smart_corner_radius on
 shadows on
-shadow_blur_radius 20
+shadow_blur_radius 50
 corner_radius 2
 default_dim_inactive 0.10
 hide_edge_borders smart
@@ -33,6 +33,7 @@ gaps outer 1
 font pango:$font 8
 #output $laptop scale 0.75
 output $tv scale 1.25
+output * bg #000000 solid_color
 output * bg ~/.local/share/backgrounds/waves.png stretch
 
 ## window rules
@@ -42,27 +43,27 @@ for_window [app_id="^.*"] inhibit_idle fullscreen
 for_window [app_id="firefox" title="Firefox — Sharing Indicator"] kill
 for_window [app_id="firefox" title="^Picture-in-Picture$"] floating enable
 for_window [app_id="mpv"] inhibit_idle visible; border none; max_render_time off
-for_window [app_id="org.telegram.desktop" title="^TelegramDesktop$"] floating enable
+for_window [app_id="telegram-desktop" title="^TelegramDesktop$"] floating enable
 for_window [app_id="thunar" title="^Rename$"] floating enable
 for_window [class=".*"] inhibit_idle fullscreen
 for_window [class="^.*"] inhibit_idle fullscreen
 for_window [shell="xwayland"] title_format "%title [XWayland]"
 assign [app_id="firefox"] workspace 2
-assign [app_id="org.telegram.desktop"] workspace 3
+assign [app_id="telegram-desktop"] workspace 3
 assign [app_id="thunderbird"] workspace 3
 
 ## buttons
 bindsym $mod+Return exec $term
 bindsym $mod+space floating toggle
-bindsym $mod+Alt+d exec systemctl reboot
-bindsym $mod+Alt+a exec systemctl suspend
-bindsym $mod+Alt+s exec systemctl poweroff
+bindsym --locked $mod+Alt+d exec systemctl reboot
+bindsym --locked $mod+Alt+a exec systemctl suspend
+bindsym --locked $mod+Alt+s exec systemctl poweroff
 bindsym $mod+Alt+e exec thunar
 bindsym $mod+Alt+b exec beeper --ozone-platform=wayland
-bindsym $mod+Alt+t exec org.telegram.desktop
-bindsym $mod+Alt+m exec org.mozilla.Thunderbird
+bindsym $mod+Alt+t exec telegram-desktop
+bindsym $mod+Alt+m exec thunderbird
 bindsym $mod+Alt+l exec swaylock -f
-bindsym $mod+Alt+f exec org.mozilla.firefox
+bindsym $mod+Alt+f exec firefox
 bindsym $mod+a exec swaymsg "output $laptop dpms toggle"
 bindsym $mod+m exec $bin/yt-dl/ytp
 bindsym $mod+y exec $bin/bluetooth/blc
@@ -138,7 +139,6 @@ mode "resize" {
 # swaybar
 bar {
     status_command while $bin/shortcuts/status; do sleep 60; done
-    position top
     colors {
 	background #000000
 	inactive_workspace #000000 #000000 #ffffff

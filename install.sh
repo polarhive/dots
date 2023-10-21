@@ -66,6 +66,16 @@ fi
 sleep 1
 clear
 
+printf "# setting gtk theme"
+sleep 0.5
+clear
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
+#gsettings set org.gnome.desktop.interface document-font-name 'Product Sans 12'
+#gsettings set org.gnome.desktop.interface font-name 'Product Sans,  10'
+gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMono Nerd Font Semi-Bold 10'
+clear
+
 printf "# done\n"
 sleep 0.5
 clear

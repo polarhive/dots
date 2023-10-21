@@ -22,6 +22,7 @@ imv
 inter-font
 iputils
 jq
+libadwaita
 libnotify
 libva-mesa-driver
 mako
@@ -34,6 +35,7 @@ neovim
 newsboat
 noto-fonts
 noto-fonts-cjk
+npm
 ntfs-3g
 openssh
 p7zip
@@ -42,6 +44,7 @@ pavucontrol
 pfetch
 pipewire
 playerctl
+pnpm
 polkit-gnome
 progress
 python-pipx
@@ -61,8 +64,11 @@ swaylock
 tailscale
 tectonic
 thunar
+tlp
 tmux
 tree
+ttf-jetbrains-mono
+ttf-jetbrains-mono-nerd
 ttf-ms-fonts
 udisks2
 wf-recorder
@@ -75,8 +81,10 @@ wofi
 xdg-desktop-portal
 xdg-desktop-portal-gtk
 xdg-desktop-portal-wlr
+xdg-user-dirs
 xdg-utils
 xorg-xwayland
+yarn
 yt-dlp
 zathura-pdf-mupdf
 zbar

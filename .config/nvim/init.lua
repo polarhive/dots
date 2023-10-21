@@ -480,5 +480,5 @@ cmp.setup {
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 --
--- vim.cmd('colorscheme github_dark_high_contrast')
+--vim.cmd('colorscheme github_light_high_contrast')
 vim.cmd('colorscheme lunaperche')
