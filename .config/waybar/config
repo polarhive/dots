@@ -1,53 +1,53 @@
 {
-    "layer": "bottom",
-    "position": "bottom",
-    "modules-left": ["clock", "mpd"],
-    "modules-right": ["tray", "network", "battery"],
-    "clock": {
-        "format": "{:%R} |",
-	"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+  "layer": "top",
+    "modules-left": ["sway/workspaces"],
+    "modules-right": ["mpd", "bluetooth", "network", "battery", "clock"],
+    "sway/workspaces": {
+      "format": "{name}",
+      "format": "{icon}",
+      "all-outputs": true,
+      "format-icons": {
+      }
     },
-    "battery": {
-        "bat": "BAT0",
-        "full-at": 95,
-        "states": {
-            "good": 80,
-            "warning": 45,
-            "critical": 20
-        },
-        "format": "{icon}",
-        "format-icons": ["", "", "", "", ""]
+
+    "mpd": {
+    	"format": "{stateIcon} {artist} — {title}",
+        "interval": 2,
+	"on-click": "footclient -e ncmpcpp"
+	},
+
+    "clock": {
+      "format": " {:%H:%M}",
+      "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    },
+
+    "backlight": {
+      "format": "{icon} {percent}",
+      "format-icons": ["", "", "", "", "", "", "", "", ""]
+    },
+
+    "pulseaudio": {
+      "format": "{icon} {volume}%",
+      "format-muted": "",
+      "format-icons": {
+        "headphone": "",
+        "default": ["", "", "󰕾", "󰕾", "󰕾", "", "", ""]
+      },
+      "scroll-step": 1,
+    },
+    "bluetooth": {
+      "format": "",
+      "format-connected": " {num_connections}",
+      "tooltip-format": "{device_enumerate}",
+      "tooltip-format-enumerate-connected": "{device_alias} {device_address}"
     },
     "network": {
-    	"format-wifi": "",
-        "format-ethernet": "{ipaddr}/{cidr} ",
-        "tooltip-format": "{ifname} via {gwaddr} ",
-        "format-linked": "{ifname} (No IP) ",
-        "format-disconnected": "!",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
-   },
-    "pulseaudio": {
-        "format": "{icon} {format_source}",
-        "format-muted": "  — {format_source}",
-        "format-source": "",
-        "format-source-muted": "",
-        "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "default": ["", "", ""]
-        },
-        "on-click": "pavucontrol"
+      "format-wifi": " ",
+      "format-disabled": "󰖪 ",
     },
-    "mpd": {
-    	"format": " {stateIcon} {title}",
-	"format-disconnected": "...",
-        "interval": 5,
-        "state-icons": {
-            "paused": "",
-            "playing": ""
-        },
-   },
+    "battery": {
+      "format": "{icon} {capacity}%",
+      "format-icons": ["", "", "", "", ""],
+      "format-charging": "{capacity}%",
+    },
 }
