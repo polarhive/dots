@@ -1,4 +1,4 @@
-auto-reload no
+auto-reload yes
 bind-key . toggle-show-read-feeds
 bind-key BACKSPACE quit
 bind-key H prev-feed
@@ -11,6 +11,6 @@ browser "echo >> ~/.local/share/newsboat/todo.txt"
 ignore-article "regex:https?://www.youtube.com/.*" "title =~ \"#shorts\""
 include /usr/share/doc/newsboat/contrib/colorschemes/nord
 macro . set browser "wl-copy"; open-in-browser; set browser "echo >> ~/.local/share/newsboat/todo.txt"
-reload-threads 25
+reload-threads 50
 show-read-feeds no
 text-width 80

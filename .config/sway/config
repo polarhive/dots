@@ -1,5 +1,7 @@
 ## startup
 exec foot -s
+exec waybar
+#xwayland disable
 #exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 ## gestures
@@ -24,16 +26,15 @@ set $font Product Sans Regular
 smart_corner_radius on
 shadows on
 shadow_blur_radius 50
-corner_radius 2
+corner_radius 8
 default_dim_inactive 0.10
 hide_edge_borders smart
 default_border pixel 1
-gaps inner 3
-gaps outer 1
+gaps inner 2
+gaps outer 5
 font pango:$font 8
 #output $laptop scale 0.75
-output $tv scale 1.25
-output * bg #000000 solid_color
+#output $tv scale 1.25
 output * bg ~/.local/share/backgrounds/waves.png stretch
 
 ## window rules
@@ -42,14 +43,15 @@ for_window [app_id=".*"] inhibit_idle fullscreen
 for_window [app_id="^.*"] inhibit_idle fullscreen
 for_window [app_id="firefox" title="Firefox — Sharing Indicator"] kill
 for_window [app_id="firefox" title="^Picture-in-Picture$"] floating enable
-for_window [app_id="mpv"] inhibit_idle visible; border none; max_render_time off
-for_window [app_id="telegram-desktop" title="^TelegramDesktop$"] floating enable
+for_window [app_id="mpv"] inhibit_idle visible; border none; max_render_time off; floating enable
+for_window [app_id="org.telegram.desktop" title="^TelegramDesktop$"] floating enable
 for_window [app_id="thunar" title="^Rename$"] floating enable
 for_window [class=".*"] inhibit_idle fullscreen
 for_window [class="^.*"] inhibit_idle fullscreen
 for_window [shell="xwayland"] title_format "%title [XWayland]"
 assign [app_id="firefox"] workspace 2
-assign [app_id="telegram-desktop"] workspace 3
+assign [app_id="org.telegram.desktop"] workspace 3
+assign [app_id="Beeper"] workspace 3
 assign [app_id="thunderbird"] workspace 3
 
 ## buttons
@@ -66,9 +68,9 @@ bindsym $mod+Alt+l exec swaylock -f
 bindsym $mod+Alt+f exec firefox
 bindsym $mod+a exec swaymsg "output $laptop dpms toggle"
 bindsym $mod+m exec $bin/yt-dl/ytp
-bindsym $mod+y exec $bin/bluetooth/blc
-bindsym $mod+u exec $bin/bluetooth/bld
 bindsym $mod+t exec $bin/shortcuts/td
+bindsym $mod+u exec $bin/bluetooth/blc
+bindsym $mod+y exec $bin/bluetooth/bld
 bindsym $mod+d exec wofi
 bindsym $mod+b splitv
 bindsym $mod+v splith
@@ -78,9 +80,8 @@ bindsym $mod+r mode "resize"
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout splith
 bindsym $mod+XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ 100%
-bindsym $mod+XF86AudioPlay exec $bin/yt-dl/music
-bindsym Shift+Print exec $bin/screenshots/screenshotp
 bindsym Print exec $bin/screenshots/screenshot
+bindsym Shift+Print exec $bin/screenshots/screenshotp
 floating_modifier $mod normal
 
 ## hardware
@@ -136,12 +137,4 @@ mode "resize" {
     bindsym $mod+r mode default
 }
 
-# swaybar
-bar {
-    status_command while $bin/shortcuts/status; do sleep 60; done
-    colors {
-	background #000000
-	inactive_workspace #000000 #000000 #ffffff
-    }
-}
 include /etc/sway/config.d/*
