@@ -1,16 +1,14 @@
 #!/bin/bash
-cd ~/.local/share/newsboat
 yt_regex="https:\/\/www\.youtube\.com\/watch\?v=[A-Za-z0-9_-]+"
-todo_file=~/.local/share/newsboat/todo.txt
-nvim "$todo_file"
+todo_file=~/.local/share/newsboat/todo.txt; 
+$EDITOR $todo_file
 while IFS="" read -r p || [ -n "$p" ]
 do
     if [[ $p =~ $yt_regex ]]; then
         echo "skip"
-        echo "$p" >> yt.txt
     else
         sleep 3
-        org.mozilla.firefox --new-tab "$p"
+        xdg-open $p
     fi
 done < "$todo_file"
 bell

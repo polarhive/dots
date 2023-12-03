@@ -1,4 +1,4 @@
 #!/bin/sh
-rsync -rtvzP ~/.local/share/.Music/ /run/media/polarhive/argentum/cider/Music -h
+rsync -rtvzP ~/.local/share/.Music/ /run/media/polarhive/argentum/hosts/cider/Music -h
 notify-send "music: done"
 bell

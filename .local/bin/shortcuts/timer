@@ -8,5 +8,5 @@ while [ "$start" -ge `date +%s` ]; do
  printf '%s\r' "$(date -u -d "@$time" +%M:%S)"
 done
 notify-send "q: done"
-sh ~/.local/bin/shortcuts/bell
+bell
 exit

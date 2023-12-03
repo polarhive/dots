@@ -1,6 +1,7 @@
 #!/bin/sh
-d=$(date "+%H:%M")
 m=$(mpc current)
-#w=$(cat /tmp/weather)
-b=$(cat /sys/class/power_supply/BAT0/capacity)
-echo $m " | " $d "—" $b
+if [ -z "$m" ]; then
+#	m=$(cat /tmp/weather)
+	m=$(down)
+fi
+echo $m " | " $(date "+%H:%M") "—" $(cat /sys/class/power_supply/BAT0/capacity)

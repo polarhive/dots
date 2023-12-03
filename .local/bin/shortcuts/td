@@ -1,3 +1,2 @@
 #!/bin/sh
-link=$(wl-paste)
-echo $link >> ~/.local/share/newsboat/todo.txt
+echo $(wl-paste) >> ~/.local/share/newsboat/todo.txt
