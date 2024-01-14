@@ -1,6 +1,6 @@
 #!/bin/sh
 clear
-start="$(($(date +%s) + 59))"
+start="$(($(date +%s) + 2699))"
 clear
 while [ "$start" -ge `date +%s` ]; do
  sleep 1
@@ -8,5 +8,5 @@ while [ "$start" -ge `date +%s` ]; do
  printf '%s\r' "$(date -u -d "@$time" +%M:%S)"
 done
 notify-send "q: done"
-bell
+sh ~/.local/bin/shortcuts/bell
 exit

@@ -1,12 +1,9 @@
 # environment variables
-. "/home/polarhive/.local/share/cargo/env"
-export ANKI_WAYLAND="1"
 export CARGO_HOME=".local/share/cargo"
 export EDITOR="nvim"
 export GNUPGHOME="~/.local/share/gnupg"
 export GOPATH="/home/$USER/.local/share/go"
 export LESSHISTFILE="-"
-export MOZ_DBUS_REMOTE="1"
 export MOZ_ENABLE_WAYLAND="1"
 export MOZ_USE_XINPUT2="1"
 export PATH="$PATH:${$(find ~/.local/bin -type d -printf %p:)%%:}"

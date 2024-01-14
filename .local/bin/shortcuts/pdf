@@ -1,2 +1,2 @@
 #!/bin/sh
-libreoffice7.6 --headless --convert-to pdf $1
+libreoffice --headless --convert-to pdf $1

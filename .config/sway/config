@@ -1,7 +1,6 @@
 ## startup
 exec foot -s
-exec waybar
-#xwayland disable
+xwayland disable
 #exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 ## gestures
@@ -19,7 +18,7 @@ set $right l
 set $bin ~/.local/bin
 set $term footclient
 set $laptop eDP-1
-set $tv HDMI-A-1
+#set $tv HDMI-A-1
 set $font Product Sans Regular
 
 ## appearance
@@ -27,13 +26,13 @@ smart_corner_radius on
 shadows on
 shadow_blur_radius 50
 corner_radius 8
-default_dim_inactive 0.10
+default_dim_inactive 0.05
 hide_edge_borders smart
 default_border pixel 1
 gaps inner 2
-gaps outer 5
+gaps outer 2
 font pango:$font 8
-#output $laptop scale 0.75
+#output $laptop scale 0.85
 #output $tv scale 1.25
 output * bg ~/.local/share/backgrounds/waves.png stretch
 
@@ -61,11 +60,12 @@ bindsym --locked $mod+Alt+d exec systemctl reboot
 bindsym --locked $mod+Alt+a exec systemctl suspend
 bindsym --locked $mod+Alt+s exec systemctl poweroff
 bindsym $mod+Alt+e exec thunar
-bindsym $mod+Alt+b exec beeper --ozone-platform=wayland
-bindsym $mod+Alt+t exec telegram-desktop
-bindsym $mod+Alt+m exec thunderbird
+bindsym $mod+Alt+b exec beeper
+bindsym $mod+Alt+i exec "xdg-open ~/Documents/02_School/PESU/Courses/cal.ods"
+bindsym $mod+Alt+t exec org.telegram.desktop
+bindsym $mod+Alt+m exec org.mozilla.Thunderbird
+bindsym $mod+Alt+f exec org.mozilla.firefox
 bindsym $mod+Alt+l exec swaylock -f
-bindsym $mod+Alt+f exec firefox
 bindsym $mod+a exec swaymsg "output $laptop dpms toggle"
 bindsym $mod+m exec $bin/yt-dl/ytp
 bindsym $mod+t exec $bin/shortcuts/td
@@ -77,6 +77,7 @@ bindsym $mod+v splith
 bindsym $mod+q kill
 bindsym $mod+f fullscreen
 bindsym $mod+r mode "resize"
+bindsym $mod+Escape mode "default"
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout splith
 bindsym $mod+XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ 100%
@@ -135,6 +136,15 @@ mode "resize" {
     bindsym $up resize shrink height 25px
     bindsym $right resize grow width 45px
     bindsym $mod+r mode default
+}
+
+# swaybar
+bar {
+    status_command while $bin/shortcuts/status; do sleep 60; done
+    colors {
+	background #000000
+	inactive_workspace #000000 #000000 #ffffff
+    }
 }
 
 include /etc/sway/config.d/*

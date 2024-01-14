@@ -6,7 +6,7 @@
   "sway/workspaces": {
   	"format": "{name}",
   	"format": "{icon}",
-  	"all-outputs": true,
+  	"all-outputs": true
   },
   "mpd": {
   	"format": "{stateIcon} {artist} — {title}",
