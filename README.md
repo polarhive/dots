@@ -23,7 +23,7 @@ curl -sL polarhive.net/arch.sh | sh
 - [Here's](https://polarhive.net/blog/foss-music-setup) my music-streaming setup
 
 ---
-This repo is hosted on [Codeberg](https://polarhive.net/dots) & mirrored to [GitHub](https://polarhive.net/github) for traffic.
+This repo is hosted on [Codeberg](https://codeberg.org/polarhive/dots) & mirrored to [GitHub](https://polarhive.net/github) for traffic.
 
-[![license: GPLv3 or Later](https://polarhive.net/assets/badges/gpl-3.svg)](https://www.gnu.org/licenses/gpl-3.0.txt)
+[![GPL enforced badge](https://img.shields.io/badge/GPL-enforced-blue.svg "This project enforces the GPL.")](https://gplenforced.org)
 

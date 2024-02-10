@@ -1,5 +1,5 @@
 ## startup
-exec foot -s
+exec foot -s 
 xwayland disable
 #exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
@@ -18,7 +18,6 @@ set $right l
 set $bin ~/.local/bin
 set $term footclient
 set $laptop eDP-1
-#set $tv HDMI-A-1
 set $font Product Sans Regular
 
 ## appearance
@@ -29,12 +28,10 @@ corner_radius 8
 default_dim_inactive 0.05
 hide_edge_borders smart
 default_border pixel 1
-gaps inner 2
-gaps outer 2
+gaps inner 1
+gaps outer 1
 font pango:$font 8
-#output $laptop scale 0.85
-#output $tv scale 1.25
-output * bg ~/.local/share/backgrounds/waves.png stretch
+output * bg $(ls ~/.local/share/backgrounds/* | shuf -n 1) fill
 
 ## window rules
 for_window [urgent=latest] focus
@@ -67,7 +64,6 @@ bindsym $mod+Alt+m exec org.mozilla.Thunderbird
 bindsym $mod+Alt+f exec org.mozilla.firefox
 bindsym $mod+Alt+l exec swaylock -f
 bindsym $mod+a exec swaymsg "output $laptop dpms toggle"
-bindsym $mod+m exec $bin/yt-dl/ytp
 bindsym $mod+t exec $bin/shortcuts/td
 bindsym $mod+u exec $bin/bluetooth/blc
 bindsym $mod+y exec $bin/bluetooth/bld
@@ -140,11 +136,12 @@ mode "resize" {
 
 # swaybar
 bar {
+    position top
     status_command while $bin/shortcuts/status; do sleep 60; done
     colors {
-	background #000000
-	inactive_workspace #000000 #000000 #ffffff
-    }
+    	background #000000
+    	inactive_workspace #000000 #000000 #ffffff
+   }
 }
 
 include /etc/sway/config.d/*
