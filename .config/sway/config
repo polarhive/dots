@@ -1,6 +1,6 @@
 ## startup
-exec foot -s 
-xwayland disable
+exec foot -s
+#xwayland disable
 #exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 ## gestures
@@ -27,8 +27,8 @@ shadow_blur_radius 50
 corner_radius 8
 default_dim_inactive 0.05
 hide_edge_borders smart
-default_border pixel 1
-gaps inner 1
+default_border pixel 0
+gaps inner 2
 gaps outer 1
 font pango:$font 8
 output * bg $(ls ~/.local/share/backgrounds/* | shuf -n 1) fill
@@ -46,6 +46,8 @@ for_window [class=".*"] inhibit_idle fullscreen
 for_window [class="^.*"] inhibit_idle fullscreen
 for_window [shell="xwayland"] title_format "%title [XWayland]"
 assign [app_id="firefox"] workspace 2
+assign [app_id="brave"] workspace 2
+assign [app_id="thunar"] workspace 3
 assign [app_id="org.telegram.desktop"] workspace 3
 assign [app_id="Beeper"] workspace 3
 assign [app_id="thunderbird"] workspace 3
@@ -136,7 +138,6 @@ mode "resize" {
 
 # swaybar
 bar {
-    position top
     status_command while $bin/shortcuts/status; do sleep 60; done
     colors {
     	background #000000
