@@ -46,8 +46,6 @@ for_window [class=".*"] inhibit_idle fullscreen
 for_window [class="^.*"] inhibit_idle fullscreen
 for_window [shell="xwayland"] title_format "%title [XWayland]"
 assign [app_id="firefox"] workspace 2
-assign [app_id="brave"] workspace 2
-assign [app_id="thunar"] workspace 3
 assign [app_id="org.telegram.desktop"] workspace 3
 assign [app_id="Beeper"] workspace 3
 assign [app_id="thunderbird"] workspace 3
@@ -69,6 +67,7 @@ bindsym $mod+a exec swaymsg "output $laptop dpms toggle"
 bindsym $mod+t exec $bin/shortcuts/td
 bindsym $mod+u exec $bin/bluetooth/blc
 bindsym $mod+y exec $bin/bluetooth/bld
+bindsym $mod+m exec $bin/yt-dl/ytp
 bindsym $mod+d exec wofi
 bindsym $mod+b splitv
 bindsym $mod+v splith
@@ -98,6 +97,7 @@ bindswitch --reload --locked lid:off output $laptop enable
 input "1267:91:Elan_Touchpad" {
        accel_profile adaptive
        dwt disabled
+       #natural_scroll enabled
        tap enabled
 }
 

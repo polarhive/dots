@@ -94,19 +94,9 @@ require('lazy').setup({
   },
 
   {
-  'projekt0n/github-nvim-theme',
-  },
-
-  {
     'nvim-lualine/lualine.nvim',
-    opts = {
-      options = {
-        icons_enabled = false,
-        theme = 'auto',
-        component_separators = '|',
-        section_separators = '',
-      },
-    },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    options = { theme = 'gruvbox' }
   },
 
   -- "gc" to comment visual regions/lines
