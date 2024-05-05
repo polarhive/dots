@@ -11,6 +11,7 @@ export PNPM_HOME="/home/polarhive/.local/share/pnpm"
 export RUSTUP_HOME=".local/share/rustup"
 export SSH_AUTH_SOCK=/run/user/1000/gcr/ssh 
 export SUDO_PROMPT='[sudo] %p 🗝  '
+export TERM=screen-256color
 export TERMINAL="foot"
 export XDG_CURRENT_DESKTOP="sway"
 export XDG_SESSION_DESKTOP="sway"

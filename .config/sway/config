@@ -1,13 +1,13 @@
 ## startup
-exec foot -s
+exec foot -e tmux
 #xwayland disable
 #exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 ## gestures
 bindgesture swipe:up floating disable
 bindgesture swipe:down floating enable
-bindgesture swipe:right workspace next
 bindgesture swipe:left workspace prev
+bindgesture swipe:right workspace next
 
 ## variables
 set $mod Mod4
@@ -16,65 +16,59 @@ set $down j
 set $left h
 set $right l
 set $bin ~/.local/bin
-set $term footclient
+set $term foot -e tmux a
 set $laptop eDP-1
 set $font Product Sans Regular
 
 ## appearance
-smart_corner_radius on
+corner_radius 4
+default_dim_inactive 0.02
 shadows on
-shadow_blur_radius 50
-corner_radius 8
-default_dim_inactive 0.05
-hide_edge_borders smart
+titlebar_separator disable
 default_border pixel 0
-gaps inner 2
-gaps outer 1
 font pango:$font 8
-output * bg $(ls ~/.local/share/backgrounds/* | shuf -n 1) fill
+gaps inner 0
+gaps outer 0
+#output '*' bg ~/.local/share/backgrounds/sky.jpg fill
 
 ## window rules
-for_window [urgent=latest] focus
-for_window [app_id=".*"] inhibit_idle fullscreen
-for_window [app_id="^.*"] inhibit_idle fullscreen
-for_window [app_id="firefox" title="Firefox — Sharing Indicator"] kill
+for_window [shell="xwayland"] title_format "%title [XWayland]"
 for_window [app_id="firefox" title="^Picture-in-Picture$"] floating enable
-for_window [app_id="mpv"] inhibit_idle visible; border none; max_render_time off; floating enable
+for_window [app_id="mpv"] inhibit_idle visible; border none; max_render_time off
 for_window [app_id="org.telegram.desktop" title="^TelegramDesktop$"] floating enable
 for_window [app_id="thunar" title="^Rename$"] floating enable
 for_window [class=".*"] inhibit_idle fullscreen
 for_window [class="^.*"] inhibit_idle fullscreen
-for_window [shell="xwayland"] title_format "%title [XWayland]"
+for_window [urgent=latest] focus
 assign [app_id="firefox"] workspace 2
+assign [app_id="org.gnome.Fractal"] workspace 3
+assign [app_id="org.mozilla.Thunderbird"] workspace 3
 assign [app_id="org.telegram.desktop"] workspace 3
-assign [app_id="Beeper"] workspace 3
-assign [app_id="thunderbird"] workspace 3
 
 ## buttons
+bindsym $mod+d exec wofi
 bindsym $mod+Return exec $term
 bindsym $mod+space floating toggle
-bindsym --locked $mod+Alt+d exec systemctl reboot
+bindsym $mod+a exec swaymsg "output $laptop dpms toggle"
 bindsym --locked $mod+Alt+a exec systemctl suspend
+bindsym --locked $mod+Alt+d exec systemctl reboot
 bindsym --locked $mod+Alt+s exec systemctl poweroff
+bindsym $mod+Alt+b exec org.gnome.Fractal
 bindsym $mod+Alt+e exec thunar
-bindsym $mod+Alt+b exec beeper
-bindsym $mod+Alt+i exec "xdg-open ~/Documents/02_School/PESU/Courses/cal.ods"
-bindsym $mod+Alt+t exec org.telegram.desktop
-bindsym $mod+Alt+m exec org.mozilla.Thunderbird
 bindsym $mod+Alt+f exec org.mozilla.firefox
 bindsym $mod+Alt+l exec swaylock -f
-bindsym $mod+a exec swaymsg "output $laptop dpms toggle"
+bindsym $mod+Alt+m exec org.mozilla.Thunderbird
+bindsym $mod+Alt+t exec org.telegram.desktop
+bindsym $mod+m exec $bin/yt-dl/ytp
 bindsym $mod+t exec $bin/shortcuts/td
 bindsym $mod+u exec $bin/bluetooth/blc
 bindsym $mod+y exec $bin/bluetooth/bld
-bindsym $mod+m exec $bin/yt-dl/ytp
-bindsym $mod+d exec wofi
 bindsym $mod+b splitv
 bindsym $mod+v splith
 bindsym $mod+q kill
 bindsym $mod+f fullscreen
-bindsym $mod+r mode "resize"
 bindsym $mod+Escape mode "default"
+bindsym $mod+r mode "resize"
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout splith
 bindsym $mod+XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ 100%
@@ -83,21 +77,20 @@ bindsym Shift+Print exec $bin/screenshots/screenshotp
 floating_modifier $mod normal
 
 ## hardware
+bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -10%
 bindsym --locked XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +10%
-bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -10%
 bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym --locked XF86AudioPlay exec playerctl play-pause
 bindsym --locked XF86AudioNext exec playerctl next
+bindsym --locked XF86AudioPlay exec playerctl play-pause
 bindsym --locked XF86AudioPrev exec playerctl previous
 bindsym --locked XF86MonBrightnessUp exec brightnessctl set 10%+
 bindsym --locked XF86MonBrightnessDown exec brightnessctl set 10%-
-bindswitch --reload --locked lid:on output $laptop disable
 bindswitch --reload --locked lid:off output $laptop enable
+bindswitch --reload --locked lid:on output $laptop disable
 input "1267:91:Elan_Touchpad" {
-       accel_profile adaptive
+       accel_profile flat
        dwt disabled
-       #natural_scroll enabled
        tap enabled
 }
 
@@ -111,10 +104,6 @@ bindsym $mod+2 workspace number 2
 bindsym $mod+3 workspace number 3
 bindsym $mod+4 workspace number 4
 bindsym $mod+5 workspace number 5
-bindsym $mod+6 workspace number 6
-bindsym $mod+7 workspace number 7
-bindsym $mod+8 workspace number 8
-bindsym $mod+9 workspace number 9
 bindsym $mod+Shift+$up move up
 bindsym $mod+Shift+$down move down
 bindsym $mod+Shift+$left move left
@@ -124,25 +113,12 @@ bindsym $mod+Shift+2 move container to workspace number 2
 bindsym $mod+Shift+3 move container to workspace number 3
 bindsym $mod+Shift+4 move container to workspace number 4
 bindsym $mod+Shift+5 move container to workspace number 5
-bindsym $mod+Shift+6 move container to workspace number 6
-bindsym $mod+Shift+7 move container to workspace number 7
-bindsym $mod+Shift+8 move container to workspace number 8
-bindsym $mod+Shift+9 move container to workspace number 9
 mode "resize" {
-    bindsym $left resize shrink width 25px
-    bindsym $down resize grow height 45px
     bindsym $up resize shrink height 25px
-    bindsym $right resize grow width 45px
+    bindsym $down resize grow height 25px
+    bindsym $left resize shrink width 25px
+    bindsym $right resize grow width 25px
     bindsym $mod+r mode default
-}
-
-# swaybar
-bar {
-    status_command while $bin/shortcuts/status; do sleep 60; done
-    colors {
-    	background #000000
-    	inactive_workspace #000000 #000000 #ffffff
-   }
 }
 
 include /etc/sway/config.d/*
