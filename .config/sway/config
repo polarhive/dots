@@ -1,7 +1,5 @@
-## startup
-exec foot -e tmux
-#xwayland disable
-#exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+xwayland disable
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 ## gestures
 bindgesture swipe:up floating disable
@@ -16,20 +14,23 @@ set $down j
 set $left h
 set $right l
 set $bin ~/.local/bin
-set $term foot -e tmux a
+set $term foot
 set $laptop eDP-1
+set $tv HDMI-A-1
 set $font Product Sans Regular
 
 ## appearance
+blur on
+shadows on
 corner_radius 4
 default_dim_inactive 0.02
-shadows on
 titlebar_separator disable
 default_border pixel 0
 font pango:$font 8
-gaps inner 0
-gaps outer 0
-#output '*' bg ~/.local/share/backgrounds/sky.jpg fill
+gaps inner 1
+gaps outer 2
+output '*' bg ~/.local/share/backgrounds/sky.jpg fill
+output $tv enable scale 1.2
 
 ## window rules
 for_window [shell="xwayland"] title_format "%title [XWayland]"
@@ -40,8 +41,10 @@ for_window [app_id="thunar" title="^Rename$"] floating enable
 for_window [class=".*"] inhibit_idle fullscreen
 for_window [class="^.*"] inhibit_idle fullscreen
 for_window [urgent=latest] focus
+
+assign [app_id="Beeper"] workspace 3
 assign [app_id="firefox"] workspace 2
-assign [app_id="org.gnome.Fractal"] workspace 3
+assign [app_id="obsidian"] workspace 3
 assign [app_id="org.mozilla.Thunderbird"] workspace 3
 assign [app_id="org.telegram.desktop"] workspace 3
 
@@ -49,16 +52,19 @@ assign [app_id="org.telegram.desktop"] workspace 3
 bindsym $mod+d exec wofi
 bindsym $mod+Return exec $term
 bindsym $mod+space floating toggle
-bindsym $mod+a exec swaymsg "output $laptop dpms toggle"
+bindsym $mod+a exec swaymsg "output $laptop toggle"
+
 bindsym --locked $mod+Alt+a exec systemctl suspend
 bindsym --locked $mod+Alt+d exec systemctl reboot
 bindsym --locked $mod+Alt+s exec systemctl poweroff
-bindsym $mod+Alt+b exec org.gnome.Fractal
-bindsym $mod+Alt+e exec thunar
-bindsym $mod+Alt+f exec org.mozilla.firefox
+
+bindsym Mod1+b exec beeper
+bindsym Mod1+e exec thunar
+bindsym Mod1+f exec org.mozilla.firefox
+bindsym Mod1+m exec org.mozilla.Thunderbird
+bindsym Mod1+t exec org.telegram.desktop
+
 bindsym $mod+Alt+l exec swaylock -f
-bindsym $mod+Alt+m exec org.mozilla.Thunderbird
-bindsym $mod+Alt+t exec org.telegram.desktop
 bindsym $mod+m exec $bin/yt-dl/ytp
 bindsym $mod+t exec $bin/shortcuts/td
 bindsym $mod+u exec $bin/bluetooth/blc
@@ -67,6 +73,15 @@ bindsym $mod+b splitv
 bindsym $mod+v splith
 bindsym $mod+q kill
 bindsym $mod+f fullscreen
+
+bindsym Mod1+slash exec playerctl next
+bindsym Mod1+comma exec playerctl previous
+bindsym Mod1+period exec playerctl play-pause
+
+bindsym Mod1+bracketleft exec pactl set-sink-volume @DEFAULT_SINK@ -10%
+bindsym Mod1+bracketright exec pactl set-sink-volume @DEFAULT_SINK@ +10%
+bindsym Mod1+backslash exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+
 bindsym $mod+Escape mode "default"
 bindsym $mod+r mode "resize"
 bindsym $mod+w layout tabbed
@@ -119,6 +134,15 @@ mode "resize" {
     bindsym $left resize shrink width 25px
     bindsym $right resize grow width 25px
     bindsym $mod+r mode default
+}
+
+# swaybar
+bar {
+    status_command while $bin/shortcuts/status; do sleep 60; done
+    colors {
+	background #000000
+	inactive_workspace #000000 #000000 #ffffff
+   }
 }
 
 include /etc/sway/config.d/*
