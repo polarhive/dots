@@ -1,0 +1,52 @@
+#!/bin/sh
+
+USERNAME=""
+PASSWORD=""
+
+# expected responses
+login_test="<?xml version='1.0' ?><requestresponse><status><![CDATA[LIVE]]></status><message><![CDATA[You are signed in as {username}]]></message><logoutmessage><![CDATA[You have successfully logged off]]></logoutmessage><state><![CDATA[]]></state><user><![CDATA[]]></user></requestresponse>"
+logout_test="<?xml version='1.0' ?><requestresponse><status><![CDATA[LOGIN]]></status><message><![CDATA[You&#39;ve signed out]]></message></requestresponse>"
+
+perform_request() {
+    local mode=$1
+    local expected_response=$2
+    local data_raw
+
+    if [ "$mode" -eq 191 ]; then
+        data_raw="mode=${mode}&username=${USERNAME}&password=${PASSWORD}&producttype=0"
+    else
+        data_raw="mode=${mode}&username=${USERNAME}&producttype=0"
+    fi
+
+    local response
+    response=$(curl -s 'http://192.168.254.1:8090/logout.xml' \
+        -X POST \
+        -H 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36' \
+        -H 'Accept: */*' \
+        -H 'Accept-Language: en-US,en;q=0.5' \
+        -H 'Accept-Encoding: gzip, deflate' \
+        -H 'Content-Type: application/x-www-form-urlencoded' \
+        -H 'Origin: http://192.168.254.1:8090' \
+        -H 'Connection: keep-alive' \
+        -H 'Referer: http://192.168.254.1:8090/' \
+        --data-raw "$data_raw")
+
+        if [ "$response" = "$expected_response" ]; then
+            if [ "$mode" -eq 191 ]; then
+                echo "Login Success"
+                notify-send "Login Success"
+
+            elif [ "$mode" -eq 193 ]; then
+                echo "Logout Success"
+                notify-send "Logout Success"
+
+            else
+                echo "Mode ${mode} failed"
+            fi
+        else
+            echo "Does not match expected response"
+        fi
+}
+
+perform_request 193 "$logout_test"
+perform_request 191 "$login_test"
