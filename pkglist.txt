@@ -23,6 +23,7 @@ htop
 hugo
 imagemagick
 imv
+inotify-tools
 inter-font
 jq
 less
