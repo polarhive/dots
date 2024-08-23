@@ -7,6 +7,12 @@ PASSWORD=""
 login_test="<?xml version='1.0' ?><requestresponse><status><![CDATA[LIVE]]></status><message><![CDATA[You are signed in as {username}]]></message><logoutmessage><![CDATA[You have successfully logged off]]></logoutmessage><state><![CDATA[]]></state><user><![CDATA[]]></user></requestresponse>"
 logout_test="<?xml version='1.0' ?><requestresponse><status><![CDATA[LOGIN]]></status><message><![CDATA[You&#39;ve signed out]]></message></requestresponse>"
 
+notify_and_exit() {
+    local msg=$1
+    notify-send "$msg"
+    echo "$msg"
+}
+
 perform_request() {
     local mode=$1
     local expected_response=$2
@@ -33,35 +39,28 @@ perform_request() {
 
     if [ "$response" = "$expected_response" ]; then
         if [ "$mode" -eq 191 ]; then
-            echo "Login Success"
-            notify-send "Login Success"
+            notify_and_exit "Login Success"
         elif [ "$mode" -eq 193 ]; then
-            echo "Logout Success"
-            notify-send "Logout Success"
+            notify_and_exit "Logout Success"
         else
-            echo "Mode ${mode} failed"
+            notify_and_exit "Mode ${mode} failed"
         fi
     else
-        echo "Does not match expected response"
+        notify_and_exit "Response does not match the expected response"
     fi
 }
 
 current_ssid=$(nmcli -t -f name,device connection show --active | grep wlp1s0 | cut -d\: -f1)
 connectivity_status=$(nmcli networking connectivity)
 
-if [ "$current_ssid" = "university" ]; then
-    if [ "$connectivity_status" = "full" ]; then
-        perform_request 193 "$logout_test"
-        notify-send "Logout Success"
-        perform_request 191 "$login_test"
-        notify-send "Login Success"
-
-    else
-        perform_request 191 "$login_test"
-        notify-send "Login Success"
-    fi
+if [ "$current_ssid" != "university" ]; then
+    notify_and_exit "Not connected to university Wi-Fi"
+elif [ "$connectivity_status" != "full" ]; then
+    notify_and_exit "No full connectivity detected"
+    perform_request 193 "$logout_test"
+    perform_request 191 "$login_test"
 else
-    notify-send "Not connected to university"
-    exit 1
+    notify_and_exit "Already connected"
+    perform_request 193 "$logout_test"
+    perform_request 191 "$login_test"
 fi
-
