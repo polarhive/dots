@@ -21,7 +21,7 @@ perform_request() {
     local response
     response=$(curl -s 'http://192.168.254.1:8090/logout.xml' \
         -X POST \
-        -H 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36' \
+        -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36' \
         -H 'Accept: */*' \
         -H 'Accept-Language: en-US,en;q=0.5' \
         -H 'Accept-Encoding: gzip, deflate' \
@@ -31,22 +31,37 @@ perform_request() {
         -H 'Referer: http://192.168.254.1:8090/' \
         --data-raw "$data_raw")
 
-        if [ "$response" = "$expected_response" ]; then
-            if [ "$mode" -eq 191 ]; then
-                echo "Login Success"
-                notify-send "Login Success"
-
-            elif [ "$mode" -eq 193 ]; then
-                echo "Logout Success"
-                notify-send "Logout Success"
-
-            else
-                echo "Mode ${mode} failed"
-            fi
+    if [ "$response" = "$expected_response" ]; then
+        if [ "$mode" -eq 191 ]; then
+            echo "Login Success"
+            notify-send "Login Success"
+        elif [ "$mode" -eq 193 ]; then
+            echo "Logout Success"
+            notify-send "Logout Success"
         else
-            echo "Does not match expected response"
+            echo "Mode ${mode} failed"
         fi
+    else
+        echo "Does not match expected response"
+    fi
 }
 
-perform_request 193 "$logout_test"
-perform_request 191 "$login_test"
+current_ssid=$(nmcli -t -f name,device connection show --active | grep wlp1s0 | cut -d\: -f1)
+connectivity_status=$(nmcli networking connectivity)
+
+if [ "$current_ssid" = "university" ]; then
+    if [ "$connectivity_status" = "full" ]; then
+        perform_request 193 "$logout_test"
+        notify-send "Logout Success"
+        perform_request 191 "$login_test"
+        notify-send "Login Success"
+
+    else
+        perform_request 191 "$login_test"
+        notify-send "Login Success"
+    fi
+else
+    notify-send "Not connected to university"
+    exit 1
+fi
+
