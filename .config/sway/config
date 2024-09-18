@@ -1,5 +1,7 @@
-xwayland disable
-exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+# stuff
+#xwayland disable
+#output $tv enable scale 1.2
+#exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 ## gestures
 bindgesture swipe:up floating disable
@@ -8,13 +10,11 @@ bindgesture swipe:left workspace prev
 bindgesture swipe:right workspace next
 
 ## variables
-set $mod Mod4
 set $up k
 set $down j
 set $left h
 set $right l
 set $bin ~/.local/bin
-set $term foot
 set $laptop eDP-1
 set $tv HDMI-A-1
 set $font Product Sans Regular
@@ -22,15 +22,14 @@ set $font Product Sans Regular
 ## appearance
 blur on
 shadows on
-corner_radius 4
+corner_radius 8
 default_dim_inactive 0.02
 titlebar_separator disable
 default_border pixel 0
-font pango:$font 8
-gaps inner 1
+gaps inner 2
 gaps outer 2
-output '*' bg ~/.local/share/backgrounds/sky.jpg fill
-output $tv enable scale 1.2
+font pango:$font 8
+exec swaybg -i $(find ~/.local/share/backgrounds -type f | shuf -n 1) -m fill
 
 ## window rules
 for_window [shell="xwayland"] title_format "%title [XWayland]"
@@ -42,54 +41,51 @@ for_window [class=".*"] inhibit_idle fullscreen
 for_window [class="^.*"] inhibit_idle fullscreen
 for_window [urgent=latest] focus
 
-assign [app_id="Beeper"] workspace 3
-assign [app_id="firefox"] workspace 2
-assign [app_id="obsidian"] workspace 3
-assign [app_id="org.mozilla.Thunderbird"] workspace 3
-assign [app_id="org.telegram.desktop"] workspace 3
-
-## buttons
-bindsym $mod+d exec wofi
-bindsym $mod+Return exec $term
-bindsym $mod+space floating toggle
-bindsym $mod+a exec swaymsg "output $laptop toggle"
-
-bindsym --locked $mod+Alt+a exec systemctl suspend
-bindsym --locked $mod+Alt+d exec systemctl reboot
-bindsym --locked $mod+Alt+s exec systemctl poweroff
-
-bindsym Mod1+b exec beeper
-bindsym Mod1+e exec thunar
-bindsym Mod1+f exec org.mozilla.firefox
-bindsym Mod1+m exec org.mozilla.Thunderbird
-bindsym Mod1+t exec org.telegram.desktop
-
-bindsym $mod+Alt+l exec swaylock -f
-bindsym $mod+m exec $bin/yt-dl/ytp
-bindsym $mod+t exec $bin/shortcuts/td
-bindsym $mod+u exec $bin/bluetooth/blc
-bindsym $mod+y exec $bin/bluetooth/bld
-bindsym $mod+b splitv
-bindsym $mod+v splith
-bindsym $mod+q kill
-bindsym $mod+f fullscreen
-
-bindsym Mod1+slash exec playerctl next
-bindsym Mod1+comma exec playerctl previous
-bindsym Mod1+period exec playerctl play-pause
-
-bindsym Mod1+bracketleft exec pactl set-sink-volume @DEFAULT_SINK@ -10%
-bindsym Mod1+bracketright exec pactl set-sink-volume @DEFAULT_SINK@ +10%
-bindsym Mod1+backslash exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-
-bindsym $mod+Escape mode "default"
-bindsym $mod+r mode "resize"
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout splith
-bindsym $mod+XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ 100%
+## mapping
+bindsym Mod4+Return exec foot
+bindsym Mod4+space floating toggle
+bindsym Mod4+Alt+l exec swaylock -f
+bindsym Mod4+Alt+b exec $bin/shortcuts/ba
+bindsym Mod4+Alt+u exec $bin/shortcuts/pes/captive
+bindsym Mod4+m exec $bin/yt-dl/ytp
+bindsym Mod4+t exec $bin/shortcuts/td
+bindsym Mod4+u exec $bin/bluetooth/blc
+bindsym Mod4+y exec $bin/bluetooth/bld
 bindsym Print exec $bin/screenshots/screenshot
 bindsym Shift+Print exec $bin/screenshots/screenshotp
-floating_modifier $mod normal
+
+floating_modifier Mod4 normal
+bindsym Mod4+Escape mode "default"
+bindsym Mod4+d exec wofi -S drun
+bindsym Mod4+b splitv
+bindsym Mod4+v splith
+bindsym Mod4+q kill
+bindsym Mod4+f fullscreen
+bindsym Mod4+e layout splith
+bindsym Mod4+r mode "resize"
+bindsym Mod4+w layout tabbed
+
+## launch apps
+bindsym Mod1+b exec beeper
+bindsym Mod1+e exec thunar
+bindsym Mod1+f exec firefox
+bindsym Mod1+m exec thunderbird
+bindsym Mod1+t exec telegram-desktop
+
+## works with swaylock
+bindsym --locked Mod4+Alt+a exec systemctl suspend
+bindsym --locked Mod4+Alt+d exec systemctl reboot
+bindsym --locked Mod4+Alt+s exec systemctl poweroff
+bindsym --locked Mod4+a exec swaymsg "output $laptop toggle"
+
+## buttons
+bindsym Mod1+backslash exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym Mod1+bracketleft exec pactl set-sink-volume @DEFAULT_SINK@ -10%
+bindsym Mod1+bracketright exec pactl set-sink-volume @DEFAULT_SINK@ +10%
+bindsym Mod4+XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ 100%
+bindsym Mod1+comma exec playerctl previous
+bindsym Mod1+period exec playerctl play-pause
+bindsym Mod1+slash exec playerctl next
 
 ## hardware
 bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -10%
@@ -110,38 +106,43 @@ input "1267:91:Elan_Touchpad" {
 }
 
 ## moving around
-bindsym $mod+$up focus up
-bindsym $mod+$down focus down
-bindsym $mod+$left focus left
-bindsym $mod+$right focus right
-bindsym $mod+1 workspace number 1
-bindsym $mod+2 workspace number 2
-bindsym $mod+3 workspace number 3
-bindsym $mod+4 workspace number 4
-bindsym $mod+5 workspace number 5
-bindsym $mod+Shift+$up move up
-bindsym $mod+Shift+$down move down
-bindsym $mod+Shift+$left move left
-bindsym $mod+Shift+$right move right
-bindsym $mod+Shift+1 move container to workspace number 1
-bindsym $mod+Shift+2 move container to workspace number 2
-bindsym $mod+Shift+3 move container to workspace number 3
-bindsym $mod+Shift+4 move container to workspace number 4
-bindsym $mod+Shift+5 move container to workspace number 5
+bindsym Mod4+$up focus up
+bindsym Mod4+$down focus down
+bindsym Mod4+$left focus left
+bindsym Mod4+$right focus right
+bindsym Mod4+Shift+$up move up
+bindsym Mod4+Shift+$down move down
+bindsym Mod4+Shift+$left move left
+bindsym Mod4+Shift+$right move right
+
+## workspaces
+bindsym Mod4+1 workspace number 1
+bindsym Mod4+2 workspace number 2
+bindsym Mod4+3 workspace number 3
+bindsym Mod4+4 workspace number 4
+bindsym Mod4+5 workspace number 5
+bindsym Mod4+Shift+1 move container to workspace number 1
+bindsym Mod4+Shift+2 move container to workspace number 2
+bindsym Mod4+Shift+3 move container to workspace number 3
+bindsym Mod4+Shift+4 move container to workspace number 4
+bindsym Mod4+Shift+5 move container to workspace number 5
+
+## resize
 mode "resize" {
     bindsym $up resize shrink height 25px
     bindsym $down resize grow height 25px
     bindsym $left resize shrink width 25px
     bindsym $right resize grow width 25px
-    bindsym $mod+r mode default
+    bindsym Mod4+r mode default
 }
 
-# swaybar
+## swaybar
 bar {
+    position bottom
     status_command while $bin/shortcuts/status; do sleep 60; done
     colors {
-	background #000000
-	inactive_workspace #000000 #000000 #ffffff
+    	background #000000
+    	inactive_workspace #000000 #000000 #ffffff
    }
 }
 
