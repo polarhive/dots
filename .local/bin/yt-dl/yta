@@ -1,3 +1,0 @@
-#!/bin/sh
-q=$(wofi -d)
-mpv --ytdl-format=bestaudio ytdl://ytsearch:"$q" --no-save-position-on-quit

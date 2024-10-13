@@ -1,6 +1,0 @@
-#!/bin/sh
-gio mount mtp://${VINCE}/
-rsync -rvz ~/Videos/dl/ /run/user/1000/gvfs/mtp:host=${VINCE}/Internal\ shared\ storage/Downloads -h
-gio mount -u mtp://${VINCE}/
-notify-send "vince: done"
-bell

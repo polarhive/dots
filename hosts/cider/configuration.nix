@@ -73,11 +73,14 @@
 
   environment.systemPackages = [
     pkgs.acpi
+    pkgs.brightnessctl
+    pkgs.grim
     pkgs.bat
     pkgs.wl-clipboard
     pkgs.beeper
     pkgs.eza
     pkgs.foot
+    pkgs.neovim
     pkgs.fzf
     pkgs.git
     pkgs.htop

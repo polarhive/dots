@@ -1,2 +1,0 @@
-#!/bin/sh
-libreoffice --headless --convert-to pdf $1

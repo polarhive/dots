@@ -1,3 +1,0 @@
-#!/bin/sh
-emoji="$(cat $HOME/.local/share/emoji | wofi -d -p "Select Emoji: " -l 15 | cut -d' ' -f1)"
-echo "$emoji" | tr "\n" " " | wl-copy

@@ -1,6 +1,0 @@
-#!/bin/sh
-clear
-printf "DEPTH SEARCH\n"
-echo "------------"
-read search
-grep -irI "${search}" .

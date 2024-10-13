@@ -1,2 +1,0 @@
-#!/bin/sh
-mpv --playlist=/home/polarhive/.local/share/newsboat/todo.txt

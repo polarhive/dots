@@ -1,3 +1,0 @@
-#!/bin/sh
-gpg -r 0x78DBFBE8B325A5A9 -e $1
-notify-send "encrypted"

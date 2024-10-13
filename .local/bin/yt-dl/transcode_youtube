@@ -1,2 +1,0 @@
-#!/bin/sh
-ffmpeg -i "$1" -c:v libx264 -crf 21 -preset faster -pix_fmt yuv420p -maxrate 8000K -bufsize 8000K -vf 'scale=if(gte(iw\,ih)\,min(1920\,iw)\,-2):if(lt(iw\,ih)\,min(1920\,ih)\,-2)' -movflags +faststart -c:a aac -b:a 192k "$1_transcoded.mp4"

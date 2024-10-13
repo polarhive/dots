@@ -1,7 +1,0 @@
-[Context]
-sockets=!x11
-devices=dri
-filesystems=home
-
-[Desktop Entry]
-Type=Application

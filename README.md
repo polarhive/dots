@@ -1,5 +1,5 @@
 # dotfiles
 
-![terminal](.local/share/backgrounds/desktop.png)
+> systems managed through nix
 
-dotfiles managed using .nix
+![terminal](desktop.png)

@@ -1,2 +1,0 @@
-#!/bin/sh
-mpv $(wl-paste) --really-quiet --no-save-position-on-quit
