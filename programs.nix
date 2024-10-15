@@ -1,0 +1,47 @@
+{ pkgs }:
+[
+  pkgs.acpi
+  pkgs.adw-gtk3
+  pkgs.bat
+  pkgs.beeper
+  pkgs.brightnessctl
+  pkgs.delta
+  pkgs.eza
+  pkgs.foot
+  pkgs.fzf
+  pkgs.pinentry       # Install pinentry for password entry
+  pkgs.git
+  pkgs.grim
+  pkgs.htop
+  pkgs.imv
+  pkgs.inter
+  pkgs.mako
+  pkgs.mpv
+  pkgs.nixfmt-classic
+  pkgs.neovim
+  pkgs.newsboat
+  pkgs.obsidian
+  pkgs.pavucontrol
+  pkgs.pfetch
+  pkgs.playerctl
+  pkgs.pnpm
+  pkgs.python3
+  pkgs.sioyek
+  pkgs.slurp
+  pkgs.sway
+  pkgs.swaybg
+  pkgs.swaylock
+  pkgs.tectonic
+  pkgs.telegram-desktop
+  pkgs.thunderbird
+  pkgs.discord
+  pkgs.tmux
+  pkgs.vscode
+  pkgs.wl-clipboard
+  pkgs.wofi
+  pkgs.xdg-utils
+  pkgs.xfce.thunar
+  pkgs.yt-dlp
+  pkgs.zoxide
+  pkgs.zsh
+]

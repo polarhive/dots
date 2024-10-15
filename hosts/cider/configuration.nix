@@ -1,18 +1,23 @@
-{ config, pkgs, ... }:
+{ config, pkgs, ... }: {
+  imports = [ ./hardware-configuration.nix ];
+  environment.systemPackages = import ./../../programs.nix { inherit pkgs; };
 
-{
-  imports =
-    [ 
-      ./hardware-configuration.nix
-    ];
-
+  # basics
   networking.hostName = "cider";
+  time.timeZone = "Asia/Kolkata";
+  system.stateVersion = "24.05";
+  system.autoUpgrade.enable = false;
+
+  # bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  networking.networkmanager.enable = true;
-  time.timeZone = "Asia/Kolkata";
 
-  # Select internationalisation properties.
+  # net
+  networking.networkmanager.enable = true;
+  services.tailscale.enable = true;
+  systemd.network.wait-online.enable = false;
+
+  # (i18n)
   i18n.defaultLocale = "en_IN";
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_IN";
@@ -26,100 +31,49 @@
     LC_TIME = "en_IN";
   };
 
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
-
-  # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
+  # Settings
   users.users.polarhive = {
     isNormalUser = true;
     description = "Nathan";
     extraGroups = [ "networkmanager" "wheel" ];
   };
-
-  programs.firefox.enable = true;
-  programs.zsh = {
-    enable = true;
-  };
-
   users.defaultUserShell = pkgs.zsh;
-  services.openssh.enable = false;
-  services.tailscale.enable = true;
+  programs.sway = { enable = true; wrapperFeatures.gtk = true; };
+  programs.firefox.enable = true;
+  programs.zsh.enable = true;
+  environment.variables.ZDOTDIR = "/home/polarhive/.config/zsh";
 
-  fonts.packages = with pkgs; [
-    noto-fonts
-    noto-fonts-cjk
-    inter
-  ];
+  fonts = {
+    enableDefaultPackages = true;
+    packages = with pkgs; [];
+    fontconfig.defaultFonts = {
+      serif = [ "Product Sans" ];
+      sansSerif = [ "Product Sans" ];
+      monospace = [ "Input Mono" ];
+    };
+  };
 
-  programs.sway = {
+  # Audio and Sound
+  hardware.bluetooth.enable = true;
+  hardware.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
     enable = true;
-    wrapperFeatures.gtk = true;
+    wireplumber.enable = true;
+    alsa = { enable = true; support32Bit = true; };
+    pulse.enable = true;
   };
 
-  # Allow unfree packages
+  programs.gnupg.agent = {
+    enable = true;                       # Enable GPG agent
+    enableSSHSupport = true;             # Enable SSH support for GPG agent
+  };
+
+  # Nix Configuration
   nixpkgs.config.allowUnfree = true;
-
-  environment.systemPackages = [
-    pkgs.acpi
-    pkgs.brightnessctl
-    pkgs.grim
-    pkgs.bat
-    pkgs.wl-clipboard
-    pkgs.beeper
-    pkgs.eza
-    pkgs.foot
-    pkgs.neovim
-    pkgs.fzf
-    pkgs.git
-    pkgs.htop
-    pkgs.imv
-    pkgs.inter
-    pkgs.mako
-    pkgs.mpv
-    pkgs.neovim
-    pkgs.delta
-    pkgs.obsidian
-    pkgs.pfetch
-    pkgs.pnpm
-    pkgs.sway
-    pkgs.swaybg
-    pkgs.swaylock
-    pkgs.telegram-desktop
-    pkgs.thunderbird
-    pkgs.tmux
-    pkgs.vscode
-    pkgs.wofi
-    pkgs.xfce.thunar
-    pkgs.yt-dlp
-    pkgs.zoxide
-    pkgs.zsh
-  ];
-
-   programs.gnupg.agent = {
-     enable = true;
-     enableSSHSupport = true;
-   };
-
-  system.stateVersion = "24.05";
-  system.autoUpgrade = {
-     enable = true;
-  };
   nix.gc = {
-                automatic = true;
-                dates = "weekly";
-                options = "--delete-older-than 7d";
-           };
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
+  };
 }
-
