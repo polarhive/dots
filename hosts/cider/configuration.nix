@@ -5,7 +5,7 @@
   # basics
   networking.hostName = "cider";
   time.timeZone = "Asia/Kolkata";
-  system.stateVersion = "24.05";
+  system.stateVersion = "nixos-unstable";
   system.autoUpgrade.enable = false;
 
   # bootloader
@@ -65,8 +65,8 @@
   };
 
   programs.gnupg.agent = {
-    enable = true;                       # Enable GPG agent
-    enableSSHSupport = true;             # Enable SSH support for GPG agent
+    enable = true;
+    enableSSHSupport = true;
   };
 
   # Nix Configuration

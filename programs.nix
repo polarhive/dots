@@ -1,30 +1,45 @@
 { pkgs }:
 [
   pkgs.acpi
+  pkgs.nodejs_22
   pkgs.adw-gtk3
   pkgs.bat
+  pkgs.go
+  pkgs.mpd
+  pkgs.mpc-cli
+  pkgs.ncmpcpp
+  pkgs.bat-extras.batdiff
+  pkgs.bat-extras.batgrep
+  pkgs.zed-editor
+  pkgs.bat-extras.batman
+  pkgs.bat-extras.batpipe
   pkgs.beeper
   pkgs.brightnessctl
   pkgs.delta
+  pkgs.discord
   pkgs.eza
   pkgs.foot
   pkgs.fzf
-  pkgs.pinentry       # Install pinentry for password entry
+  pkgs.gh
   pkgs.git
+  pkgs.adwaita-icon-theme
   pkgs.grim
   pkgs.htop
   pkgs.imv
   pkgs.inter
+  pkgs.libnotify
   pkgs.mako
   pkgs.mpv
-  pkgs.nixfmt-classic
   pkgs.neovim
   pkgs.newsboat
+  pkgs.nixfmt-classic
   pkgs.obsidian
   pkgs.pavucontrol
   pkgs.pfetch
+  pkgs.pinentry
   pkgs.playerctl
   pkgs.pnpm
+  pkgs.pulseaudio
   pkgs.python3
   pkgs.sioyek
   pkgs.slurp
@@ -34,7 +49,6 @@
   pkgs.tectonic
   pkgs.telegram-desktop
   pkgs.thunderbird
-  pkgs.discord
   pkgs.tmux
   pkgs.vscode
   pkgs.wl-clipboard
