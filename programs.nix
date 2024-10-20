@@ -1,16 +1,11 @@
 { pkgs }:
 [
   pkgs.acpi
-  pkgs.nodejs_22
   pkgs.adw-gtk3
+  pkgs.adwaita-icon-theme
   pkgs.bat
-  pkgs.go
-  pkgs.mpd
-  pkgs.mpc-cli
-  pkgs.ncmpcpp
   pkgs.bat-extras.batdiff
   pkgs.bat-extras.batgrep
-  pkgs.zed-editor
   pkgs.bat-extras.batman
   pkgs.bat-extras.batpipe
   pkgs.beeper
@@ -18,21 +13,22 @@
   pkgs.delta
   pkgs.discord
   pkgs.eza
-  pkgs.foot
+  pkgs.firefox
   pkgs.fzf
   pkgs.gh
   pkgs.git
-  pkgs.adwaita-icon-theme
+  pkgs.go
   pkgs.grim
   pkgs.htop
   pkgs.imv
   pkgs.inter
+  pkgs.kitty
   pkgs.libnotify
   pkgs.mako
   pkgs.mpv
   pkgs.neovim
   pkgs.newsboat
-  pkgs.nixfmt-classic
+  pkgs.nodejs_22
   pkgs.obsidian
   pkgs.pavucontrol
   pkgs.pfetch
@@ -46,7 +42,6 @@
   pkgs.sway
   pkgs.swaybg
   pkgs.swaylock
-  pkgs.tectonic
   pkgs.telegram-desktop
   pkgs.thunderbird
   pkgs.tmux

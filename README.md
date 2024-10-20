@@ -2,4 +2,4 @@
 
 > systems managed through nix
 
-![terminal](desktop.png)
+![terminal](.github/desktop.png)

@@ -1,0 +1,7 @@
+[Default Applications]
+text/plain=nvim.desktop
+application/xml=nvim.desktop
+
+[Added Associations]
+text/plain=nvim.desktop;
+application/xml=nvim.desktop;

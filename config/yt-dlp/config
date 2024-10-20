@@ -1,0 +1,3 @@
+-f "best[height<=720]"
+--restrict-filenames
+--add-metadata
