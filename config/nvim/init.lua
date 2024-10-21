@@ -43,6 +43,8 @@ vim.opt.updatetime = 100               -- Faster update interval for cursor hold
 -- Colorscheme
 vim.cmd("colorscheme wildcharm")      -- Set colorscheme (new setting)
 vim.opt.background = "dark"           -- Set background to light (new setting)
+--vim.cmd("colorscheme lunaperche")      -- Set colorscheme (new setting)
+--vim.opt.background = "light"           -- Set background to light (new setting)
 
 -- File-Specific Settings
 vim.api.nvim_create_autocmd("FileType", {

@@ -1,8 +1,11 @@
 { pkgs }:
 [
   pkgs.acpi
+  pkgs.acpid
+  pkgs.sound-theme-freedesktop
   pkgs.adw-gtk3
   pkgs.adwaita-icon-theme
+  pkgs.iverilog
   pkgs.bat
   pkgs.bat-extras.batdiff
   pkgs.bat-extras.batgrep
@@ -14,14 +17,16 @@
   pkgs.discord
   pkgs.eza
   pkgs.firefox
+  pkgs.font-awesome
   pkgs.fzf
   pkgs.gh
   pkgs.git
   pkgs.go
   pkgs.grim
+  pkgs.gtkwave
   pkgs.htop
   pkgs.imv
-  pkgs.inter
+  pkgs.inter-nerdfont
   pkgs.kitty
   pkgs.libnotify
   pkgs.mako
@@ -39,13 +44,12 @@
   pkgs.python3
   pkgs.sioyek
   pkgs.slurp
-  pkgs.sway
+  pkgs.swayfx
   pkgs.swaybg
   pkgs.swaylock
   pkgs.telegram-desktop
   pkgs.thunderbird
   pkgs.tmux
-  pkgs.vscode
   pkgs.wl-clipboard
   pkgs.wofi
   pkgs.xdg-utils

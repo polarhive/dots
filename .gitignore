@@ -1,4 +1,4 @@
-.config/nvim/lazy-lock.json
+config/nvim/lazy-lock.json
 config/Beeper
 config/Code
 config/discord
@@ -8,3 +8,6 @@ config/newsboat/urls
 config/pulse/cookie
 config/zsh/.zcompdump
 config/dconf/user
+config/gtk-3.0/bookmarks
+config/.vscode
+**.bak

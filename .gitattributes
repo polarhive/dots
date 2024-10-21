@@ -1,0 +1,2 @@
+*.lua linguist-vendored=true
+*.scm linguist-vendored=true

@@ -134,6 +134,4 @@ source ~/.config/zsh/aliases
 source ~/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-if ! gpgconf --list-dirs agent-socket &>/dev/null; then
-    eval $(gpg-agent --daemon --enable-ssh-support)
-fi
+export GPG_TTY='tty'

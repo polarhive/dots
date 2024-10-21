@@ -18,6 +18,12 @@ set $laptop eDP-1
 set $font Product Sans Regular
 
 ## appearance
+blur on
+shadows on
+corner_radius 8
+default_dim_inactive 0.02
+titlebar_separator disable
+default_border pixel 0
 default_border pixel 0
 gaps inner 2
 gaps outer 2
