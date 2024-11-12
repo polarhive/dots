@@ -1,0 +1,19 @@
+#!/bin/sh
+clear
+start="$(($(date +%s) + 1*30*60))"
+clear
+while [ "$start" -ge `date +%s` ]; do
+ sleep 1
+ time="$(( $start - `date +%s` ))"
+ printf '%s\r' "$(date -u -d "@$time" +%M:%S)"
+done
+notify-send "q: done"
+sh ~/.local/bin/shortcuts/bell
+sh ~/.local/bin/shortcuts/bell
+sh ~/.local/bin/shortcuts/bell
+sh ~/.local/bin/shortcuts/bell
+sh ~/.local/bin/shortcuts/bell
+sh ~/.local/bin/shortcuts/bell
+sh ~/.local/bin/shortcuts/bell
+sh ~/.local/bin/shortcuts/bell
+exit

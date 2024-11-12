@@ -4,8 +4,8 @@
 	<icon>utilities-terminal</icon>
 	<name>Open Terminal Here</name>
 	<submenu></submenu>
-	<unique-id>1729418124163920-1</unique-id>
-	<command>exo-open --working-directory %f --launch TerminalEmulator</command>
+	<unique-id>1729607715444656-1</unique-id>
+	<command>foot -e</command>
 	<description>Example for a custom action</description>
 	<range></range>
 	<patterns>*</patterns>

@@ -1,0 +1,11 @@
+#!/bin/sh
+src_dir="/run/media/polarhive/CANON_DC"
+dest_dir="$HOME/Pictures/dump"; mkdir -p "$dest_dir"
+
+if udisksctl mount -b /dev/sdb1; then
+    rsync -rvP --ignore-existing "$src_dir/" "$dest_dir/"
+    udisksctl unmount -b /dev/sdb1
+    notify-send "cam: backup finished"; bell
+else
+    notify-send "cam: could not find a card"
+fi

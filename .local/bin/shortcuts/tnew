@@ -1,0 +1,2 @@
+#!/bin/sh
+tmux has-session && tmux a || tmux new-session -d

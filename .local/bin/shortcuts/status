@@ -1,0 +1,6 @@
+#!/bin/sh
+if [ -z "$(mpc current)" ]; then
+	echo "$(date '+%H:%M')"
+else
+	echo "$(mpc current) | $(date '+%H:%M')"
+fi

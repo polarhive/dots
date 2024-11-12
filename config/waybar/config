@@ -1,0 +1,48 @@
+{
+  "layer": "top",
+  "modules-left": ["sway/workspaces"],
+  "modules-right": ["mpd", "bluetooth", "network", "battery", "clock"],
+  
+  "sway/workspaces": {
+  	"format": "{name}",
+  	"format": "{icon}",
+  	"all-outputs": true
+  },
+  "mpd": {
+  	"format": "{stateIcon} {artist} — {title}",
+  	"interval": 2,
+  	"on-click": "footclient -e ncmpcpp"
+  },
+  "clock": {
+	"format": " {:%H:%M}",
+	"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+  },
+  "backlight": {
+	"format": "{icon} {percent}",
+	"format-icons": ["", "", "", "", "", "", "", "", ""]
+  },
+  "pulseaudio": {
+	"format": "{icon} {volume}%",
+	"format-muted": "",
+	"format-icons": {
+	"headphone": "",
+	"default": ["", "", "󰕾", "󰕾", "󰕾", "", "", ""]
+  },
+	"scroll-step": 1,
+  },
+  "bluetooth": {
+	"format": "",
+	"format-connected": " {num_connections}",
+	"tooltip-format": "{device_enumerate}",
+	"tooltip-format-enumerate-connected": "{device_alias} {device_address}"
+  },
+  "network": {
+	"format-wifi": " ",
+	"format-disabled": "󰖪 ",
+  },
+  "battery": {
+	"format": "{icon}  {capacity}%",
+	"format-icons": ["", "", "", "", ""],
+	"format-charging": "{capacity}%",
+  },
+}

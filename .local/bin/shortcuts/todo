@@ -1,0 +1,12 @@
+#!/bin/sh
+todo_file=~/.local/share/newsboat/todo.txt
+nvim "$todo_file"
+while IFS="" read -r p || [ -n "$p" ]; do
+  if [[ $p =~ (www\.youtube\.com|youtu\.be|yewtu\.be|^\#) ]]; then
+    :
+  else
+    sleep 8
+    xdg-open "$p"
+  fi
+done < "$todo_file"
+nvim --headless -c "edit ~/.local/share/newsboat/todo.txt" -c "sort u" -c "write" -c "quit"

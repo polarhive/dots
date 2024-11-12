@@ -1,0 +1,14 @@
+#!/bin/sh
+sleep 10
+prev_status="unknown"
+while true; do
+    current_status=$(cat /sys/class/power_supply/ADP0/online)
+    if [ "$current_status" -eq 1 ] && [ "$prev_status" != "on" ]; then
+        brightnessctl set "100%"; notify-send "Power plugged"; paplay /usr/share/sounds/freedesktop/stereo/power-plug.oga
+        prev_status="on"
+    elif [ "$current_status" -eq 0 ] && [ "$prev_status" != "off" ]; then
+        brightnessctl set "0%"; notify-send "Power unplugged"; paplay /usr/share/sounds/freedesktop/stereo/power-unplug.oga
+        prev_status="off"
+    fi
+    sleep 60
+done

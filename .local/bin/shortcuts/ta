@@ -1,0 +1,2 @@
+#!/bin/sh
+tar -czvf ${1}.tar.gz $1

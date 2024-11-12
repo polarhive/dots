@@ -1,0 +1,13 @@
+#!/bin/sh
+cd ~/Videos/.tmp || mkdir -p ~/Videos/.tmp
+todo_file=~/.local/share/newsboat/todo.txt
+
+while IFS="" read -r p || [ -n "$p" ]; do
+    if echo "$p" | grep -qE "(www\.youtube\.com|youtu\.be|yewtu\.be)"; then
+        yt-dlp "$p"
+    elif echo "$p" | grep -qE "(www\.vimeo\.com|player\.vimeo\.com)"; then
+        yt-dlp "$p" -o "~/Videos/PESU/%(title)s.%(ext)s" --referer "https://www.pesuacademy.com" --ignore-config --restrict-filenames
+    else
+        :
+    fi
+done < "$todo_file"

@@ -1,0 +1,5 @@
+#!/bin/sh
+cd ~/.local/repos/site
+wl-copy http://localhost:1313
+gpg --armor --export 0x78DBFBE8B325A5A9 >static/.well-known/polarhive_gpg.txt
+hugo server --buildFuture --noHTTPCache

@@ -1,0 +1,4 @@
+#!/bin/sh
+sname="$(date +'HD_Screenshot_%Y-%m-%d:%H:%M:%S.png')"
+grim -o HDMI-A-1 -l 0 ~/Pictures/Screenshots/$sname
+wl-copy < ~/Pictures/Screenshots/$sname

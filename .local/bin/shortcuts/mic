@@ -1,0 +1,3 @@
+#!/bin/sh
+pactl set-source-mute 50 0
+pactl set-source-volume 50 40% 0%

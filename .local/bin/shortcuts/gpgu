@@ -1,0 +1,2 @@
+#!/bin/sh
+gpg --keyserver hkps://keys.openpgp.org --send-keys 0x78DBFBE8B325A5A9

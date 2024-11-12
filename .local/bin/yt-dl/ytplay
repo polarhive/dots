@@ -1,0 +1,2 @@
+#!/bin/sh
+yt-dlp -o "~/Videos/%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s" "$1"

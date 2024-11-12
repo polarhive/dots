@@ -1,6 +1,5 @@
 # tweaks
-PS1="[%m:%F{red}%2~%f%{$reset_color%}]$%b "
-autoload -U compinit; compinit
+PS1="[%m:%F{red}%~%f%{$reset_color%}]$%b "
 autoload -U colors && colors
 bindkey "^[3;5~" delete-char
 bindkey "^[[1;5C" forward-word
@@ -10,13 +9,11 @@ bindkey '^R' history-incremental-pattern-search-backward
 setopt append_history
 setopt auto_param_slash
 setopt autocd
-setopt extended_glob
 setopt hist_find_no_dups
 setopt hist_ignore_all_dups
 setopt hist_ignore_dups
 setopt hist_ignore_space
 setopt hist_reduce_blanks
-setopt hist_save_no_dups
 setopt inc_append_history
 setopt prompt_subst
 setopt share_history
@@ -30,9 +27,10 @@ HISTSIZE=10000000
 SAVEHIST=10000000
 HISTFILE=~/.local/share/zsh/history
 
-typeset -A ZSH_HIGHLIGHT_STYLES
-ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=#ccb521'
-ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=#22b587'
+# source
+source ~/.config/zsh/aliases
+source ~/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # pnpm
 case ":$PATH:" in
@@ -87,10 +85,16 @@ function __zoxide_z() {
     fi
 }
 
+# Jump to a directory using interactive search.
 function __zoxide_zi() {
     \builtin local result
     result="$(\command zoxide query --interactive -- "$@")" && __zoxide_cd "${result}"
 }
+
+# =============================================================================
+#
+# Commands for zoxide. Disable these using --no-cmd.
+#
 
 function z() {
     __zoxide_z "$@"
@@ -100,24 +104,37 @@ function zi() {
     __zoxide_zi "$@"
 }
 
+# Completions.
 if [[ -o zle ]]; then
     __zoxide_result=''
 
     function __zoxide_z_complete() {
+        # Only show completions when the cursor is at the end of the line.
+        # shellcheck disable=SC2154
         [[ "${#words[@]}" -eq "${CURRENT}" ]] || return 0
 
         if [[ "${#words[@]}" -eq 2 ]]; then
+            # Show completions for local directories.
             _files -/
         elif [[ "${words[-1]}" == '' ]]; then
+            # Show completions for Space-Tab.
+            # shellcheck disable=SC2086
             __zoxide_result="$(\command zoxide query --exclude "$(__zoxide_pwd || \builtin true)" --interactive -- ${words[2,-1]})" || __zoxide_result=''
+
+            # Bind '\e[0n' to helper function.
             \builtin bindkey '\e[0n' '__zoxide_z_complete_helper'
+            # Send '\e[0n' to console input.
             \builtin printf '\e[5n'
         fi
+
+        # Report that the completion was successful, so that we don't fall back
+        # to another completion function.
         return 0
     }
 
     function __zoxide_z_complete_helper() {
         if [[ -n "${__zoxide_result}" ]]; then
+            # shellcheck disable=SC2034,SC2296
             BUFFER="z ${(q-)__zoxide_result}"
             \builtin zle reset-prompt
             \builtin zle accept-line
@@ -126,12 +143,7 @@ if [[ -o zle ]]; then
         fi
     }
     \builtin zle -N __zoxide_z_complete_helper
+
     [[ "${+functions[compdef]}" -ne 0 ]] && \compdef __zoxide_z_complete z
 fi
 
-# source
-source ~/.config/zsh/aliases
-source ~/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-export GPG_TTY='tty'

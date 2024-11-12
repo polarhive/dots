@@ -1,0 +1,23 @@
+#!/bin/sh
+USERNAME=""
+PASSWORD=""
+d=$(date +"%s")
+wifi_name="university"
+
+data_raw="mode=191&username=${USERNAME}&password=${PASSWORD}&a=${d}&producttype=0"
+current_ssid=$(nmcli -t -f name,device connection show --active | grep wlp1s0 | cut -d\: -f1)
+if [ "$current_ssid" != "${wifi_name}" ]; then
+    
+    notify-send "Not connected to $wifi_name"
+else
+    curl 'http://192.168.254.1:8090/login.xml' \
+      -H 'Accept: */*' \
+      -H 'Accept-Language: en' \
+      -H 'Connection: keep-alive' \
+      -H 'Content-Type: application/x-www-form-urlencoded' \
+      -H 'Origin: http://192.168.254.1:8090' \
+      -H 'Referer: http://192.168.254.1:8090/' \
+      -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36' \
+      --data-raw "$data_raw" \
+      --insecure && notify-send "done"
+fi

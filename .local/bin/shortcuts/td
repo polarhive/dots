@@ -1,0 +1,2 @@
+#!/bin/sh
+echo $(wl-paste) >> ~/.local/share/newsboat/todo.txt

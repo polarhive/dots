@@ -1,0 +1,3 @@
+#!/bin/sh
+q=$(wofi -d)
+mpv ytdl://ytsearch:"$q" --no-save-position-on-quit
