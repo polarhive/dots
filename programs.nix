@@ -1,11 +1,8 @@
 { pkgs }:
 [
   pkgs.acpi
-  pkgs.acpid
-  pkgs.sound-theme-freedesktop
   pkgs.adw-gtk3
   pkgs.adwaita-icon-theme
-  pkgs.iverilog
   pkgs.bat
   pkgs.bat-extras.batdiff
   pkgs.bat-extras.batgrep
@@ -23,7 +20,6 @@
   pkgs.git
   pkgs.go
   pkgs.grim
-  pkgs.gtkwave
   pkgs.htop
   pkgs.imv
   pkgs.inter-nerdfont
@@ -33,7 +29,6 @@
   pkgs.mpv
   pkgs.neovim
   pkgs.newsboat
-  pkgs.nodejs_22
   pkgs.obsidian
   pkgs.pavucontrol
   pkgs.pfetch
@@ -44,7 +39,8 @@
   pkgs.python3
   pkgs.sioyek
   pkgs.slurp
-  pkgs.swayfx
+  pkgs.sound-theme-freedesktop
+  pkgs.sway
   pkgs.swaybg
   pkgs.swaylock
   pkgs.telegram-desktop
