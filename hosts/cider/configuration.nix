@@ -1,7 +1,10 @@
 { config, pkgs, ... }: {
   imports = [ ./hardware-configuration.nix ];
   environment.systemPackages = import /home/polarhive/.local/repos/dots/programs.nix { inherit pkgs; };
-
+  nix.settings = {
+    experimental-features = "nix-command flakes";
+  };
+  
   # basics
   networking.hostName = "cider";
   time.timeZone = "Asia/Kolkata";
@@ -14,10 +17,23 @@
 
   # net
   networking.networkmanager.enable = true;
-  services.tailscale.enable = true;
-  services.gvfs.enable = true;
-  services.udisks2.enable = true;
   systemd.network.wait-online.enable = false;
+  systemd.user.services.mpd.enable = true;
+
+  # services
+  services = {
+    displayManager.ly.enable = true;
+    gnome.gnome-keyring.enable = true;
+    gvfs.enable = true;
+    tailscale.enable = true;
+    udisks2.enable = true;
+    pipewire = {
+      enable = true;
+      wireplumber.enable = true;
+      alsa = { enable = true; support32Bit = true; };
+      pulse.enable = true;
+    };
+  };
 
   # (i18n)
   i18n.defaultLocale = "en_IN";
@@ -42,6 +58,7 @@
   users.defaultUserShell = pkgs.zsh;
   programs.sway = { enable = true; wrapperFeatures.gtk = true; };
   programs.firefox.enable = true;
+  programs.chromium.enable = true;
   programs.zsh.enable = true;
   environment.variables.ZDOTDIR = "/home/polarhive/.config/zsh";
 
@@ -59,18 +76,6 @@
   hardware.bluetooth.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    wireplumber.enable = true;
-    alsa = { enable = true; support32Bit = true; };
-    pulse.enable = true;
-  };
-
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
-
   nixpkgs.config.allowUnfree = true;
 }
 

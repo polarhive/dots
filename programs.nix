@@ -10,10 +10,14 @@
   pkgs.bat-extras.batpipe
   pkgs.beeper
   pkgs.brightnessctl
+  pkgs.chromium
   pkgs.clang
   pkgs.cryptsetup
   pkgs.delta
+  pkgs.dmenu
+  pkgs.evince
   pkgs.eza
+  pkgs.ffmpeg
   pkgs.firefox
   pkgs.font-awesome
   pkgs.fzf
@@ -25,19 +29,24 @@
   pkgs.htop
   pkgs.imv
   pkgs.inter-nerdfont
+  pkgs.jq
+  pkgs.killall
   pkgs.kitty
   pkgs.libnotify
   pkgs.mako
+  pkgs.mpc
+  pkgs.mpdscribble
   pkgs.mpv
+  pkgs.ncmpcpp
   pkgs.neovim
   pkgs.newsboat
+  pkgs.nodejs_23
   pkgs.obsidian
   pkgs.pavucontrol
   pkgs.pfetch
-  pkgs.pinentry
   pkgs.playerctl
-  pkgs.pulseaudio
   pkgs.python3
+  pkgs.sioyek
   pkgs.slurp
   pkgs.sound-theme-freedesktop
   pkgs.sway
@@ -49,11 +58,9 @@
   pkgs.udisks
   pkgs.unzip
   pkgs.wl-clipboard
-  pkgs.wofi
   pkgs.xdg-utils
   pkgs.xfce.thunar
   pkgs.yt-dlp
   pkgs.zoxide
   pkgs.zsh
-  pkgs.zsh-vi-mode
 ]
