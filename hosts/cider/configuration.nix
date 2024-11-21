@@ -1,6 +1,6 @@
 { config, pkgs, ... }: {
   imports = [ ./hardware-configuration.nix ];
-  environment.systemPackages = import ./../../programs.nix { inherit pkgs; };
+  environment.systemPackages = import /home/polarhive/.local/repos/dots/programs.nix { inherit pkgs; };
 
   # basics
   networking.hostName = "cider";
@@ -15,6 +15,8 @@
   # net
   networking.networkmanager.enable = true;
   services.tailscale.enable = true;
+  services.gvfs.enable = true;
+  services.udisks2.enable = true;
   systemd.network.wait-online.enable = false;
 
   # (i18n)
@@ -49,7 +51,7 @@
     fontconfig.defaultFonts = {
       serif = [ "Product Sans" ];
       sansSerif = [ "Product Sans" ];
-      monospace = [ "Input Mono" ];
+      monospace = [ "InputMono Nerd Font" ];
     };
   };
 
@@ -69,11 +71,6 @@
     enableSSHSupport = true;
   };
 
-  # Nix Configuration
   nixpkgs.config.allowUnfree = true;
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 7d";
-  };
 }
+
