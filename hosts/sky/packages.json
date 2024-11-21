@@ -1,0 +1,240 @@
+[
+    {
+        "name": "io.github.muntashirakon.AppManager",
+        "label": "App Manager",
+        "versionCode": "430",
+        "versionName": "3.1.7",
+        "minSdk": "21",
+        "targetSdk": "33"
+    },
+    {
+        "name": "com.atharok.barcodescanner",
+        "label": "Barcode Scanner",
+        "versionCode": "44",
+        "versionName": "1.24.2",
+        "minSdk": "21",
+        "targetSdk": "35"
+    },
+    {
+        "name": "com.google.android.GoogleCameraGood",
+        "label": "Camera",
+        "versionCode": "64764928",
+        "versionName": "8.4.400.423370569.19",
+        "minSdk": "29",
+        "targetSdk": "29",
+        "installerPackageName": "com.android.packageinstaller",
+        "installerPackageLabel": "Package installer"
+    },
+    {
+        "name": "org.mozilla.fennec_fdroid",
+        "label": "Fennec",
+        "versionCode": "1320020",
+        "versionName": "132.0.0",
+        "minSdk": "21",
+        "targetSdk": "34"
+    },
+    {
+        "name": "org.fossify.gallery",
+        "label": "Gallery",
+        "versionCode": "9",
+        "versionName": "1.2.1",
+        "minSdk": "23",
+        "targetSdk": "34"
+    },
+    {
+        "name": "com.google.android.apps.nbu.paisa.user",
+        "label": "GPay",
+        "versionCode": "3284341",
+        "versionName": "251.1.3 (arm64-v8a_release_flutter)",
+        "minSdk": "23",
+        "targetSdk": "35",
+        "installerPackageName": "com.android.vending",
+        "installerPackageLabel": "Google Play Store"
+    },
+    {
+        "name": "com.mixplorer.addon.pdf",
+        "label": "MiX PDF",
+        "versionCode": "2409150",
+        "versionName": "1.17",
+        "minSdk": "9",
+        "targetSdk": "35",
+        "installerPackageName": "com.android.vending",
+        "installerPackageLabel": "Google Play Store"
+    },
+    {
+        "name": "com.mixplorer",
+        "label": "MiXplorer",
+        "versionCode": "24082720",
+        "versionName": "6.66.4",
+        "minSdk": "8",
+        "targetSdk": "35",
+        "installerPackageName": "com.android.packageinstaller",
+        "installerPackageLabel": "Package installer"
+    },
+    {
+        "name": "md.obsidian",
+        "label": "Obsidian",
+        "versionCode": "168",
+        "versionName": "1.7.5",
+        "minSdk": "22",
+        "targetSdk": "34",
+        "installerPackageName": "com.android.vending",
+        "installerPackageLabel": "Google Play Store"
+    },
+    {
+        "name": "org.forkgram.messenger",
+        "label": "org.telegram.messenger.ApplicationLoaderImpl",
+        "versionCode": "533508",
+        "versionName": "11.2.3.0",
+        "minSdk": "19",
+        "targetSdk": "34"
+    },
+    {
+        "name": "com.arn.scrobble",
+        "label": "Pano Scrobbler",
+        "versionCode": "339",
+        "versionName": "3.39 - 2024, Aug 26",
+        "minSdk": "23",
+        "targetSdk": "35"
+    },
+    {
+        "name": "com.google.android.dialer",
+        "label": "Phone",
+        "versionCode": "18032208",
+        "versionName": "151.0.687304287",
+        "minSdk": "29",
+        "targetSdk": "35",
+        "installerPackageName": "com.android.vending",
+        "installerPackageLabel": "Google Play Store"
+    },
+    {
+        "name": "com.whatsapp",
+        "label": "WhatsApp",
+        "versionCode": "242138007",
+        "versionName": "2.24.21.38",
+        "minSdk": "21",
+        "targetSdk": "34",
+        "installerPackageName": "io.github.muntashirakon.AppManager",
+        "installerPackageLabel": "App Manager"
+    },
+    {
+        "name": "eu.ottop.yamlauncher",
+        "label": "YAM Launcher",
+        "versionCode": "10",
+        "versionName": "1.6",
+        "minSdk": "31",
+        "targetSdk": "34"
+    },
+    {
+        "name": "com.aurora.store",
+        "label": "Aurora Store",
+        "versionCode": "62",
+        "versionName": "4.6.1",
+        "minSdk": "21",
+        "targetSdk": "35"
+    },
+    {
+        "name": "com.x8bit.bitwarden",
+        "label": "Bitwarden",
+        "versionCode": "10746",
+        "versionName": "2024.6.0",
+        "minSdk": "21",
+        "targetSdk": "34",
+        "installerPackageName": "com.android.vending",
+        "installerPackageLabel": "Google Play Store"
+    },
+    {
+        "name": "com.discord",
+        "label": "Discord",
+        "versionCode": "254027",
+        "versionName": "254.27 - Stable",
+        "minSdk": "24",
+        "targetSdk": "34",
+        "installerPackageName": "com.android.vending",
+        "installerPackageLabel": "Google Play Store"
+    },
+    {
+        "name": "com.looker.droidify",
+        "label": "Droid-ify",
+        "versionCode": "630",
+        "versionName": "0.6.3",
+        "minSdk": "23",
+        "targetSdk": "34",
+        "installerPackageName": "com.android.packageinstaller",
+        "installerPackageLabel": "Package installer"
+    },
+    {
+        "name": "io.ente.auth",
+        "label": "Ente Auth",
+        "versionCode": "410",
+        "versionName": "4.1.0",
+        "minSdk": "21",
+        "targetSdk": "34"
+    },
+    {
+        "name": "com.adobe.lrmobile",
+        "label": "Lightroom",
+        "versionCode": "710901100",
+        "versionName": "9.1.1",
+        "minSdk": "26",
+        "targetSdk": "34",
+        "installerPackageName": "com.android.packageinstaller",
+        "installerPackageLabel": "Package installer"
+    },
+    {
+        "name": "com.google.android.apps.maps",
+        "label": "Maps",
+        "versionCode": "1067592582",
+        "versionName": "11.135.0102",
+        "minSdk": "26",
+        "targetSdk": "34",
+        "installerPackageName": "com.android.vending",
+        "installerPackageLabel": "Google Play Store"
+    },
+    {
+        "name": "com.google.android.apps.tachyon",
+        "label": "Meet",
+        "versionCode": "5475314",
+        "versionName": "257.0.659363782.duo.android_20240804.14_p0",
+        "minSdk": "23",
+        "targetSdk": "34",
+        "installerPackageName": "com.android.vending",
+        "installerPackageLabel": "Google Play Store"
+    },
+    {
+        "name": "pes.pesu",
+        "label": "PESU",
+        "versionCode": "22",
+        "versionName": "3.0.8",
+        "minSdk": "27",
+        "targetSdk": "34",
+        "installerPackageName": "com.android.vending",
+        "installerPackageLabel": "Google Play Store"
+    },
+    {
+        "name": "yuz.damvvx",
+        "label": "Settings",
+        "versionCode": "1",
+        "versionName": "1.0",
+        "minSdk": "23",
+        "targetSdk": "35"
+    },
+    {
+        "name": "com.google.android.apps.docs.editors.sheets",
+        "label": "Sheets",
+        "versionCode": "220631536",
+        "versionName": "1.24.452.01.90",
+        "minSdk": "26",
+        "targetSdk": "35",
+        "installerPackageName": "com.android.vending",
+        "installerPackageLabel": "Google Play Store"
+    },
+    {
+        "name": "net.thunderbird.android",
+        "label": "Thunderbird",
+        "versionCode": "4",
+        "versionName": "8.0",
+        "minSdk": "21",
+        "targetSdk": "34"
+    }
+]

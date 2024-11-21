@@ -1,0 +1,32 @@
+{
+    "pano_version": 339,
+    "simple_edits": [],
+    "regex_edits": [],
+    "blocked_metadata": [],
+    "settings": {
+        "master": true,
+        "delay_secs": 180,
+        "delay_per": 50,
+        "now_playing": true,
+        "fetch_album": false,
+        "auto_detect": true,
+        "show_album": false,
+        "show_scrobble_sources": true,
+        "link_heart_button_to_rating": false,
+        "lockscreen_noti": false,
+        "theme_primary": "Sakurapink",
+        "theme_secondary": "Deeporange",
+        "theme_random": false,
+        "theme_day_night": 2,
+        "theme_tint_bg": true,
+        "search_in_source": false,
+        "scrobble_spotify_remote": false,
+        "spotify_artist_search_approximate": false,
+        "prevent_duplicate_ambient_scrobbles": false,
+        "first_day_of_week": 0,
+        "app_whitelist": [
+            "org.akanework.gramophone",
+            "org.forkgram.messenger"
+        ]
+    }
+}

@@ -1,0 +1,281 @@
+{
+    "app_id": "eu.ottop.yamlauncher",
+    "data": {
+        "hiddencom.arn.scrobble-0": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "hiddencom.android.messaging-0": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "namecom.android.calculator2-0": {
+            "value": "calc",
+            "type": "String"
+        },
+        "shortcutVAlignment": {
+            "value": "top",
+            "type": "String"
+        },
+        "hiddencom.google.android.dialer-0": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "swipeThreshold": {
+            "value": "100",
+            "type": "String"
+        },
+        "dateSize": {
+            "value": "large",
+            "type": "String"
+        },
+        "shortcutAlignment": {
+            "value": "left",
+            "type": "String"
+        },
+        "hiddenorg.lineageos.etar-0": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "namenet.thunderbird.android-0": {
+            "value": "mail",
+            "type": "String"
+        },
+        "tempUnits": {
+            "value": "celsius",
+            "type": "String"
+        },
+        "hiddencom.android.settings-0": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "clockSwipe": {
+            "value": false,
+            "type": "Boolean"
+        },
+        "autoKeyboard": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "batteryEnabled": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "namecom.google.android.apps.nbu.paisa.user-0": {
+            "value": "upi",
+            "type": "String"
+        },
+        "shortcutNo": {
+            "value": "6",
+            "type": "String"
+        },
+        "textColor": {
+            "value": "material",
+            "type": "String"
+        },
+        "dateSwipe": {
+            "value": false,
+            "type": "Boolean"
+        },
+        "shortcutSize": {
+            "value": "extra",
+            "type": "String"
+        },
+        "animationSpeed": {
+            "value": "200",
+            "type": "String"
+        },
+        "clockEnabled": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "namecom.atharok.barcodescanner-0": {
+            "value": "qr",
+            "type": "String"
+        },
+        "weatherEnabled": {
+            "value": false,
+            "type": "Boolean"
+        },
+        "shortcutWeight": {
+            "value": "0.18",
+            "type": "String"
+        },
+        "hiddencom.google.android.GoogleCameraGood-0": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "textFont": {
+            "value": "system",
+            "type": "String"
+        },
+        "contactsEnabled": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "hiddenio.github.muntashirakon.AppManager-0": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "hiddencom.android.deskclock-0": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "hiddenmd.obsidian-0": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "leftSwipeApp": {
+            "value": "Camera§splitter§com.google.android.GoogleCameraGood§splitter§0",
+            "type": "String"
+        },
+        "appMenuAlignment": {
+            "value": "left",
+            "type": "String"
+        },
+        "hiddencom.android.documentsui-0": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "barVisibility": {
+            "value": false,
+            "type": "Boolean"
+        },
+        "hiddenorg.mozilla.fennec_fdroid-0": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "bgColor": {
+            "value": "material",
+            "type": "String"
+        },
+        "hiddencom.android.contacts-0": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "appMenuSize": {
+            "value": "medium",
+            "type": "String"
+        },
+        "swipeVelocity": {
+            "value": "100",
+            "type": "String"
+        },
+        "locationRegion": {
+            "value": "Bengaluru",
+            "type": "String"
+        },
+        "shortcut2131361884": {
+            "value": "org.mozilla.fennec_fdroid§splitter§0§splitter§web§splitter§false",
+            "type": "String"
+        },
+        "shortcut2131361883": {
+            "value": "io.github.muntashirakon.AppManager§splitter§0§splitter§apps§splitter§false",
+            "type": "String"
+        },
+        "shortcut2131361886": {
+            "value": "com.mixplorer§splitter§0§splitter§files§splitter§false",
+            "type": "String"
+        },
+        "shortcut2131361885": {
+            "value": "org.fossify.gallery§splitter§0§splitter§pix§splitter§false",
+            "type": "String"
+        },
+        "rightSwipe": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "rightSwipeApp": {
+            "value": "Phone§splitter§com.google.android.dialer§splitter§0",
+            "type": "String"
+        },
+        "shortcut2131361888": {
+            "value": "md.obsidian§splitter§0§splitter§Obsidian§splitter§false",
+            "type": "String"
+        },
+        "shortcut2131361887": {
+            "value": "md.obsidian§splitter§0§splitter§wiki§splitter§false",
+            "type": "String"
+        },
+        "leftSwipe": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "doubleTap": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "dateClick": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "hiddencom.mixplorer-0": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "namecom.whatsapp-0": {
+            "value": "chat",
+            "type": "String"
+        },
+        "clockSize": {
+            "value": "large",
+            "type": "String"
+        },
+        "searchSize": {
+            "value": "medium",
+            "type": "String"
+        },
+        "clockClick": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "searchAlignment": {
+            "value": "left",
+            "type": "String"
+        },
+        "hiddenorg.fossify.gallery-0": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "gpsLocation": {
+            "value": false,
+            "type": "Boolean"
+        },
+        "clockAlignment": {
+            "value": "left",
+            "type": "String"
+        },
+        "appSpacing": {
+            "value": "20",
+            "type": "String"
+        },
+        "autoLaunch": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "hiddenorg.forkgram.messenger-0": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "dateEnabled": {
+            "value": true,
+            "type": "Boolean"
+        },
+        "location": {
+            "value": "latitude=12.9768&longitude=77.5901",
+            "type": "String"
+        },
+        "textStyle": {
+            "value": "normal",
+            "type": "String"
+        },
+        "shortcut2131361876": {
+            "value": "org.forkgram.messenger§splitter§0§splitter§inbox§splitter§false",
+            "type": "String"
+        },
+        "searchEnabled": {
+            "value": true,
+            "type": "Boolean"
+        }
+    }
+}

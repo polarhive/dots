@@ -1,0 +1,534 @@
+{
+  "title": "MiXplorer",
+  "package": "com.mixplorer",
+  "date": "21\/11\/2024 11:19:26",
+  "type": 0,
+  "db": {
+    "uris": [
+      {
+        "pid": 14,
+        "uri": "\/data\/user\/0\/com.mixplorer\/home",
+        "title": "Home",
+        "user": "",
+        "secret": "",
+        "properties": ""
+      },
+      {
+        "pid": 14,
+        "uri": "\/storage\/emulated\/0",
+        "title": "Internal storage",
+        "user": "",
+        "secret": "",
+        "properties": ""
+      },
+      {
+        "pid": 14,
+        "uri": "\/",
+        "title": "Root",
+        "user": "",
+        "secret": "",
+        "properties": ""
+      },
+      {
+        "pid": 14,
+        "uri": "content:\/\/mix\/audio",
+        "title": "Audio",
+        "user": "",
+        "secret": "",
+        "properties": ""
+      },
+      {
+        "pid": 14,
+        "uri": "content:\/\/mix\/video",
+        "title": "Video",
+        "user": "",
+        "secret": "",
+        "properties": ""
+      },
+      {
+        "pid": 14,
+        "uri": "content:\/\/mix\/image",
+        "title": "Image",
+        "user": "",
+        "secret": "",
+        "properties": ""
+      },
+      {
+        "pid": 14,
+        "uri": "content:\/\/mix\/apk",
+        "title": "APK",
+        "user": "",
+        "secret": "",
+        "properties": ""
+      },
+      {
+        "pid": 14,
+        "uri": "content:\/\/mix\/archive",
+        "title": "Archive",
+        "user": "",
+        "secret": "",
+        "properties": ""
+      },
+      {
+        "pid": 14,
+        "uri": "content:\/\/mix\/document",
+        "title": "Document",
+        "user": "",
+        "secret": "",
+        "properties": ""
+      },
+      {
+        "pid": 14,
+        "uri": "content:\/\/mix\/app",
+        "title": "App",
+        "user": "",
+        "secret": "",
+        "properties": ""
+      },
+      {
+        "pid": 14,
+        "uri": "content:\/\/mix\/all",
+        "title": "All Files",
+        "user": "",
+        "secret": "",
+        "properties": ""
+      },
+      {
+        "pid": 14,
+        "uri": "content:\/\/mix\/recent",
+        "title": "Recent files",
+        "user": "",
+        "secret": "",
+        "properties": ""
+      },
+      {
+        "pid": 14,
+        "uri": "content:\/\/mix\/trash",
+        "title": "Recycle bin",
+        "user": "",
+        "secret": "",
+        "properties": ""
+      },
+      {
+        "pid": 14,
+        "uri": "content:\/\/mix\/telegram",
+        "title": "Telegram",
+        "user": "",
+        "secret": "",
+        "properties": ""
+      },
+      {
+        "pid": 8,
+        "uri": "\/storage\/emulated\/0",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": ""
+      },
+      {
+        "pid": 2,
+        "uri": "\/data\/user\/0\/com.mixplorer\/home",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "sort=6\nsort_group_parents=false\nsort_sections=true"
+      },
+      {
+        "pid": 2,
+        "uri": "\/storage\/emulated\/0",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "sort=0"
+      },
+      {
+        "pid": 2,
+        "uri": "\/",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "sort=0"
+      },
+      {
+        "pid": 2,
+        "uri": "content:\/\/mix\/audio",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "sort=6\nsort_group_parents=false"
+      },
+      {
+        "pid": 2,
+        "uri": "content:\/\/mix\/video",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "sort=6\nsort_group_parents=false"
+      },
+      {
+        "pid": 2,
+        "uri": "content:\/\/mix\/image",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "sort=4\nsort_group_parents=true"
+      },
+      {
+        "pid": 2,
+        "uri": "content:\/\/mix\/apk",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "sort_group_parents=false"
+      },
+      {
+        "pid": 2,
+        "uri": "content:\/\/mix\/archive",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "sort=6\nsort_group_parents=false"
+      },
+      {
+        "pid": 2,
+        "uri": "content:\/\/mix\/document",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "sort=0\nsort_group_parents=true"
+      },
+      {
+        "pid": 2,
+        "uri": "content:\/\/mix\/app",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "sort=4"
+      },
+      {
+        "pid": 2,
+        "uri": "content:\/\/mix\/all",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "sort=4"
+      },
+      {
+        "pid": 2,
+        "uri": "content:\/\/mix\/recent",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "sort=4"
+      },
+      {
+        "pid": 2,
+        "uri": "content:\/\/mix\/trash",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "sort=8"
+      },
+      {
+        "pid": 2,
+        "uri": "content:\/\/mix\/telegram",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "sort=7\nsort_group_parents=false"
+      },
+      {
+        "pid": 1,
+        "uri": "\/storage\/emulated\/0",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "##32YQ6tK2WbIPmbPjyZf8zg"
+      },
+      {
+        "pid": 1,
+        "uri": "\/data\/user\/0\/com.mixplorer\/home",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "view=1\nwidth=400"
+      },
+      {
+        "pid": 1,
+        "uri": "\/",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "view=5"
+      },
+      {
+        "pid": 1,
+        "uri": "content:\/\/mix\/video",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "view=3"
+      },
+      {
+        "pid": 1,
+        "uri": "content:\/\/mix\/image",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "view=4"
+      },
+      {
+        "pid": 1,
+        "uri": "content:\/\/mix\/apk",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "view=3"
+      },
+      {
+        "pid": 1,
+        "uri": "content:\/\/mix\/document",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "view=4"
+      },
+      {
+        "pid": 1,
+        "uri": "content:\/\/mix\/app",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "view=3"
+      },
+      {
+        "pid": 1,
+        "uri": "content:\/\/mix\/all",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "view=5"
+      },
+      {
+        "pid": 1,
+        "uri": "content:\/\/mix\/recent",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "view=5"
+      },
+      {
+        "pid": 1,
+        "uri": "content:\/\/mix\/telegram",
+        "title": "",
+        "user": "",
+        "secret": "",
+        "properties": "view=3"
+      }
+    ],
+    "packages": [
+      {
+        "extension": "xml:1481493647",
+        "package": "com.mixplorer",
+        "classname": "com.mixplorer.activities.CodeEditorActivity"
+      },
+      {
+        "extension": "wav:1481493647",
+        "package": "com.mixplorer",
+        "classname": "com.mixplorer.activities.PlayerActivity"
+      },
+      {
+        "extension": "v:1481493647",
+        "package": "com.mixplorer",
+        "classname": "com.mixplorer.activities.CodeEditorActivity"
+      },
+      {
+        "extension": "txt:1481493647",
+        "package": "com.mixplorer",
+        "classname": "com.mixplorer.activities.CodeEditorActivity"
+      },
+      {
+        "extension": "ts:1481493647",
+        "package": "com.mixplorer",
+        "classname": "com.mixplorer.activities.CodeEditorActivity"
+      },
+      {
+        "extension": "prop:1481493647",
+        "package": "com.mixplorer",
+        "classname": "com.mixplorer.activities.CodeEditorActivity"
+      },
+      {
+        "extension": "pdf:1481493647",
+        "package": "com.mixplorer",
+        "classname": "com.mixplorer.activities.EBookReaderActivity"
+      },
+      {
+        "extension": "mp4:1481493647",
+        "package": "com.mixplorer",
+        "classname": "com.mixplorer.activities.PlayerActivity"
+      },
+      {
+        "extension": "mkv:1481493647",
+        "package": "com.mixplorer",
+        "classname": "com.mixplorer.activities.PlayerActivity"
+      },
+      {
+        "extension": "md:1481493647",
+        "package": "com.mixplorer",
+        "classname": "com.mixplorer.activities.CodeEditorActivity"
+      },
+      {
+        "extension": "m3u:1481493647",
+        "package": "com.mixplorer",
+        "classname": "com.mixplorer.activities.PlayerActivity"
+      },
+      {
+        "extension": "jsx:1481493647",
+        "package": "com.mixplorer",
+        "classname": "com.mixplorer.activities.CodeEditorActivity"
+      },
+      {
+        "extension": "json:1481493647",
+        "package": "com.mixplorer",
+        "classname": "com.mixplorer.activities.CodeEditorActivity"
+      },
+      {
+        "extension": "js:1481493647",
+        "package": "com.mixplorer",
+        "classname": "com.mixplorer.activities.CodeEditorActivity"
+      },
+      {
+        "extension": "h:1481493647",
+        "package": "com.mixplorer",
+        "classname": "com.mixplorer.activities.CodeEditorActivity"
+      },
+      {
+        "extension": "gitignore:1481493647",
+        "package": "com.mixplorer",
+        "classname": "com.mixplorer.activities.CodeEditorActivity"
+      },
+      {
+        "extension": "gitattributes:1481493647",
+        "package": "com.mixplorer",
+        "classname": "com.mixplorer.activities.CodeEditorActivity"
+      },
+      {
+        "extension": "css:1481493647",
+        "package": "com.mixplorer",
+        "classname": "com.mixplorer.activities.CodeEditorActivity"
+      },
+      {
+        "extension": "c:1481493647",
+        "package": "com.mixplorer",
+        "classname": "com.mixplorer.activities.CodeEditorActivity"
+      },
+      {
+        "extension": "apkm:1481493647",
+        "package": "io.github.muntashirakon.AppManager",
+        "classname": "io.github.muntashirakon.AppManager.apk.installer.PackageInstallerActivity"
+      },
+      {
+        "extension": "apk:1481493647",
+        "package": "com.android.packageinstaller",
+        "classname": "com.android.packageinstaller.InstallStart"
+      },
+      {
+        "extension": "<-txt->:1481493647",
+        "package": "com.mixplorer",
+        "classname": "com.mixplorer.activities.CodeEditorActivity"
+      },
+      {
+        "extension": "<-cr2->:1481493647",
+        "package": "org.fossify.gallery",
+        "classname": "org.fossify.gallery.activities.PhotoActivity"
+      }
+    ]
+  },
+  "pref": {
+    "main": {
+      "custom_key_QUERY_REMNANT_REM_KEY": "1",
+      "can_undo": false,
+      "bottom_bar": true,
+      "text_editor": "encoding=\nwrap=true\nfontsize=38\nline_numbers=true\nhighlight=\nauto_indent=true\neditor_mode=0\nfull_view_size=0\nchars_view=true\nfullscreen=false\nhighlight_old=Extension\nspell_check=false\nno_keyboard=false\nsaved_offs=7af34772:0\nauto_complete=false\nstart_with_keyboard=true\nstart_at_end=false\ntab_space=false",
+      "custom_key_PERM_VIEW_REM_KEY": "1",
+      "custom_key_EXTRACT_REM_KEY": "2131558972,,false",
+      "animations": false,
+      "custom_key_AUTO_TASKS": "",
+      "split_action_bar": false,
+      "default_locale": "en",
+      "custom_key_CHROMA": "xxxxx",
+      "player": "loop_mode=0\nshuffled=false\nbrightness=13\nminimized=false\nhw=true\norientation=0\nencoding=UTF-8\nsubtitle_size=12\nsubtitle_color=16777215\nresume_start=true\nspeed=1.0\nauto_hide_ctrls=true\nshow_lyrics=false",
+      "swipe_new_tab": false,
+      "custom_key_last_path": "\/storage\/emulated\/0\/Download\/Telegram",
+      "can_trash": false,
+      "saved_customized": "",
+      "code_editor": "encoding=\nwrap=false\nfontsize=22\nline_numbers=true\nhighlight=\nauto_indent=true\neditor_mode=0\nfull_view_size=0\nchars_view=true\nfullscreen=false\nhighlight_old=\nspell_check=false\nno_keyboard=false\nsaved_offs=cdc4b181:0\nauto_complete=false\nstart_with_keyboard=true\nstart_at_end=false\ntab_space=false",
+      "custom_key_op_dlg_toggle": "true",
+      "data_folder_in_root": false,
+      "custom_key_increment_num_format": " (%01d)",
+      "ebook_reader": "orientation=0\nnight_mode=false\nfullscreen=false",
+      "show_tab_bar": false,
+      "custom_key_NEW_FILE": "0",
+      "custom_key_AGREE_PRIVACY": "true",
+      "show_tool_bar": true,
+      "custom_key_increment_num_prefix": "false",
+      "RADIO_DROP_FILE": 37031608,
+      "breadcrumb": false,
+      "custom_key_QUERY_PKG_LIST_REM_KEY": "1",
+      "custom_key_ARCHIVE--FORMAT": "0",
+      "startup_password": false,
+      "RADIO_RENAME_FILE": 37569494,
+      "folders_app_icon": "",
+      "custom_key_ARCHIVE-0": "0|3|0|false|0|0|12||true",
+      "play_background": false,
+      "custom_key_PERM_SHARE_REM_KEY": "1",
+      "shizuku": false
+    },
+    "skins": {
+      "MiX Aztec": "#wRqViz-zfOIN0zLF7oc_mkZDfoQV68M4w58QyJdDIGjjpW9lQuoAPQaN-eI_ITLU54x-M2TLjLKjCDQ4T9OyISGy9qZiL39jjhd1-P6LRb-BZSEYFKHL9kqyX1O8A-LVHJkRXpr6MtEP3UKcwyivhQlEYdDKmapQWLWcBmwTCrcoNDpGtusw-nE-EOuHX9VSB6Trnm0O0FOYRKB9Fs_YEaTlFSlg573pWCSBJjLCb3sNUeX2OE9a9X1PoNvoDzu4rVDls0s--d-X0B4-5QqblhbF_OeLA2g6lHnDL0atsJWDhlu1GNJjUTJ19k5rgYAlP3cGQdokJ6mbgSoST8EjX6GqDR8FJyQIr12UWf6XBTAru7fheNKtmKmGyKr54b9-f5iyacCvPd4WOXthpk8ID0uZTUTCMO1FHdtA35Lvc1hLuxizK1rJstUUYjtx0Y8lvzpeGT4ph26dbtzYYicfGFFM9vke5ctOOyQk0RX8OYWm-U8yofsV-nulrJQDb7GcNO6x3tbMhM5LmpQyYvfUDYEVkx7zO5JqVcgkpr6YecRky3K0p3H5h0djH_6GKcV-YEjH0PofpIKbOaQyy9hW3RnYamH9UxWQOzbrgDtnMOu56gojdZMOgSORK_T4x0NOc7Bzk8R1WWAItDur28_qUC8maTRwxsxnoeZ4CN1IUBciUVXhgQ83b0BzGNwa1NTFdr_bxEyPKxkFFRClR2BnxCG7nyP31BJne5zhKAGKZErWLkaPNaFgw4gI9FNd2oSIMHiHNKadEHMNuGG4QHWyCqdh8vhVdzdrDyFyTbjYURsr3pGrBxyBqOZRsedtSHQ3fTrR0x_X_skyMpSCMYwCpnQMWgH6T0NypNVeNQsIpaLXE5ThZTjISyuOme8b5sgtlsIR2Qnkxubc2yJ248b2f_Sd7KYHat10Tbn7IiImWQwTEpoxB8-KyYl9VSQNijmb6Qcz0lfuMXSMyisZfchH7jKO621dfOf-6izH06J9Ki4RSx6kev-xR03gD3l-pc_3xbaA4DB6E8OFurcvd5PMVnxgi6IwINW41gpcwm1UCpZZbydn7ClOIVCCoSW-O_-X",
+      "MiX Gray": "#cQK69eoVgupEskHCt57_89NgSzNFk8MBuvNgX7h-4w0FwG4VbAHcHlEGlIBsyM_9Y16DiluoMUrhmh7NMeL58sqnhOx8Ixi7XGQB222BipbnnGz10ClTJgx7DAiucD6lfcEIyvmNYZ3-aYc4moCSm2NwkOi30R7FZQD0fanEqAAPygsaqvuQncsQN7j0zkJOt88y9L7Zyf_htFqEtLY3vb6h3jsobo92mDNASBJ5RYtucCr5S8cMNMERS8JmA3bz5LTyNLO68aWu_UrAw8RTu4OZJL2lJOfY0rdb5Bf5iR50cHaAmJWM8GwO2_NRSTM6dYXH8xzvDhw8pElp-0hkci6TAk8qvI5gcRPfbDSkdEjmUImRguNcRf4KZHleNLNL_PMFGXGdnrgSvQGzN6HXP73WdaEIjgIHuz_R_deBAs6N5Vz8W-JbTg3_BA3oNAglv6rGbvhaw9jv3TTjPE5xXkUliWeH-UdrGuJP4RwfHSR1bvY3znwenJEyAqRdYQvaFcfomDsvJ15e8kefkVipMrO0OIXwnzUEq_yZxIwM-YYtXjDnNI2AodnuF6QxC4yBBn0GExap71JEa2EwlCrrUfiqBtdGDAQUep8ZT-OyBI5l52cQNqCT0yq-ggR1qWnxIF5AbzjXIVmazPFYvDR5nhKCAUGROXXmvN6R5XohFTj_BYIXp_66y0JE7yznkA8E7AssiY2VdlIFFf_RWaQW5zo7fTYm1nPdRqyNW2OJ6WOb_lDKPbA4E02Ij3vL3t9ZapLJDikZOiao_tcd5ioeHw9BK1JnAzNdrKee_TOy_KIz3mgIIM2jJw6BVdmlr5-TgP_0zLIT-t4b2y_b7LPKFXTP6WeDVnkIRKIbvvyrnwAkSSvP9jR57guwL2Ttl_mWpMlKYoYs3lFzEeWY5XwD6AGtK069C7zoeA7BVOv0R3XVv8brf-JACubwJ13K3trylVwTKqtNrky4zYXL9IP4GV-PQv90ro7jTAjy5byj-rc"
+    },
+    "servers": {
+      "httpserver_ip": "",
+      "httpserver_ip_name": ""
+    },
+    "home": [
+      {
+        "p": "\/data\/user\/0\/com.mixplorer\/home\/Internal storage.lnk",
+        "l": "\/storage\/emulated\/0",
+        "n": "Internal storage",
+        "d": true
+      },
+      {
+        "p": "\/data\/user\/0\/com.mixplorer\/home\/Image.lnk",
+        "l": "content:\/\/mix\/image",
+        "n": "Image",
+        "d": true
+      },
+      {
+        "p": "\/data\/user\/0\/com.mixplorer\/home\/Video.lnk",
+        "l": "content:\/\/mix\/video",
+        "n": "Video",
+        "d": true
+      },
+      {
+        "p": "\/data\/user\/0\/com.mixplorer\/home\/Audio.lnk",
+        "l": "content:\/\/mix\/audio",
+        "n": "Audio",
+        "d": true
+      },
+      {
+        "p": "\/data\/user\/0\/com.mixplorer\/home\/Document.lnk",
+        "l": "content:\/\/mix\/document",
+        "n": "Document",
+        "d": true
+      },
+      {
+        "p": "\/data\/user\/0\/com.mixplorer\/home\/App.lnk",
+        "l": "content:\/\/mix\/app",
+        "n": "App",
+        "d": true
+      }
+    ]
+  }
+}

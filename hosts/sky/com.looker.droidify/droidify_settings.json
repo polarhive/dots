@@ -1,0 +1,32 @@
+{
+    "language": "system",
+    "incompatibleVersions": false,
+    "notifyUpdate": true,
+    "unstableUpdate": false,
+    "theme": "SYSTEM_BLACK",
+    "dynamicTheme": true,
+    "installerType": "ROOT",
+    "autoUpdate": true,
+    "autoSync": "NEVER",
+    "sortOrder": "UPDATED",
+    "proxy": {
+        "type": "DIRECT",
+        "host": "localhost",
+        "port": 9050
+    },
+    "cleanUpInterval": "PT12H",
+    "lastCleanup": null,
+    "favouriteApps": [
+        "io.github.muntashirakon.AppManager",
+        "com.looker.droidify",
+        "org.fossify.gallery",
+        "com.aurora.store",
+        "com.atharok.barcodescanner",
+        "org.forkgram.messenger",
+        "net.thunderbird.android",
+        "org.mozilla.fennec_fdroid",
+        "io.ente.auth",
+        "eu.ottop.yamlauncher"
+    ],
+    "homeScreenSwiping": true
+}

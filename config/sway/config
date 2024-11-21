@@ -1,12 +1,12 @@
 # stuff
-xwayland disable
 exec $bin/shortcuts/pes/captive
+xwayland disable
 #exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 ## gestures
-bindgesture swipe:up floating disable
-bindgesture swipe:down floating enable
+bindgesture swipe:down workspace prev
 bindgesture swipe:left workspace prev
+bindgesture swipe:up workspace next
 bindgesture swipe:right workspace next
 
 ## variables
@@ -19,14 +19,14 @@ set $laptop eDP-1
 set $font Product Sans Regular
 
 ## appearance
-blur on
-shadows on
-corner_radius 8
-default_dim_inactive 0.02
-titlebar_separator disable
+#blur on
+#shadows on
+#corner_radius 8
+#default_dim_inactive 0.02
+#titlebar_separator disable
 default_border pixel 0
 gaps inner 2
-gaps outer 2
+#gaps outer 2
 font pango:$font 8
 exec swaybg -i $(find ~/.local/share/backgrounds -type f | shuf -n 1) -m fill
 
@@ -48,28 +48,27 @@ for_window [urgent=latest] focus
 bindsym Mod4+Alt+b exec beeper
 bindsym Mod4+Alt+e exec thunar
 bindsym Mod4+Alt+f exec firefox
-bindsym Mod4+Alt+i exec $bin/shortcuts/ba
-bindsym Mod4+Alt+l exec swaylock -f
 bindsym Mod4+Alt+m exec thunderbird
+bindsym Mod4+Alt+o exec obsidian
 bindsym Mod4+Alt+t exec telegram-desktop
+bindsym Mod4+Alt+l exec swaylock -f
+bindsym Mod4+Alt+i exec $bin/shortcuts/ba
 bindsym Mod4+Alt+u exec $bin/shortcuts/theme
 bindsym Mod4+Escape mode "default"
 bindsym Mod4+Return exec kitty
-#bindsym Mod4+Return exec kitty -e "tnew"
 bindsym Mod4+b splitv
 bindsym Mod4+d exec wofi -S drun
 bindsym Mod4+e layout splith
 bindsym Mod4+f fullscreen
-bindsym Mod4+m exec $bin/yt-dl/ytp
 bindsym Mod4+q kill
 bindsym Mod4+r mode "resize"
 bindsym Mod4+space floating toggle
 bindsym Mod4+t exec $bin/shortcuts/td
-bindsym Mod4+u exec $bin/bluetooth/blc
 bindsym Mod4+v splith
 bindsym Mod4+n workspace next
 bindsym Mod4+p workspace prev
 bindsym Mod4+w layout tabbed
+bindsym Mod4+u exec $bin/bluetooth/blc
 bindsym Mod4+y exec $bin/bluetooth/bld
 bindsym Print exec $bin/screenshots/screenshot
 bindsym Shift+Print exec $bin/screenshots/screenshotp
@@ -79,7 +78,6 @@ floating_modifier Mod4 normal
 bindsym --locked Mod4+Alt+a exec systemctl suspend
 bindsym --locked Mod4+Alt+d exec systemctl reboot
 bindsym --locked Mod4+Alt+s exec systemctl poweroff
-bindsym --locked Mod4+a exec swaymsg "output $laptop dpms toggle"
 
 ## hardware
 bindsym Mod1+backslash exec pactl set-sink-mute @DEFAULT_SINK@ toggle
@@ -103,10 +101,12 @@ bindswitch --reload --locked lid:on output $laptop disable
 
 input * {
 	repeat_delay 400
-	repeat_rate 35
-       	accel_profile flat
+	repeat_rate 40
 	dwt disabled
 	tap enabled
+	accel_profile adaptive
+	pointer_accel 0.5
+
 }
 
 ## moving around
@@ -150,7 +150,7 @@ mode "resize" {
 
 ## swaybar
 bar {
-    position top
+    position bottom
     status_command while $bin/shortcuts/status; do sleep 60; done
     colors {
     	background #000000
