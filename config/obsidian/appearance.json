@@ -1,0 +1,12 @@
+{
+  "theme": "moonstone",
+  "cssTheme": "Flexoki",
+  "showViewHeader": true,
+  "interfaceFontFamily": "Product Sans",
+  "textFontFamily": "Inter Variable",
+  "monospaceFontFamily": "InputMono Nerd Font",
+  "accentColor": "",
+  "baseFontSize": 16,
+  "baseFontSizeAction": false,
+  "nativeMenus": false
+}

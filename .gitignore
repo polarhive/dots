@@ -3,7 +3,6 @@ config/Beeper
 config/Code
 config/discord
 config/go/telemetry
-config/obsidian
 config/newsboat/urls
 config/pulse/cookie
 config/zsh/.zcompdump
