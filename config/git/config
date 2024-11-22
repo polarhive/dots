@@ -1,42 +1,49 @@
+[core]
+	editor = nvim
+	pager = delta
+
 [user]
 	email = mail@polarhive.net
 	name = Nathan Paul
 	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEApUjpTe88NltzohdxyUtQb8fERmlDM6NpI3+K8/jn8
+
 [init]
 	defaultBranch = main
+
 [commit]
 	gpgsign = true
-[core]
-	editor = nvim
-[commit]
 	verbose = yes
+
 [gpg]
 	format = ssh
+
 [gpg "ssh"]
 	allowedSignersFile = /home/polarhive/.ssh/allowed_signers
-[credential]
-	helper = cache --timeout 3600
+
 [push]
 	autoSetupRemote = true
 
-[core]
-    pager = delta
+[tag]
+	gpgSign = true
 
 [interactive]
-    diffFilter = delta --color-only --features=interactive
+	diffFilter = delta --color-only --features=interactive
 
 [delta]
-    features = decorations
-    side-by-side = true
+    	features = decorations
+    	side-by-side = true
 
 [delta "interactive"]
-    keep-plus-minus-markers = false
+    	keep-plus-minus-markers = false
 
 [delta "decorations"]
-    commit-decoration-style = blue ol
-    commit-style = raw
-    file-style = omit
-    hunk-header-decoration-style = blue box
-    hunk-header-file-style = red
-    hunk-header-line-number-style = "#067a00"
-    hunk-header-style = file line-number syntax
+    	commit-decoration-style = blue ol
+    	commit-style = raw
+    	file-style = omit
+    	hunk-header-decoration-style = blue box
+    	hunk-header-file-style = red
+    	hunk-header-line-number-style = "#067a00"
+    	hunk-header-style = file line-number syntax
+
+[include]
+	path = ~/.config/git/aliases
