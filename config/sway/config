@@ -1,4 +1,4 @@
-# stuff
+## stuff
 exec $bin/shortcuts/pes/captive
 xwayland disable
 #exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
@@ -15,49 +15,39 @@ set $down j
 set $left h
 set $right l
 set $bin ~/.local/bin
-set $laptop eDP-1
-set $font Product Sans Regular
 
 ## appearance
-#blur on
-#shadows on
-#corner_radius 8
-#default_dim_inactive 0.02
-#titlebar_separator disable
-default_border pixel 0
 gaps inner 2
-#gaps outer 2
-font pango:$font 8
+font pango:Product Sans 8
+default_border pixel 0
 exec swaybg -i $(find ~/.local/share/backgrounds -type f | shuf -n 1) -m fill
 
 ## window rules
-for_window [shell="xwayland"] title_format "%title [XWayland]"
-for_window [window_type="dialog"] floating enable
-for_window [window_role="dialog"] floating enable
-for_window [app_id="firefox" title="^Picture-in-Picture$"] floating enable
-for_window [app_id="firefox" title="Extension: .*"] floating enable
-for_window [app_id="brave-browser" title="^Meet - .*"] floating enable
-for_window [app_id="mpv"] inhibit_idle visible; border none; max_render_time off
+for_window [app_id="chromium" title="Extension: .*"] floating enable
+for_window [app_id="chromium" title="^Meet - .*"] floating enable
+for_window [app_id="chromium" title="^Picture-in-Picture$"] floating enable
+for_window [app_id="mpv"] inhibit_idle visible
 for_window [app_id="org.telegram.desktop" title="^TelegramDesktop$"] floating enable
 for_window [app_id="thunar" title="^Rename$"] floating enable
 for_window [class=".*"] inhibit_idle fullscreen
 for_window [class="^.*"] inhibit_idle fullscreen
+for_window [shell="xwayland"] title_format "%title [XWayland]"
 for_window [urgent=latest] focus
+for_window [window_role="dialog"] floating enable
+for_window [window_type="dialog"] floating enable
 
 ## shortcuts
-bindsym Mod4+Alt+b exec beeper
 bindsym Mod4+Alt+e exec thunar
-bindsym Mod4+Alt+f exec firefox
+bindsym Mod4+Alt+f exec zen-browser
+bindsym Mod4+Alt+l exec swaylock -f
 bindsym Mod4+Alt+m exec thunderbird
 bindsym Mod4+Alt+o exec obsidian
 bindsym Mod4+Alt+t exec telegram-desktop
-bindsym Mod4+Alt+l exec swaylock -f
-bindsym Mod4+Alt+i exec $bin/shortcuts/ba
-bindsym Mod4+Alt+u exec $bin/shortcuts/theme
+bindsym Mod4+Alt+i exec exec $bin/shortcuts/theme
 bindsym Mod4+Escape mode "default"
 bindsym Mod4+Return exec kitty
 bindsym Mod4+b splitv
-bindsym Mod4+d exec wofi -S drun
+bindsym Mod4+d exec wmenu-run
 bindsym Mod4+e layout splith
 bindsym Mod4+f fullscreen
 bindsym Mod4+q kill
@@ -87,6 +77,10 @@ bindsym Mod4+XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ 100%
 bindsym Mod1+comma exec playerctl previous
 bindsym Mod1+period exec playerctl play-pause
 bindsym Mod1+slash exec playerctl next
+
+bindsym Mod1+Shift+comma exec mpc seekthrough -5
+bindsym Mod1+Shift+slash exec mpc seekthrough +5
+
 bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -10%
 bindsym --locked XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +10%
@@ -96,16 +90,18 @@ bindsym --locked XF86AudioPlay exec playerctl play-pause
 bindsym --locked XF86AudioPrev exec playerctl previous
 bindsym --locked XF86MonBrightnessUp exec brightnessctl set 10%+
 bindsym --locked XF86MonBrightnessDown exec brightnessctl set 10%-
-bindswitch --reload --locked lid:off output $laptop enable
-bindswitch --reload --locked lid:on output $laptop disable
+bindsym Mod1+Shift+bracketleft exec brightnessctl set 10%-
+bindsym Mod1+Shift+bracketright exec brightnessctl set 10%+
+bindswitch --reload --locked lid:off output eDP-1 enable
+bindswitch --reload --locked lid:on output eDP-1 disable
 
 input * {
 	repeat_delay 400
 	repeat_rate 40
 	dwt disabled
 	tap enabled
-	accel_profile adaptive
-	pointer_accel 0.5
+	accel_profile flat
+	pointer_accel 1
 
 }
 
@@ -153,8 +149,8 @@ bar {
     position bottom
     status_command while $bin/shortcuts/status; do sleep 60; done
     colors {
-    	background #000000
-    	inactive_workspace #000000 #000000 #ffffff
+    background #000000
+    inactive_workspace #000000 #000000 #ffffff
    }
 }
 
