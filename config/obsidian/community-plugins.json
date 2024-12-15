@@ -1,5 +1,6 @@
 [
-  "obsidian-hider",
   "remotely-save",
+  "obsidian-vimrc-support",
+  "obsidian-hider",
   "obsidian-linter"
 ]

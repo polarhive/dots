@@ -16,21 +16,47 @@
       "key": "E"
     }
   ],
-  "switcher:open": [
+  "editor:save-file": [],
+  "remotely-save:start-sync": [
     {
       "modifiers": [
         "Mod"
       ],
-      "key": "P"
+      "key": "S"
     }
   ],
-  "command-palette:open": [
+  "obsidian-linter:lint-file": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "L"
+    }
+  ],
+  "editor:toggle-checklist-status": [
     {
       "modifiers": [
         "Mod",
         "Shift"
       ],
-      "key": "P"
+      "key": "L"
     }
-  ]
+  ],
+  "switcher:open": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": " "
+    }
+  ],
+  "command-palette:open": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "Enter"
+    }
+  ],
+  "editor:follow-link": []
 }
