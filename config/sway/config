@@ -37,6 +37,7 @@ for_window [window_role="dialog"] floating enable
 for_window [window_type="dialog"] floating enable
 
 ## shortcuts
+bindsym Mod4+Alt+b exec beeper
 bindsym Mod4+Alt+e exec thunar
 bindsym Mod4+Alt+f exec zen-browser
 bindsym Mod4+Alt+l exec swaylock -f
