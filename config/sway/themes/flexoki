@@ -1,0 +1,27 @@
+# Flexoki (Light) Theme for Sway
+set $opacity E0
+set $background #F2E5CB
+set $color_urgent #D14D41
+set $text_color #100F0F
+set $unfocused_text_color #6F6E69
+set $title_bg_unfocused #E6E4D9
+set $title_outline_active #D0A215
+set $title_outline_unfocused #CECDC3
+
+# Set Colors:           Border                   Background          Text                   Indicator             Child Border
+client.background       $background
+client.focused          $title_outline_active    $background$opacity $text_color            $title_outline_active $title_outline_active
+client.focused_inactive $title_outline_unfocused $background$opacity $unfocused_text_color  $text_color           $title_outline_unfocused
+client.unfocused        $title_outline_unfocused $title_bg_unfocused $unfocused_text_color  $title_outline_active
+client.urgent           $color_urgent            $color_urgent       $color_urgent
+
+## swaybar
+bar {
+    position bottom
+    status_command while $bin/shortcuts/status; do sleep 60; done
+    colors {
+        background #FFFCF0
+        focused_workspace #D0A215 #CECDC3 #F2E5CB
+        inactive_workspace #E6E4D9 #E6E4D9 #6F6E69
+    }
+}
