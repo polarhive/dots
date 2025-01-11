@@ -1,7 +1,7 @@
 ## stuff
 exec $bin/shortcuts/pes/captive
-xwayland disable
 #exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+#xwayland disable
 
 ## gestures
 bindgesture swipe:down workspace prev
@@ -20,7 +20,8 @@ set $bin ~/.local/bin
 gaps inner 2
 font pango:Product Sans 8
 default_border pixel 0
-exec swaybg -i $(find ~/.local/share/backgrounds -type f | shuf -n 1) -m fill
+exec swaybg -i ~/.local/share/backgrounds/birds.png -m fill
+#exec swaybg -i $(find ~/.local/share/backgrounds -type f | shuf -n 1) -m fill
 
 ## window rules
 for_window [app_id="chromium" title="Extension: .*"] floating enable
@@ -35,6 +36,23 @@ for_window [shell="xwayland"] title_format "%title [XWayland]"
 for_window [urgent=latest] focus
 for_window [window_role="dialog"] floating enable
 for_window [window_type="dialog"] floating enable
+
+# Flexoki (Light) Theme for Sway
+set $opacity E0
+set $background #FFFCF0
+set $color_urgent #D14D41
+set $text_color #100F0F
+set $unfocused_text_color #6F6E69
+set $title_bg_unfocused #E6E4D9
+set $title_outline_active #D0A215
+set $title_outline_unfocused #CECDC3
+
+# Set Colors:           Border                   Background          Text                   Indicator             Child Border
+client.background       $background
+client.focused          $title_outline_active    $background$opacity $text_color            $title_outline_active $title_outline_active
+client.focused_inactive $title_outline_unfocused $background$opacity $unfocused_text_color  $text_color           $title_outline_unfocused
+client.unfocused        $title_outline_unfocused $title_bg_unfocused $unfocused_text_color  $title_outline_active
+client.urgent           $color_urgent            $color_urgent       $color_urgent
 
 ## shortcuts
 bindsym Mod4+Alt+b exec beeper
@@ -150,9 +168,11 @@ bar {
     position bottom
     status_command while $bin/shortcuts/status; do sleep 60; done
     colors {
-    background #000000
-    inactive_workspace #000000 #000000 #ffffff
-   }
+        background #FFFCF0
+        statusline #000000
+        focused_workspace #D0A215 #CECDC3 #100F0F
+        inactive_workspace #E6E4D9 #E6E4D9 #6F6E69
+    }
 }
 
 include /etc/sway/config.d/*
