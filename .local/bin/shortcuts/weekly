@@ -1,0 +1,38 @@
+#!/bin/bash
+# config
+today_weekday=$(date +%u)
+week_monday=$(date -d "today - $((today_weekday - 1)) days" +%Y-%m-%d)
+iso_year=$(date -d "$week_monday" +%G)
+week_number=$(date -d "$week_monday" +%V)
+total_weeks=$(date -d "${iso_year}-12-28" +%V)
+filename="${iso_year}-W${week_number}.md"
+
+# table header row.
+output="# ${week_number}/${total_weeks}\n\n"
+output+="| task         |"
+for i in {0..6}; do
+    day_date=$(date -d "$week_monday + $i days" +%Y-%m-%d)
+    day_num=$(date -d "$week_monday + $i days" +%d)
+    day_abbr=$(date -d "$week_monday + $i days" +%a | tr '[:upper:]' '[:lower:]')
+    output+=" [[${day_date}\|${day_num}]] ${day_abbr} |"
+done
+output+="\n"
+
+output+="| ------------ |"
+for i in {0..6}; do
+    output+=" ---------------------- |"
+done
+output+="\n"
+
+# Tasks
+tasks=("diesel mo" "[[cal\|col]]" "diesel ev")
+
+for task in "${tasks[@]}"; do
+    output+="| ${task} |"
+    for i in {0..6}; do
+        output+=" -                      |"
+    done
+    output+="\n"
+done
+
+echo -e "$output" > "/home/polarhive/.local/repos/knowledge/wiki/content/daily/notes/${filename}"
