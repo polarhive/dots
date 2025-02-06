@@ -88,6 +88,7 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Animations
 animations {
     slowdown 0.5
+    // slowdown 0.5
 }
 
 // Open the Firefox picture-in-picture player as floating by default.
@@ -121,14 +122,18 @@ window-rule {
 binds {
 
     Mod+Return { spawn "kitty"; }
-    Mod+Shift+S { spawn "poweroff"; }
-    Mod+Shift+D { spawn "reboot"; }
-    Mod+D { spawn "fuzzel"; }
-    Mod+E { spawn "thunar"; }
-    Mod+B { spawn "fractal"; }
-    Mod+T { spawn "telegram-desktop"; }
-    Mod+Z { spawn "zen-browser"; }
-    Super+Alt+L { spawn "swaylock"; }
+    Mod+D { spawn "wmenu-run"; }
+    Mod+Alt+S { spawn "poweroff"; }
+    Mod+Alt+D { spawn "reboot"; }
+    Mod+Alt+E { spawn "thunar"; }
+    Mod+Alt+B { spawn "fractal"; }
+    Mod+Alt+T { spawn "telegram-desktop"; }
+    Mod+Alt+F { spawn "zen-browser"; }
+    Ctrl+Alt+Delete { spawn "swaylock"; }
+
+    XF86AudioNext        allow-when-locked=true { spawn "playerctl" "next"; }
+    XF86AudioPrev        allow-when-locked=true { spawn "playerctl" "previous"; }
+    XF86AudioPlay        allow-when-locked=true { spawn "playerctl" "play-pause"; }
     XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-"; }
     XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
@@ -283,7 +288,6 @@ binds {
     Shift+Print { screenshot; }
 
     // The quit action will show a confirmation dialog to avoid accidental exits.
-    Mod+Shift+E { quit; }
-    Ctrl+Alt+Delete { quit; }
+    Mod+Alt+A { quit; }
     Mod+A { power-off-monitors; }
 }

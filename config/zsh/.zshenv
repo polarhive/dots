@@ -16,6 +16,6 @@ export SUDO_PROMPT='[sudo] %p 🗝  '
 export XDG_CURRENT_DESKTOP="niri"
 export XDG_SESSION_DESKTOP="niri"
 export _JAVA_AWT_WM_NONREPARENTING="1"
-export npm_config_cache"=~/.cache/npm"
+export npm_config_cache="~/.cache/npm"
 export npm_config_userconfig="~/.config/npm/config"
 source "$HOME/.cargo/env"
