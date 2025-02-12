@@ -10,3 +10,8 @@ config/dconf/user
 config/gtk-3.0/bookmarks
 config/.vscode
 **.bak
+config/obsidian/bookmarks.json
+config/obsidian/workspace.json
+config/obsidian/workspaces.json
+config/obsidian/plugins/**
+config/obsidian/themes/**

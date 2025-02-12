@@ -1,17 +1,9 @@
 {
-  "markdown:toggle-preview": [
+  "editor:toggle-source": [
     {
       "modifiers": [
         "Mod",
         "Shift"
-      ],
-      "key": "E"
-    }
-  ],
-  "editor:toggle-source": [
-    {
-      "modifiers": [
-        "Mod"
       ],
       "key": "E"
     }
@@ -25,21 +17,12 @@
       "key": "S"
     }
   ],
-  "obsidian-linter:lint-file": [
+  "zenmode:toggle-zen-mode": [
     {
       "modifiers": [
-        "Mod"
+        "Alt"
       ],
-      "key": "L"
-    }
-  ],
-  "editor:toggle-checklist-status": [
-    {
-      "modifiers": [
-        "Mod",
-        "Shift"
-      ],
-      "key": "L"
+      "key": "Z"
     }
   ],
   "switcher:open": [
@@ -58,5 +41,64 @@
       "key": "Enter"
     }
   ],
-  "editor:follow-link": []
+  "editor:follow-link": [],
+  "obsidian-linter:lint-file": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "L"
+    }
+  ],
+  "slides:start": [
+    {
+      "modifiers": [],
+      "key": "F5"
+    }
+  ],
+  "daily-notes:goto-prev": [
+    {
+      "modifiers": [
+        "Alt",
+        "Shift"
+      ],
+      "key": "ArrowLeft"
+    }
+  ],
+  "daily-notes:goto-next": [
+    {
+      "modifiers": [
+        "Alt",
+        "Shift"
+      ],
+      "key": "ArrowRight"
+    }
+  ],
+  "daily-notes": [
+    {
+      "modifiers": [
+        "Alt",
+        "Shift"
+      ],
+      "key": "ArrowDown"
+    }
+  ],
+  "app:toggle-right-sidebar": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "K"
+    }
+  ],
+  "editor:insert-link": [],
+  "app:toggle-left-sidebar": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "J"
+    }
+  ]
 }

@@ -1,4 +1,18 @@
 {
   "showInlineTitle": false,
-  "showRibbon": false
+  "alwaysUpdateLinks": true,
+  "newFileLocation": "current",
+  "attachmentFolderPath": "./attachments",
+  "trashOption": "local",
+  "promptDelete": false,
+  "propertiesInDocument": "hidden",
+  "vimMode": true,
+  "pdfExportSettings": {
+    "pageSize": "A4",
+    "landscape": false,
+    "margin": "0",
+    "downscalePercent": 100
+  },
+  "foldHeading": false,
+  "rightToLeft": false
 }

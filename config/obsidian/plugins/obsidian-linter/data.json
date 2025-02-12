@@ -1,7 +1,7 @@
 {
   "ruleConfigs": {
     "add-blank-line-after-yaml": {
-      "enabled": true
+      "enabled": false
     },
     "dedupe-yaml-array-values": {
       "enabled": false,
@@ -114,7 +114,7 @@
     "auto-correct-common-misspellings": {
       "enabled": true,
       "ignore-words": "",
-      "skip-words-with-multiple-capitals": false,
+      "skip-words-with-multiple-capitals": true,
       "extra-auto-correct-files": []
     },
     "blockquote-style": {
@@ -204,7 +204,7 @@
     "heading-blank-lines": {
       "enabled": true,
       "bottom": true,
-      "empty-line-after-yaml": true
+      "empty-line-after-yaml": false
     },
     "line-break-at-document-end": {
       "enabled": false
