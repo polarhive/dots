@@ -1,23 +1,54 @@
 #!/bin/sh
-USERNAME=""
-PASSWORD=""
-d=$(date +"%s")
-wifi_name="university"
+notify-send 'captive: waiting'; sleep 30
+wifi_name="university" # PESU-EC-Campus
 
-data_raw="mode=191&username=${USERNAME}&password=${PASSWORD}&a=${d}&producttype=0"
+HEARTBEATING=0
+function pes_login() {
+    local username=""
+    local password=""
+
+    headers=(
+      "Accept: */*"
+      "Accept-Language: en"
+      "Connection: keep-alive"
+      "Content-Type: application/x-www-form-urlencoded"
+      "Origin: http://192.168.254.1:8090"
+      "Referer: http://192.168.254.1:8090"
+      "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
+    )
+
+    data_raw="mode=191&username=${username}&password=${password}&producttype=0"
+
+    # Send login request with headers
+    for header in "${headers[@]}"; do
+        curl -H "$header" --data-raw "$data_raw" 'http://192.168.254.1:8090/login.xml'
+    done
+
+    # Function to keep the session alive
+    function keep_alive() {
+        while sleep 1; do
+            for header in "${headers[@]}"; do
+                curl -H "$header" "http://192.168.254.1:8090/live?mode=192&username=${username}&producttype=0" \
+                    2>/dev/null >/dev/null || :
+            done
+        done
+    }
+
+    # Stop the existing keep-alive process if running
+    if [[ "${HEARTBEATING}" -ne 0 ]]; then
+        kill -s INT "$HEARTBEATING" >/dev/null 2>&1 || :
+    fi
+
+    # Start the new keep-alive process
+    keep_alive &
+    HEARTBEATING=$!
+}
+
+# linux specific
 current_ssid=$(nmcli -t -f name,device connection show --active | grep wlp1s0 | cut -d\: -f1)
 if [ "$current_ssid" != "${wifi_name}" ]; then
-    
-    notify-send "Not connected to $wifi_name"
+    notify-send "captive: not connected to $wifi_name"
 else
-    curl 'http://192.168.254.1:8090/login.xml' \
-      -H 'Accept: */*' \
-      -H 'Accept-Language: en' \
-      -H 'Connection: keep-alive' \
-      -H 'Content-Type: application/x-www-form-urlencoded' \
-      -H 'Origin: http://192.168.254.1:8090' \
-      -H 'Referer: http://192.168.254.1:8090/' \
-      -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36' \
-      --data-raw "$data_raw" \
-      --insecure && notify-send "done"
+    pes_login && notify-send 'captive: logging in'
 fi
+
