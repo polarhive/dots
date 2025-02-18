@@ -1,0 +1,12 @@
+[Unit]
+Description=Run captive script on network change
+PartOf=graphical-session.target
+After=graphical-session.target
+Requisite=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/sh -c "%h/.local/bin/shortcuts/pes/captive"
+Restart=on-failure
+
+[Install]
+WantedBy=network-online.target

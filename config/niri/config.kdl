@@ -3,6 +3,10 @@ input {
     keyboard {
         repeat-delay 300
         repeat-rate 40
+        xkb {
+            options "caps:escape"
+        }
+
     }
 
     touchpad {
@@ -28,6 +32,7 @@ layout {
     // - "always", the focused column will always be centered.
     // - "on-overflow", focusing a column will center it if it doesn't fit
     //   together with the previously focused column.
+
     center-focused-column "never"
 
     // You can customize the widths that "switch-preset-column-width" (Mod+R) toggles between.
@@ -52,7 +57,7 @@ layout {
     border {
         // off
 
-        width 4
+        width 2
         // active-color "#ffc87f"
         // inactive-color "#505050"
 
@@ -76,7 +81,7 @@ layout {
 // Add lines like this to spawn processes at startup.
 prefer-no-csd
 spawn-at-startup "obsidian"
-spawn-at-startup "zen-browser"
+spawn-at-startup "chromium"
 spawn-at-startup "xwayland-satellite"
 environment {
     DISPLAY ":0"
@@ -128,7 +133,7 @@ binds {
     Mod+Alt+E { spawn "thunar"; }
     Mod+Alt+B { spawn "fractal"; }
     Mod+Alt+T { spawn "telegram-desktop"; }
-    Mod+Alt+F { spawn "zen-browser"; }
+    Mod+Alt+F { spawn "chromium"; }
     Mod+Alt+I { spawn "theme"; }
     Mod+Alt+Y { spawn "bld"; }
     Mod+Alt+U { spawn "blc"; }
@@ -295,6 +300,7 @@ binds {
     Mod+V       { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
 
+    // Screenshots 
     Print { screenshot-screen; }
     Ctrl+Print { screenshot-window; }
     Shift+Print { screenshot; }
