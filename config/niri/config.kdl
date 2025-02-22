@@ -82,10 +82,10 @@ layout {
 prefer-no-csd
 spawn-at-startup "obsidian"
 spawn-at-startup "chromium"
-spawn-at-startup "xwayland-satellite"
-environment {
-    DISPLAY ":0"
-}
+// spawn-at-startup "xwayland-satellite"
+// environment {
+// DISPLAY ":0"
+// }
 
 // A ~ at the front will be expanded to the home directory.
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
@@ -132,11 +132,11 @@ binds {
     Mod+Alt+D { spawn "reboot"; }
     Mod+Alt+E { spawn "thunar"; }
     Mod+Alt+B { spawn "fractal"; }
+    Mod+Alt+M { spawn "thunderbird"; }
+    Mod+Alt+O { spawn "obsidian"; }
     Mod+Alt+T { spawn "telegram-desktop"; }
     Mod+Alt+F { spawn "chromium"; }
     Mod+Alt+I { spawn "theme"; }
-    Mod+Alt+Y { spawn "bld"; }
-    Mod+Alt+U { spawn "blc"; }
     Ctrl+Alt+Delete { spawn "swaylock"; }
 
     Alt+Shift+BracketLeft  allow-when-locked=true { spawn "brightnessctl" "set" "10%-"; }
