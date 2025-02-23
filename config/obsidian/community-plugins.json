@@ -1,7 +1,7 @@
 [
   "remotely-save",
   "obsidian-vimrc-support",
-  "obsidian-hider",
   "obsidian-linter",
-  "calendar"
+  "calendar",
+  "obsidian-hider"
 ]

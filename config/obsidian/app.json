@@ -8,6 +8,7 @@
   "propertiesInDocument": "hidden",
   "vimMode": true,
   "pdfExportSettings": {
+    "includeName": false,
     "pageSize": "A4",
     "landscape": false,
     "margin": "0",
