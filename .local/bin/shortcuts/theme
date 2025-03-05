@@ -1,0 +1,11 @@
+#!/bin/sh
+current_theme=$(gsettings get org.gnome.desktop.interface color-scheme)
+if [[ $current_theme == "'prefer-dark'" ]]; then
+    gsettings set org.gnome.desktop.interface color-scheme 'default'
+    gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3'
+    kitty_theme=$lighttheme
+else
+    gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+    gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
+    kitty_theme=$darktheme
+fi
