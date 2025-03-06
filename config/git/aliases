@@ -1,9 +1,11 @@
 [alias]
-    c = commit
     a = add -A
+    c = commit
+    cl = "!sh -c 'git clone --depth 1 \"$(wl-paste)\" && cd \"$(basename \"$(wl-paste)\" .git)\"'"
     d = diff
     l = log --oneline --decorate --graph
-    s = status
-    push = push -v
+    pl = pull -v
+    p = push -v
     pull = pull -v
-    cl = "!sh -c 'git clone --depth 1 \"$(wl-paste)\" && cd \"$(basename \"$(wl-paste)\" .git)\"'"
+    push = push -v
+    s = status

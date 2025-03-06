@@ -4,9 +4,9 @@
 	<icon>utilities-terminal</icon>
 	<name>Open Terminal Here</name>
 	<submenu></submenu>
-	<unique-id>1729607715444656-1</unique-id>
-	<command>foot -e</command>
-	<description>Example for a custom action</description>
+	<unique-id>1739611156213372-1</unique-id>
+	<command>kitty</command>
+	<description></description>
 	<range></range>
 	<patterns>*</patterns>
 	<startup-notify/>

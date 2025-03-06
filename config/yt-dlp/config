@@ -1,3 +1,4 @@
--f "best[height<=720]"
---restrict-filenames
 --add-metadata
+--embed-subs
+--restrict-filenames
+-f "best[width<=1920]"
