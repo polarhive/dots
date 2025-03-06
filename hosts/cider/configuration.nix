@@ -8,7 +8,7 @@
   # basics
   networking.hostName = "cider";
   time.timeZone = "Asia/Kolkata";
-  system.stateVersion = "nixos-unstable";
+  system.stateVersion = "25.05";
   system.autoUpgrade.enable = false;
 
   # bootloader
@@ -18,12 +18,12 @@
   # net
   networking.networkmanager.enable = true;
   systemd.network.wait-online.enable = false;
-  systemd.user.services.mpd.enable = true;
 
   # services
   services = {
     displayManager.ly.enable = true;
     gnome.gnome-keyring.enable = true;
+
     gvfs.enable = true;
     tailscale.enable = true;
     udisks2.enable = true;
@@ -56,15 +56,14 @@
     extraGroups = [ "networkmanager" "wheel" ];
   };
   users.defaultUserShell = pkgs.zsh;
-  programs.sway = { enable = true; wrapperFeatures.gtk = true; };
-  programs.firefox.enable = true;
-  programs.chromium.enable = true;
   programs.zsh.enable = true;
   environment.variables.ZDOTDIR = "/home/polarhive/.config/zsh";
 
   fonts = {
     enableDefaultPackages = true;
-    packages = with pkgs; [];
+    packages = with pkgs; [
+      input-fonts
+    ];
     fontconfig.defaultFonts = {
       serif = [ "Product Sans" ];
       sansSerif = [ "Product Sans" ];
@@ -74,8 +73,9 @@
 
   # Audio and Sound
   hardware.bluetooth.enable = true;
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.input-fonts.acceptLicense = true;
 }
 

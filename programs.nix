@@ -8,56 +8,53 @@
   pkgs.bat-extras.batgrep
   pkgs.bat-extras.batman
   pkgs.bat-extras.batpipe
-  pkgs.beeper
   pkgs.brightnessctl
   pkgs.chromium
   pkgs.clang
   pkgs.cryptsetup
   pkgs.delta
-  pkgs.dmenu
   pkgs.evince
   pkgs.eza
   pkgs.ffmpeg
-  pkgs.firefox
+  pkgs.file
   pkgs.font-awesome
+  pkgs.fractal
+  pkgs.fuzzel
   pkgs.fzf
   pkgs.gh
   pkgs.git
   pkgs.go
-  pkgs.grim
   pkgs.gvfs
   pkgs.htop
   pkgs.imv
   pkgs.inter-nerdfont
-  pkgs.jq
   pkgs.killall
   pkgs.kitty
   pkgs.libnotify
   pkgs.mako
-  pkgs.mpc
-  pkgs.mpdscribble
   pkgs.mpv
-  pkgs.ncmpcpp
   pkgs.neovim
   pkgs.newsboat
-  pkgs.nodejs_23
+  pkgs.niri
   pkgs.obsidian
+  pkgs.p7zip
   pkgs.pavucontrol
   pkgs.pfetch
   pkgs.playerctl
   pkgs.python3
-  pkgs.sioyek
   pkgs.slurp
   pkgs.sound-theme-freedesktop
-  pkgs.sway
   pkgs.swaybg
+  pkgs.swayidle
   pkgs.swaylock
   pkgs.telegram-desktop
   pkgs.thunderbird
   pkgs.tmux
   pkgs.udisks
   pkgs.unzip
+  pkgs.vscode
   pkgs.wl-clipboard
+  pkgs.wmenu
   pkgs.xdg-utils
   pkgs.xfce.thunar
   pkgs.yt-dlp
