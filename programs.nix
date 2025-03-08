@@ -33,9 +33,9 @@
   pkgs.libnotify
   pkgs.mako
   pkgs.mpv
+  pkgs.nautilus
   pkgs.neovim
   pkgs.newsboat
-  pkgs.niri
   pkgs.obsidian
   pkgs.p7zip
   pkgs.pavucontrol
@@ -57,6 +57,7 @@
   pkgs.wmenu
   pkgs.xdg-utils
   pkgs.xfce.thunar
+  pkgs.xwayland-run
   pkgs.yt-dlp
   pkgs.zoxide
   pkgs.zsh

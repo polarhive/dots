@@ -57,6 +57,7 @@
   };
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
+  programs.niri.enable = true;
   environment.variables.ZDOTDIR = "/home/polarhive/.config/zsh";
 
   fonts = {
