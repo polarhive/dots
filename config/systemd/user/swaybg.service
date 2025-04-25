@@ -1,8 +1,11 @@
 [Unit]
-PartOf=graphical-session.target
-After=graphical-session.target
-Requisite=graphical-session.target
+PartOf=niri.service
+After=niri.service
+Requisite=niri.service
 
 [Service]
-ExecStart=/usr/bin/swaybg -m fill -i "%h/.local/share/backgrounds/lines.jpg"
+ExecStart=/usr/bin/swaybg -i /home/polarhive/.local/share/backgrounds/birds.png -m fill
 Restart=on-failure
+
+[Install]
+WantedBy=niri.service
