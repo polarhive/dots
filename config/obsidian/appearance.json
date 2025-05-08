@@ -1,7 +1,7 @@
 {
-  "cssTheme": "Flexoki",
-  "interfaceFontFamily": "SF Pro Text,SF Pro Display,Product Sans",
-  "textFontFamily": "SF Pro Text,Inter Variable,SF Pro Display",
+  "cssTheme": "Flexoki Warm",
+  "interfaceFontFamily": "Product Sans",
+  "textFontFamily": "Inter",
   "monospaceFontFamily": "InputMono Nerd Font",
   "showViewHeader": false,
   "accentColor": "",

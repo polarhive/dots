@@ -1,6 +1,5 @@
 {
   "pinned": [
-    "switcher:open",
-    "graph:open"
+    "workspace:toggle-stacked-tabs"
   ]
 }

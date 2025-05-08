@@ -278,7 +278,7 @@
   "settingsConvertedToConfigKeyValues": true,
   "foldersToIgnore": [
     "daily",
-    "blog"
+    ""
   ],
   "filesToIgnore": [],
   "linterLocale": "system-default",
