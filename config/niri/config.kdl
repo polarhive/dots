@@ -19,13 +19,18 @@ input {
 }
 
 output "eDP-1" {
-    scale 0.75
+    scale 1
     transform "normal"
 }
 
+/*
+spawn-at-startup "xwayland-satellite"
+environment {
+    DISPLAY ":0"
+}
+*/
 layout {
-    gaps 5
-
+    gaps 1
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
     //   or right edge of the screen.
@@ -55,12 +60,12 @@ layout {
 
     // You can also add a border. It's similar to the focus ring, but always visible.
     border {
-        width 2
+        width 1
         // active-color "#ffc87f"
         // inactive-color "#505050"
 
-        active-gradient from="#ffbb66" to="#ffc880" angle=45 relative-to="workspace-view"
-        inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
+        // active-gradient from="#ffbb66" to="#ffc880" angle=45 relative-to="workspace-view"
+        // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
     }
 
     // Struts shrink the area occupied by windows, similarly to layer-shell panels.
@@ -77,13 +82,13 @@ layout {
 }
 
 // Add lines like this to spawn processes at startup.
+// spawn-at-startup "zen-browser"
+// spawn-at-startup "obsidian"
 prefer-no-csd
-spawn-at-startup "chromium"
-spawn-at-startup "obsidian"
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
 animations {
-    slowdown 0.0
+    slowdown 0.75
 }
 
 window-rule {
@@ -99,18 +104,20 @@ window-rule {
 binds {
 
     Mod+Return { spawn "kitty"; }
-    Mod+D { spawn "wmenu-run"; }
+    Mod+D { spawn "fuzzel"; }
     Mod+A { power-off-monitors; }
     Mod+Alt+A { spawn "systemctl" "sleep"; }
     Mod+Alt+S { spawn "systemctl" "poweroff"; }
     Mod+Alt+D { spawn "systemctl" "reboot"; }
     Mod+Alt+E { spawn "thunar"; }
-    Mod+Alt+F { spawn "fractal"; }
-    Mod+Alt+M { spawn "thunderbird"; }
+    /*Mod+Alt+F { spawn "fractal"; }
+    Mod+Alt+M { spawn "thunderbird"; }*/
     Mod+Alt+O { spawn "obsidian"; }
-    Mod+Alt+T { spawn "telegram-desktop"; }
-    Mod+Alt+C { spawn "chromium"; }
+    Mod+Alt+T { spawn "forkgram"; }
+    Mod+Alt+Z { spawn "zen-browser"; }
     Mod+Alt+I { spawn "theme"; }
+    Mod+Alt+U { spawn "sky"; }
+    Mod+Alt+P { spawn "niri" "msg" "output" "eDP-1" "off"; }
     Ctrl+Alt+Delete { spawn "swaylock"; }
 
     Alt+Shift+BracketLeft  allow-when-locked=true { spawn "brightnessctl" "set" "10%-"; }
@@ -130,7 +137,6 @@ binds {
     XF86AudioRaiseVolume   allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+"; }
     Alt+bracketleft        allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-"; }
     Alt+bracketright       allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+"; }
-
 
     XF86AudioMicMute       allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
     XF86AudioMute          allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
