@@ -41,8 +41,23 @@ typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=#ccb521'  # Style for double-hyphen options
 ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=#22b587' # Style for single-hyphen options
 
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+export EDITOR="nvim"
+export GNUPGHOME="~/.local/share/gnupg"
+export LESSHISTFILE="-"
+export PATH="$PATH:$(find ~/.local/bin -type d | tr '\n' ':' | sed 's/:$//')"
+export PYTHON_HISTORY="~/.local/share/python/history"
+export SSH_AUTH_SOCK="/run/user/1000/gcr/ssh"
+export SUDO_PROMPT="[sudo] %p 🗝  "
+export npm_config_cache="~/.cache/npm"
+export npm_config_userconfig="~/.config/npm/config"
+source "$HOME/.cargo/env"
+
 # Source additional scripts
 source ~/.config/zsh/aliases
 source ~/.local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.local/share/zsh/zoxide/z.zsh
+source ~/.local/share/zsh/batt/batt.zsh
+
