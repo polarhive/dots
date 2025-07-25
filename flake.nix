@@ -37,12 +37,22 @@
           bat
           eza
           kitty
+          mpd
+          ncmpcpp
+          mpc
+          ffmpeg
+          openssl
+          mpdscribble
           mkalias
           neovim
           obsidian
           yt-dlp
           tmux
           zoxide
+          btop
+          thunderbird
+          telegram-desktop
+          vscode
         ];
 
         homebrew = {
@@ -58,13 +68,10 @@
           casks = [
             "orbstack"
             "orion"
-            "telegram-desktop"
-            "visual-studio-code"
-            "thunderbird"
             "aerospace"
+            "beeper"
           ];
           brews = [
-            "batt"
             "sketchybar"
           ];
         };
@@ -87,3 +94,4 @@
       };
     };
 }
+
