@@ -92,6 +92,16 @@
                 KeyRepeat = 4;
               };
             };
+            
+            programs.ssh.knownHosts = {};
+            environment.extraInit = ''
+              if [ -z "$SSH_AUTH_SOCK" ]; then
+                eval "$(ssh-agent -s)" > /dev/null
+              fi
+              
+              ssh-add -l | grep -q "$(ssh-keygen -lf ~/.ssh/id_ed25519 | awk '{print $2}')" || \
+                ssh-add --apple-use-keychain ~/.ssh/id_ed25519 2>/dev/null
+            '';
           })
 
           home-manager.darwinModules.home-manager
@@ -101,7 +111,26 @@
             home-manager.useUserPackages = true;
             home-manager.users.polarhive = {
               home.stateVersion = "23.11";
-              
+              programs.ssh = {
+                enable = true;
+                addKeysToAgent = "yes";
+                forwardAgent = true;
+                extraConfig = ''
+                  AddKeysToAgent yes
+                  UseKeychain yes
+                  IdentityFile ~/.ssh/id_ed25519
+                '';
+                matchBlocks = {
+                  "*" = {
+                    extraOptions = {
+                      UseKeychain = "yes";
+                      IdentitiesOnly = "yes"; 
+                    };
+                  };
+                };
+              };
+ 
+
               services.mpd = {
                 enable = true;
                 musicDirectory = "~/Music";
