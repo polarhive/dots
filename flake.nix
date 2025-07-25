@@ -5,35 +5,41 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin }:
+  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager }:
     let
       system = "aarch64-darwin";
-      configuration = { pkgs, config, ... }: {
-        nix = {
-          settings = {
-            experimental-features = "nix-command flakes";
-          };
-          optimise.automatic = true;
-        };
+      pkgs = import nixpkgs { inherit system; };
+    in {
+      darwinConfigurations."mint" = nix-darwin.lib.darwinSystem {
+        inherit system;
+        modules = [
+          ({ config, pkgs, ... }: {
+            nix = {
+              settings.experimental-features = "nix-command flakes";
+              optimise.automatic = true;
+            };
 
-        nixpkgs = {
-          config.allowUnfree = true;
-          hostPlatform = system;
-        };
+            nixpkgs = {
+              config.allowUnfree = true;
+              hostPlatform = system;
+            };
 
-        environment.variables.ZDOTDIR = "/Users/polarhive/.config/zsh";
-        security.pam.services.sudo_local.touchIdAuth = true;
-        system.configurationRevision = self.rev or self.dirtyRev or null;
-        system.primaryUser = "polarhive";
-        system.stateVersion = 6;
-        users.users.polarhive = {
-          home = "/Users/polarhive";
-          shell = pkgs.zsh;
-        };
+            environment.variables.ZDOTDIR = "/Users/polarhive/.config/zsh";
+            security.pam.services.sudo_local.touchIdAuth = true;
+            system.configurationRevision = self.rev or self.dirtyRev or null;
+            system.primaryUser = "polarhive";
+            system.stateVersion = 6;
+            users.users.polarhive = {
+              home = "/Users/polarhive";
+              shell = pkgs.zsh;
+            };
 
-        environment.systemPackages = with pkgs; [
+            environment.systemPackages = with pkgs; [
           bat
           eza
           kitty
@@ -53,18 +59,18 @@
           thunderbird
           telegram-desktop
           vscode
-        ];
+            ];
 
-        homebrew = {
-          enable = true;
-          onActivation = {
-            upgrade = true;
-            cleanup = "zap";
-          };
-          taps = [
-            "FelixKratz/formulae"
-            "nikitabobko/tap"
-          ];
+            homebrew = {
+              enable = true;
+              onActivation = {
+                upgrade = true;
+                cleanup = "zap";
+              };
+              taps = [
+                "FelixKratz/formulae"
+                "nikitabobko/tap"
+              ];
           casks = [
             "orbstack"
             "orion"
@@ -74,24 +80,49 @@
           brews = [
             "sketchybar"
           ];
-        };
+            };
 
-        system.defaults = {
-          dock.autohide = true;
-          finder.FXPreferredViewStyle = "clmv";
-          loginwindow.GuestEnabled = false;
-          NSGlobalDomain = {
-            AppleICUForce24HourTime = true;
-            AppleInterfaceStyle = "Dark";
-            KeyRepeat = 4;
-          };
-        };
-      };
-    in {
-      darwinConfigurations."mint" = nix-darwin.lib.darwinSystem {
-        system = system;
-        modules = [ configuration ];
+            system.defaults = {
+              dock.autohide = true;
+              finder.FXPreferredViewStyle = "clmv";
+              loginwindow.GuestEnabled = false;
+              NSGlobalDomain = {
+                AppleICUForce24HourTime = true;
+                AppleInterfaceStyle = "Dark";
+                KeyRepeat = 4;
+              };
+            };
+          })
+
+          home-manager.darwinModules.home-manager
+
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.polarhive = {
+              home.stateVersion = "23.11";
+              
+              services.mpd = {
+                enable = true;
+                musicDirectory = "~/Music";
+                dataDir = "/Users/polarhive/.local/share/mpd";
+                extraConfig = ''
+                  auto_update "no"
+                  restore_paused "yes"
+                  follow_outside_symlinks "yes"
+                  log_file "~/.local/share/mpd/log"
+                  state_file "~/.local/share/mpd/state"
+                  db_file "~/.local/share/mpd/database"
+                  playlist_directory "~/.local/share/mpd/playlists"
+                  audio_output {
+                    type  "osx"
+                    name  "CoreAudio"
+                  }
+                '';
+              };
+            };
+          }
+        ];
       };
     };
 }
-
