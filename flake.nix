@@ -40,26 +40,24 @@
             };
 
             environment.systemPackages = with pkgs; [
-          bat
+          bat-extras.batdiff
+          bat-extras.batgrep
+          bat-extras.batman
+          bat-extras.batpipe
           eza
-          kitty
-          mpd
-          ncmpcpp
-          mpc
+          delta
           ffmpeg
+          go
           openssl
-          mpdscribble
           mkalias
           neovim
           obsidian
-          yt-dlp
-          tmux
           zoxide
           btop
           thunderbird
           telegram-desktop
           vscode
-            ];
+          ];
 
             homebrew = {
               enable = true;
@@ -110,45 +108,22 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.polarhive = {
+              imports = [
+                ./home/common.nix
+                ./home/tmux.nix
+                ./home/mpd.nix
+                ./home/ssh.nix
+                ./home/ncmpcpp.nix
+                ./home/mpv.nix
+                ./home/bat.nix
+                ./home/mpdscribble.nix
+                ./home/zsh.nix
+                ./home/aliases.nix
+                ./home/yt-dlp.nix
+                ./home/newsboat.nix
+                ./home/kitty.nix
+              ];
               home.stateVersion = "23.11";
-              programs.ssh = {
-                enable = true;
-                addKeysToAgent = "yes";
-                forwardAgent = true;
-                extraConfig = ''
-                  AddKeysToAgent yes
-                  UseKeychain yes
-                  IdentityFile ~/.ssh/id_ed25519
-                '';
-                matchBlocks = {
-                  "*" = {
-                    extraOptions = {
-                      UseKeychain = "yes";
-                      IdentitiesOnly = "yes"; 
-                    };
-                  };
-                };
-              };
- 
-
-              services.mpd = {
-                enable = true;
-                musicDirectory = "~/Music";
-                dataDir = "/Users/polarhive/.local/share/mpd";
-                extraConfig = ''
-                  auto_update "no"
-                  restore_paused "yes"
-                  follow_outside_symlinks "yes"
-                  log_file "~/.local/share/mpd/log"
-                  state_file "~/.local/share/mpd/state"
-                  db_file "~/.local/share/mpd/database"
-                  playlist_directory "~/.local/share/mpd/playlists"
-                  audio_output {
-                    type  "osx"
-                    name  "CoreAudio"
-                  }
-                '';
-              };
             };
           }
         ];

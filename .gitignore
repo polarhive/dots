@@ -8,6 +8,7 @@ config/dconf/user
 config/discord
 config/go/telemetry
 config/gtk-3.0/bookmarks
+config/mpdscribble/password
 config/newsboat/urls
 config/nvim/lazy-lock.json
 config/obsidian/bookmarks.json
