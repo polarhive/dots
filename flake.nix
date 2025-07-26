@@ -44,19 +44,20 @@
           bat-extras.batgrep
           bat-extras.batman
           bat-extras.batpipe
-          eza
+          btop
           delta
+          eza
+          fastfetch
           ffmpeg
           go
-          openssl
-          mkalias
+          mpc
           neovim
           obsidian
-          zoxide
-          btop
-          thunderbird
+          openssl
           telegram-desktop
+          thunderbird
           vscode
+          zoxide
           ];
 
             homebrew = {
@@ -65,18 +66,20 @@
                 upgrade = true;
                 cleanup = "zap";
               };
+              brews = [
+                "mpdscribble"
+                "sketchybar"
+              ];
               taps = [
                 "FelixKratz/formulae"
                 "nikitabobko/tap"
               ];
           casks = [
+            "aerospace"
+            "alt-tab"
+            "beeper"
             "orbstack"
             "orion"
-            "aerospace"
-            "beeper"
-          ];
-          brews = [
-            "sketchybar"
           ];
             };
 
@@ -116,7 +119,6 @@
                 ./home/ncmpcpp.nix
                 ./home/mpv.nix
                 ./home/bat.nix
-                ./home/mpdscribble.nix
                 ./home/zsh.nix
                 ./home/aliases.nix
                 ./home/yt-dlp.nix

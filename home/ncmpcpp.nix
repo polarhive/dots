@@ -31,7 +31,6 @@
     visualizer_look = "+│"
     visualizer_output_name = "snapcast"
     visualizer_spectrum_smooth_look = "no"
-    visualizer_type = "spectrum"
     volume_change_step = 10
   '';
 }
