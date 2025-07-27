@@ -53,8 +53,9 @@
           mpc
           neovim
           obsidian
-          openssl
           telegram-desktop
+          uv
+          python3
           thunderbird
           vscode
           zoxide

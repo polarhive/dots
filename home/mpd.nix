@@ -14,7 +14,7 @@
       playlist_directory "~/.local/share/mpd/playlists"
       audio_output {
         type  "osx"
-        name  "CoreAudio"
+        name  "audio"
       }
     '';
   };
