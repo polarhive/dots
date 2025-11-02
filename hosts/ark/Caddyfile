@@ -1,0 +1,22 @@
+x.polarhive.net {
+	handle_path / {
+		root * /usr/local/wwwroot
+		file_server
+	}
+
+	handle /files/* {
+		file_server browse
+	}
+
+	route /dav/* {
+		root * /usr/local/mywebdav
+		basic_auth {
+			# masked
+		}
+		uri strip_prefix /dav
+		webdav
+	}
+
+	redir /jellyfin /jellyfin/
+	reverse_proxy /jellyfin/* 127.0.0.1:8096
+}
