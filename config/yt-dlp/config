@@ -2,3 +2,4 @@
 --embed-subs
 --restrict-filenames
 -f "best[width<=1920]"
+--remote-components ejs:github
