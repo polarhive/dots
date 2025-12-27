@@ -12,7 +12,9 @@ services:
       - sh
       - -c
       - |
-        cat > ./museum.yaml <<EOF
+        # Build museum.yaml dynamically so app URLs are included only when provided
+        {
+          cat <<EOF
         internal:
           admin: ${MUSEUM_ADMIN}
           disable-registration: ${MUSEUM_DISABLE_REGISTRATION}
@@ -32,15 +34,20 @@ services:
             region: eu-central-2
             bucket: b2-eu-cen
         apps:
-          public-albums: https://${ENTE_ALBUMS_DOMAIN}
-          cast: https://${ENTE_CAST_DOMAIN}
-          embed-albums: https://${ENTE_EMBED_DOMAIN}
+        EOF
+          if [ -n "${ENTE_ALBUMS_DOMAIN}" ]; then printf "  public-albums: https://%s\n" "${ENTE_ALBUMS_DOMAIN}"; fi
+          if [ -n "${ENTE_CAST_DOMAIN}" ]; then printf "  cast: https://%s\n" "${ENTE_CAST_DOMAIN}"; fi
+          if [ -n "${ENTE_EMBED_DOMAIN}" ]; then printf "  embed-albums: https://%s\n" "${ENTE_EMBED_DOMAIN}"; fi
+          if [ -n "${ENTE_ACCOUNTS_DOMAIN}" ]; then printf "  accounts: https://%s\n" "${ENTE_ACCOUNTS_DOMAIN}"; fi
+          if [ -n "${ENTE_SHARE_DOMAIN}" ]; then printf "  public-locker: https://%s\n" "${ENTE_SHARE_DOMAIN}"; fi
+          cat <<EOF
         key:
           encryption: ${MUSEUM_ENCRYPTION_KEY}
           hash: ${MUSEUM_HASH_KEY}
         jwt:
           secret: ${MUSEUM_JWT_SECRET}
         EOF
+        } > ./museum.yaml
         exec /museum
     volumes:
       - ./data:/data:ro
@@ -133,31 +140,78 @@ services:
       - sh
       - -c
       - |
-        caddy run --config - --adapter caddyfile <<EOF
+        caddyfile=$(mktemp)
+        {
+          if [ -n "${ENTE_PHOTOS_DOMAIN}" ]; then
+            cat <<EOF
         ${ENTE_PHOTOS_DOMAIN} {
           reverse_proxy web:3000
         }
+        EOF
+          fi
 
+          if [ -n "${ENTE_S3_DOMAIN}" ]; then
+            cat <<EOF
         ${ENTE_S3_DOMAIN} {
           reverse_proxy minio:3200
         }
+        EOF
+          fi
 
+          if [ -n "${ENTE_API_DOMAIN}" ]; then
+            cat <<EOF
         ${ENTE_API_DOMAIN} {
           reverse_proxy museum:8080
         }
+        EOF
+          fi
 
+          if [ -n "${ENTE_ALBUMS_DOMAIN}" ]; then
+            cat <<EOF
         ${ENTE_ALBUMS_DOMAIN} {
           reverse_proxy web:3002
         }
+        EOF
+          fi
 
+          if [ -n "${ENTE_CAST_DOMAIN}" ]; then
+            cat <<EOF
         ${ENTE_CAST_DOMAIN} {
           reverse_proxy web:3004
         }
+        EOF
+          fi
 
+          if [ -n "${ENTE_EMBED_DOMAIN}" ]; then
+            cat <<EOF
         ${ENTE_EMBED_DOMAIN} {
           reverse_proxy web:3006
         }
         EOF
+          fi
+          if [ -n "${ENTE_ACCOUNTS_DOMAIN}" ]; then
+            cat <<EOF
+        ${ENTE_ACCOUNTS_DOMAIN} {
+          reverse_proxy web:3001
+        }
+        EOF
+          fi
+          if [ -n "${ENTE_AUTH_DOMAIN}" ]; then
+            cat <<EOF
+        ${ENTE_AUTH_DOMAIN} {
+          reverse_proxy web:3003
+        }
+        EOF
+          fi
+          if [ -n "${ENTE_SHARE_DOMAIN}" ]; then
+            cat <<EOF
+        ${ENTE_SHARE_DOMAIN} {
+          reverse_proxy web:3005
+        }
+        EOF
+          fi
+        } > "$caddyfile"
+        caddy run --config "$caddyfile" --adapter caddyfile
     volumes:
       - caddy-data:/data
 volumes:
