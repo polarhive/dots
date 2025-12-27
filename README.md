@@ -8,4 +8,3 @@ sudo nix run nix-darwin -- switch --flake .
 ```
 
 ![terminal](.github/desktop.png)
-
