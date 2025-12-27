@@ -1,0 +1,104 @@
+services:
+  museum:
+    image: ghcr.io/ente-io/server
+    ports:
+      - 8080:8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Internal
+      MUSEUM_INTERNAL_ADMIN: ${MUSEUM_ADMIN}
+      MUSEUM_INTERNAL_DISABLE_REGISTRATION: "true"
+      # DB
+      MUSEUM_DB_HOST: postgres
+      MUSEUM_DB_PORT: "5432"
+      MUSEUM_DB_NAME: ${POSTGRES_DB}
+      MUSEUM_DB_USER: ${POSTGRES_USER}
+      MUSEUM_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      # S3
+      MUSEUM_S3_ARE_LOCAL_BUCKETS: "true"
+      MUSEUM_S3_USE_PATH_STYLE_URLS: "false"
+      MUSEUM_S3_B2_EU_CEN_KEY: ${MINIO_ROOT_USER}
+      MUSEUM_S3_B2_EU_CEN_SECRET: ${MINIO_ROOT_PASSWORD}
+      MUSEUM_S3_B2_EU_CEN_ENDPOINT: ${ENTE_S3_ENDPOINT}
+      MUSEUM_S3_B2_EU_CEN_REGION: ${ENTE_S3_REGION}
+      MUSEUM_S3_B2_EU_CEN_BUCKET: ${MINIO_BUCKET}
+      # Apps
+      MUSEUM_APPS_PUBLIC_ALBUMS: ${ENTE_ALBUMS_ORIGIN}
+      MUSEUM_APPS_CAST: ${ENTE_CAST_ORIGIN}
+      MUSEUM_APPS_EMBED_ALBUMS: ${ENTE_EMBED_ORIGIN}
+      # Key
+      MUSEUM_KEY_ENCRYPTION: ${MUSEUM_ENCRYPTION_KEY}
+      MUSEUM_KEY_HASH: ${MUSEUM_HASH_KEY}
+      # JWT
+      MUSEUM_JWT_SECRET: ${MUSEUM_JWT_SECRET}
+    volumes:
+      - ./data:/data:ro
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/ping"]
+      interval: 60s
+      timeout: 5s
+      retries: 3
+      start_period: 120s
+
+  # Resolve localhost:3200 in museum → minio
+  socat:
+    image: alpine/socat
+    network_mode: service:museum
+    depends_on: [museum]
+    command: "TCP-LISTEN:3200,fork,reuseaddr TCP:minio:3200"
+
+  web:
+    image: ghcr.io/ente-io/web
+    ports:
+      - 3000:3000 # Photos web app
+      - 3002:3002 # Public albums
+      - 3004:3004 # Cast
+      - 3006:3006 # Embed
+    environment:
+      ENTE_API_ORIGIN: ${ENTE_API_ORIGIN}
+      ENTE_ALBUMS_ORIGIN: ${ENTE_ALBUMS_ORIGIN}
+      ENTE_PHOTOS_ORIGIN: ${ENTE_PHOTOS_ORIGIN}
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    healthcheck:
+      test: pg_isready -q -d ${POSTGRES_DB} -U ${POSTGRES_USER}
+      start_period: 40s
+      start_interval: 1s
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  minio:
+    image: minio/minio
+    ports:
+      - 3200:3200
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    command: server /data --address ":3200" --console-address ":3201"
+    volumes:
+      - minio-data:/data
+    post_start:
+      - command: |
+          sh -c '
+          #!/bin/sh
+          while ! mc alias set h0 http://minio:3200 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD} 2>/dev/null
+          do
+            echo "Waiting for minio..."
+            sleep 0.5
+          done
+
+          cd /data
+          mc mb -p ${MINIO_BUCKET}
+          '
+
+volumes:
+  postgres-data:
+  minio-data:
+

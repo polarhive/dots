@@ -1,0 +1,24 @@
+# Ente Photos (Web + API + S3)
+e.polarhive.net {
+	reverse_proxy localhost:3000
+}
+
+io.e.polarhive.net {
+	reverse_proxy localhost:3200
+}
+
+api.e.polarhive.net {
+	reverse_proxy localhost:8080
+}
+
+albums.e.polarhive.net {
+	reverse_proxy localhost:3002
+}
+
+cast.e.polarhive.net {
+	reverse_proxy localhost:3004
+}
+
+public.e.polarhive.net {
+	reverse_proxy localhost:3006
+}

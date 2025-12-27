@@ -1,9 +1,10 @@
+*.env
 **.bak
 **.DS_Store
 config/.vscode
 config/Beeper
-config/Code
 config/chromium
+config/Code
 config/dconf/user
 config/discord
 config/go/telemetry
