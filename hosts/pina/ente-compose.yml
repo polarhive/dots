@@ -1,0 +1,166 @@
+# Checkout the .env.example and create your own .env file with the required variables.
+# Then run: docker compose up -d
+services:
+  museum:
+    image: ghcr.io/ente-io/server
+    ports:
+      - 8080:8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command:
+      - sh
+      - -c
+      - |
+        cat > ./museum.yaml <<EOF
+        internal:
+          admin: ${MUSEUM_ADMIN}
+          disable-registration: ${MUSEUM_DISABLE_REGISTRATION}
+        db:
+          host: postgres
+          port: 5432
+          name: ente_db
+          user: pguser
+          password: ${POSTGRES_PASSWORD}
+        s3:
+          are_local_buckets: true
+          use_path_style_urls: false
+          b2-eu-cen:
+            key: ${MINIO_ROOT_USER}
+            secret: ${MINIO_ROOT_PASSWORD}
+            endpoint: https://${ENTE_S3_DOMAIN}
+            region: eu-central-2
+            bucket: b2-eu-cen
+        apps:
+          public-albums: https://${ENTE_ALBUMS_DOMAIN}
+          cast: https://${ENTE_CAST_DOMAIN}
+          embed-albums: https://${ENTE_EMBED_DOMAIN}
+        key:
+          encryption: ${MUSEUM_ENCRYPTION_KEY}
+          hash: ${MUSEUM_HASH_KEY}
+        jwt:
+          secret: ${MUSEUM_JWT_SECRET}
+        EOF
+        exec /museum
+    volumes:
+      - ./data:/data:ro
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--quiet",
+          "--tries=1",
+          "--spider",
+          "http://localhost:8080/ping",
+        ]
+      interval: 60s
+      timeout: 5s
+      retries: 3
+      start_period: 120s
+
+  # Resolve localhost:3200 in museum → minio
+  socat:
+    image: alpine/socat
+    network_mode: service:museum
+    depends_on: [museum]
+    command: "TCP-LISTEN:3200,fork,reuseaddr TCP:minio:3200"
+
+  web:
+    image: ghcr.io/ente-io/web
+    depends_on:
+      museum:
+        condition: service_healthy
+    ports:
+      - 3000:3000 # Photos
+      - 3002:3002 # Albums
+      - 3004:3004 # Cast
+      - 3006:3006 # Embed
+    env_file:
+      - .env
+
+  postgres:
+    image: postgres:15
+    env_file:
+      - .env
+    healthcheck:
+      test: pg_isready -q -d ente_db -U pguser
+      start_period: 40s
+      start_interval: 1s
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  minio:
+    image: minio/minio
+    ports:
+      - 3200:3200
+    env_file:
+      - .env
+    command: server /data --address ":3200" --console-address ":3201"
+    volumes:
+      - minio-data:/data
+    post_start:
+      - command: |
+          sh -c '
+          #!/bin/sh
+          while ! mc alias set h0 http://minio:3200 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD} 2>/dev/null
+          do
+            echo "Waiting for minio..."
+            sleep 0.5
+          done
+
+          cd /data
+          mc mb -p b2-eu-cen
+          '
+
+  caddy:
+    image: caddy:latest
+    depends_on:
+      museum:
+        condition: service_healthy
+      web:
+        condition: service_started
+      minio:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+    ports:
+      - 80:80
+      - 443:443
+    env_file:
+      - .env
+    command:
+      - sh
+      - -c
+      - |
+        caddy run --config - --adapter caddyfile <<EOF
+        ${ENTE_PHOTOS_DOMAIN} {
+          reverse_proxy web:3000
+        }
+
+        ${ENTE_S3_DOMAIN} {
+          reverse_proxy minio:3200
+        }
+
+        ${ENTE_API_DOMAIN} {
+          reverse_proxy museum:8080
+        }
+
+        ${ENTE_ALBUMS_DOMAIN} {
+          reverse_proxy web:3002
+        }
+
+        ${ENTE_CAST_DOMAIN} {
+          reverse_proxy web:3004
+        }
+
+        ${ENTE_EMBED_DOMAIN} {
+          reverse_proxy web:3006
+        }
+        EOF
+    volumes:
+      - caddy-data:/data
+volumes:
+  postgres-data:
+  minio-data:
+  caddy-data:
