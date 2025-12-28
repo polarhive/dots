@@ -214,10 +214,6 @@ YAML
 
           mc mb -p ${ENTE_S3_B2_EU_CEN_BUCKET}
           '
-
-YAML
-  if [[ "$INCLUDE_CADDY" == true ]]; then
-  cat <<'YAML'
   caddy:
     image: caddy:latest
     depends_on:
@@ -234,56 +230,86 @@ YAML
       - 443:443
     env_file:
       - .env
-    command: >
-      sh -c "
-        echo '# Global Caddy configuration' > ./Caddyfile
-        [ -n \"${CADDY_EMAIL}\" ] || [ -n \"${CADDY_ACME_CA}\" ] || [ -n \"${CADDY_ACME_EAB_KEY_ID}\" ] && echo '{' >> ./Caddyfile
-        [ -n \"${CADDY_EMAIL}\" ] && echo \"    email ${CADDY_EMAIL}\" >> ./Caddyfile
-        [ -n \"${CADDY_ACME_CA}\" ] && echo \"    acme_ca ${CADDY_ACME_CA}\" >> ./Caddyfile
-        [ -n \"${CADDY_ACME_EAB_KEY_ID}\" ] && [ -n \"${CADDY_ACME_EAB_MAC_KEY}\" ] && echo '    acme_eab {' >> ./Caddyfile
-        [ -n \"${CADDY_ACME_EAB_KEY_ID}\" ] && [ -n \"${CADDY_ACME_EAB_MAC_KEY}\" ] && echo \"        key_id ${CADDY_ACME_EAB_KEY_ID}\" >> ./Caddyfile
-        [ -n \"${CADDY_ACME_EAB_KEY_ID}\" ] && [ -n \"${CADDY_ACME_EAB_MAC_KEY}\" ] && echo \"        mac_key ${CADDY_ACME_EAB_MAC_KEY}\" >> ./Caddyfile
-        [ -n \"${CADDY_ACME_EAB_KEY_ID}\" ] && [ -n \"${CADDY_ACME_EAB_MAC_KEY}\" ] && echo '    }' >> ./Caddyfile
-        [ -n \"${CADDY_EMAIL}\" ] || [ -n \"${CADDY_ACME_CA}\" ] || [ -n \"${CADDY_ACME_EAB_KEY_ID}\" ] && echo '}' >> ./Caddyfile
-        [ -n \"${ENTE_PHOTOS_DOMAIN}\" ] && echo \"${ENTE_PHOTOS_DOMAIN} {\" >> ./Caddyfile
-        [ -n \"${ENTE_PHOTOS_DOMAIN}\" ] && echo '    reverse_proxy web:3000' >> ./Caddyfile
-        [ -n \"${ENTE_PHOTOS_DOMAIN}\" ] && echo '}' >> ./Caddyfile
-        [ -n \"${ENTE_ACCOUNTS_DOMAIN}\" ] && echo \"${ENTE_ACCOUNTS_DOMAIN} {\" >> ./Caddyfile
-        [ -n \"${ENTE_ACCOUNTS_DOMAIN}\" ] && echo '    reverse_proxy web:3001' >> ./Caddyfile
-        [ -n \"${ENTE_ACCOUNTS_DOMAIN}\" ] && echo '}' >> ./Caddyfile
-        [ -n \"${ENTE_ALBUMS_DOMAIN}\" ] && echo \"${ENTE_ALBUMS_DOMAIN} {\" >> ./Caddyfile
-        [ -n \"${ENTE_ALBUMS_DOMAIN}\" ] && echo '    reverse_proxy web:3002' >> ./Caddyfile
-        [ -n \"${ENTE_ALBUMS_DOMAIN}\" ] && echo '}' >> ./Caddyfile
-        [ -n \"${ENTE_AUTH_DOMAIN}\" ] && echo \"${ENTE_AUTH_DOMAIN} {\" >> ./Caddyfile
-        [ -n \"${ENTE_AUTH_DOMAIN}\" ] && echo '    reverse_proxy web:3003' >> ./Caddyfile
-        [ -n \"${ENTE_AUTH_DOMAIN}\" ] && echo '}' >> ./Caddyfile
-        [ -n \"${ENTE_CAST_DOMAIN}\" ] && echo \"${ENTE_CAST_DOMAIN} {\" >> ./Caddyfile
-        [ -n \"${ENTE_CAST_DOMAIN}\" ] && echo '    reverse_proxy web:3004' >> ./Caddyfile
-        [ -n \"${ENTE_CAST_DOMAIN}\" ] && echo '}' >> ./Caddyfile
-        [ -n \"${ENTE_SHARE_DOMAIN}\" ] && echo \"${ENTE_SHARE_DOMAIN} {\" >> ./Caddyfile
-        [ -n \"${ENTE_SHARE_DOMAIN}\" ] && echo '    reverse_proxy web:3005' >> ./Caddyfile
-        [ -n \"${ENTE_SHARE_DOMAIN}\" ] && echo '}' >> ./Caddyfile
-        [ -n \"${ENTE_EMBED_DOMAIN}\" ] && echo \"${ENTE_EMBED_DOMAIN} {\" >> ./Caddyfile
-        [ -n \"${ENTE_EMBED_DOMAIN}\" ] && echo '    reverse_proxy web:3006' >> ./Caddyfile
-        [ -n \"${ENTE_EMBED_DOMAIN}\" ] && echo '}' >> ./Caddyfile
-        [ -n \"${ENTE_S3_DOMAIN}\" ] && echo \"${ENTE_S3_DOMAIN} {\" >> ./Caddyfile
-        [ -n \"${ENTE_S3_DOMAIN}\" ] && echo '    reverse_proxy minio:3200' >> ./Caddyfile
-        [ -n \"${ENTE_S3_DOMAIN}\" ] && echo '}' >> ./Caddyfile
-        [ -n \"${ENTE_API_DOMAIN}\" ] && echo \"${ENTE_API_DOMAIN} {\" >> ./Caddyfile
-        [ -n \"${ENTE_API_DOMAIN}\" ] && echo '    reverse_proxy museum:8080' >> ./Caddyfile
-        [ -n \"${ENTE_API_DOMAIN}\" ] && echo '}' >> ./Caddyfile
-        caddy run --config ./Caddyfile --adapter caddyfile
-      "
-YAML
-  fi
-  cat <<'YAML'
-
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+    command: ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
 volumes:
   postgres-data:
   minio-data:
+  caddy_data:
 
 YAML
   } > compose.yaml
+}
+
+generate_caddyfile() {
+  cat <<-EOF
+$ENTE_PHOTOS_DOMAIN {
+	handle_path /api/* {
+		reverse_proxy museum:8080
+	}
+
+	handle {
+		reverse_proxy web:3000
+	}
+}
+EOF
+  echo ""
+
+  if [[ -n "$ENTE_ACCOUNTS_DOMAIN" ]]; then
+    cat <<-EOF
+$ENTE_ACCOUNTS_DOMAIN {
+	reverse_proxy web:3001
+}
+EOF
+    echo ""
+  fi
+  if [[ -n "$ENTE_ALBUMS_DOMAIN" ]]; then
+    cat <<-EOF
+$ENTE_ALBUMS_DOMAIN {
+	reverse_proxy web:3002
+}
+EOF
+    echo ""
+  fi
+  if [[ -n "$ENTE_AUTH_DOMAIN" ]]; then
+    cat <<-EOF
+$ENTE_AUTH_DOMAIN {
+	reverse_proxy web:3003
+}
+EOF
+    echo ""
+  fi
+  if [[ -n "$ENTE_CAST_DOMAIN" ]]; then
+    cat <<-EOF
+$ENTE_CAST_DOMAIN {
+	reverse_proxy web:3004
+}
+EOF
+    echo ""
+  fi
+  if [[ -n "$ENTE_SHARE_DOMAIN" ]]; then
+    cat <<-EOF
+$ENTE_SHARE_DOMAIN {
+	reverse_proxy web:3005
+}
+EOF
+    echo ""
+  fi
+  if [[ -n "$ENTE_EMBED_DOMAIN" ]]; then
+    cat <<-EOF
+$ENTE_EMBED_DOMAIN {
+	reverse_proxy web:3006
+}
+EOF
+    echo ""
+  fi
+  cat <<-EOF
+$ENTE_S3_DOMAIN {
+	reverse_proxy minio:3200
+}
+EOF
 }
 
 start_compose() {
@@ -430,10 +456,9 @@ main() {
   ENTE_KEY_HASH="${ENTE_KEY_HASH:-$(gen_hash)}"
   ENTE_JWT_SECRET="${ENTE_JWT_SECRET:-$(gen_jwt_secret)}"
 
-  # Domains - S3 and API required, others optional
+  # Domains - S3 and Photos required, others optional
   while true; do
     ask_domain_input ENTE_S3_DOMAIN "S3"
-    ask_domain_input ENTE_API_DOMAIN "API"
     ask_domain_input ENTE_PHOTOS_DOMAIN "Photos"
     ask_domain_input ENTE_ACCOUNTS_DOMAIN "Accounts"
     ask_domain_input ENTE_ALBUMS_DOMAIN "Albums"
@@ -446,10 +471,13 @@ main() {
       say "\n${RED}[ERR]${NC} S3 domain is required. Restarting domain configuration...\n\n"
       continue
     fi
-    if [[ -z "$ENTE_API_DOMAIN" ]]; then
-      say "\n${RED}[ERR]${NC} API domain is required. Restarting domain configuration...\n\n"
+    if [[ -z "$ENTE_PHOTOS_DOMAIN" ]]; then
+      say "\n${RED}[ERR]${NC} Photos domain is required. Restarting domain configuration...\n\n"
       continue
     fi
+
+    # Set API domain to Photos domain for unified routing
+    ENTE_API_DOMAIN="$ENTE_PHOTOS_DOMAIN"
     if [[ -z "$ENTE_PHOTOS_DOMAIN" ]]; then
       say "\n${RED}[ERR]${NC} Photos domain is required. Restarting domain configuration...\n\n"
       continue
@@ -457,7 +485,7 @@ main() {
 
     # Show DNS records and ask for confirmation
     say "\n${BLUE}[INF]${NC} DNS A records for configured domains:\n"
-    for domain_var in ENTE_S3_DOMAIN ENTE_API_DOMAIN ENTE_PHOTOS_DOMAIN ENTE_ACCOUNTS_DOMAIN ENTE_ALBUMS_DOMAIN ENTE_AUTH_DOMAIN ENTE_CAST_DOMAIN ENTE_SHARE_DOMAIN ENTE_EMBED_DOMAIN; do
+    for domain_var in ENTE_S3_DOMAIN ENTE_PHOTOS_DOMAIN ENTE_ACCOUNTS_DOMAIN ENTE_ALBUMS_DOMAIN ENTE_AUTH_DOMAIN ENTE_CAST_DOMAIN ENTE_SHARE_DOMAIN ENTE_EMBED_DOMAIN; do
       eval "domain=\$$domain_var"
       if [[ -n "$domain" ]]; then
         local ips
@@ -499,7 +527,7 @@ main() {
   ENTE_S3_USE_PATH_STYLE_URLS=false
 
   # Origins
-  ENTE_API_ORIGIN="${ENTE_API_DOMAIN:+https://$ENTE_API_DOMAIN}"
+  ENTE_API_ORIGIN="${ENTE_API_DOMAIN:+https://$ENTE_API_DOMAIN/api}"
   ENTE_PHOTOS_ORIGIN="${ENTE_PHOTOS_DOMAIN:+https://$ENTE_PHOTOS_DOMAIN}"
   ENTE_ALBUMS_ORIGIN="${ENTE_ALBUMS_DOMAIN:+https://$ENTE_ALBUMS_DOMAIN}"
   ENTE_CAST_ORIGIN="${ENTE_CAST_DOMAIN:+https://$ENTE_CAST_DOMAIN}"
@@ -586,16 +614,10 @@ main() {
     fi
   done
 
-  say "\n${ORANGE}[Q]${NC} Include Caddy reverse proxy? [Y/n]: "
-  read -r caddy_input || true
-  caddy_input=${caddy_input:-y}
-  case "$caddy_input" in
-    [Yy][Ee][Ss]|[Yy]|true|TRUE|"") INCLUDE_CADDY=true ;;
-    *) INCLUDE_CADDY=false ;;
-  esac
 
   generate_compose
-  say "${GREEN}[OK]${NC} Written to compose.yaml"
+  generate_caddyfile > Caddyfile
+  say "${GREEN}[OK]${NC} Written to compose.yaml and Caddyfile"
   start_compose "$is_existing_setup"
 }
 
