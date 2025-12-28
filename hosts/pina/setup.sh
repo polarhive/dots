@@ -5,21 +5,19 @@ if [[ -z "${BASH_VERSION:-}" ]]; then
 fi
 set -euo pipefail
 
-# Ente quick wizard: generates .env and a single compose.yaml with your preferences.
-# Self-contained: no external downloads. Designed for macOS/Linux.
-
 BLUE='\033[0;34m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+ORANGE='\033[0;33m'
 RED='\033[0;31m'
+BOLD='\033[1m'
 NC='\033[0m'
-
-say() { printf "%b\n" "$1"; }
+say() { printf "%b" "$1"; }
 
 require() {
   local cmd="$1" msg="$2"
   if ! command -v "$cmd" >/dev/null 2>&1; then
-    say "${RED}ERROR:${NC} $msg"
+    say "${RED}[ERR]${NC} $msg\n"
     exit 1
   fi
 }
@@ -38,9 +36,7 @@ docker_compose_version_ok() {
 }
 
 header() {
-  say "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-  say "${BLUE}     Ente Server Quick Wizard${NC}"
-  say "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+  say "${BLUE}[INF]${NC} Welcome to the ${BOLD}Ente setup wizard${NC}!\n"
 }
 
 gen_user_suffix() { head -c 6 /dev/urandom | base64 | tr -d '\n'; }
@@ -54,8 +50,9 @@ ask_bool() {
   local current="${!key-}"
   local def="${current:-$default}"
   local yn_def
-  if [[ "$def" == true ]]; then yn_def="y"; else yn_def="N"; fi
-  read -r -p "$prompt [y/${yn_def}]: " value || true
+  if [[ "$def" == true ]]; then yn_def="Y/n"; else yn_def="y/N"; fi
+  say "${ORANGE}$prompt [$yn_def]: ${NC}"
+  read -r value || true
   value=${value:-$def}
   case "$value" in
     [Yy][Ee][Ss]|[Yy]|true|TRUE) value=true ;;
@@ -80,10 +77,12 @@ ask() {
   local current="${!key-}"
   local def="${current:-$default}"
   if [[ -n "$def" ]]; then
-    read -r -p "$prompt [$def]: " value || true
+  say "${ORANGE}$prompt [$def]: ${NC}"
+    read -r value || true
     value="${value:-$def}"
   else
-    read -r -p "$prompt: " value || true
+  say "${ORANGE}$prompt: ${NC}"
+    read -r value || true
   fi
   printf -v "$key" "%s" "$value"
 }
@@ -91,9 +90,32 @@ ask() {
 ask_domain_input() {
   local var_name="$1" label="$2"
   local val=""
-  read -r -p "Enable $label domain [subdomain.domain.tld]: " val || true
+  local current="${!var_name-}"
+  if [[ -n "$current" ]]; then
+    say "${ORANGE}[Q]${NC} Set $label domain [$current]: "
+    read -r val || true
+    val="${val:-$current}"
+  else
+    say "${ORANGE}[Q]${NC} Set $label domain (e.g., subdomain.example.com): "
+    read -r val || true
+  fi
   if [[ -n "$val" ]] && [[ ! "$val" =~ ^https?:// ]]; then
-    printf -v "$var_name" "%s" "$val"
+    while true; do
+      local ip
+      ip=$(dig +short "$val" | head -1)
+      if [[ -z "$ip" ]]; then
+        say "${RED}Domain $val does not resolve. Please re-enter or leave empty.${NC}\n"
+        say "${ORANGE}Re-enter $label domain [subdomain.domain.tld]: ${NC}"
+        read -r val || true
+        if [[ -z "$val" ]]; then
+          printf -v "$var_name" ""
+          break
+        fi
+      else
+        printf -v "$var_name" "$val"
+        break
+      fi
+    done
   else
     printf -v "$var_name" ""
   fi
@@ -121,47 +143,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    command:
-      - sh
-      - -c
-      - |
-        {
-          cat <<EOF
-        internal:
-          admin: ${MUSEUM_ADMIN}
-          disable-registration: ${MUSEUM_DISABLE_REGISTRATION}
-        db:
-          host: postgres
-          port: 5432
-          name: ${POSTGRES_DB}
-          user: ${POSTGRES_USER}
-          password: ${POSTGRES_PASSWORD}
-        s3:
-          are_local_buckets: true
-          use_path_style_urls: false
-          b2-eu-cen:
-            key: ${MINIO_ROOT_USER}
-            secret: ${MINIO_ROOT_PASSWORD}
-            endpoint: ${ENTE_S3_ENDPOINT}
-            region: ${ENTE_S3_REGION}
-            bucket: ${ENTE_S3_BUCKET}
-        apps:
-        EOF
-          if [ -n "${ENTE_PHOTOS_DOMAIN}" ]; then printf "  photos: https://%s\n" "${ENTE_PHOTOS_DOMAIN}"; fi
-          if [ -n "${ENTE_ALBUMS_DOMAIN}" ]; then printf "  public-albums: https://%s\n" "${ENTE_ALBUMS_DOMAIN}"; fi
-          if [ -n "${ENTE_CAST_DOMAIN}" ]; then printf "  cast: https://%s\n" "${ENTE_CAST_DOMAIN}"; fi
-          if [ -n "${ENTE_EMBED_DOMAIN}" ]; then printf "  embed-albums: https://%s\n" "${ENTE_EMBED_DOMAIN}"; fi
-          if [ -n "${ENTE_ACCOUNTS_DOMAIN}" ]; then printf "  accounts: https://%s\n" "${ENTE_ACCOUNTS_DOMAIN}"; fi
-          if [ -n "${ENTE_SHARE_DOMAIN}" ]; then printf "  public-locker: https://%s\n" "${ENTE_SHARE_DOMAIN}"; fi
-          cat <<EOF
-        key:
-          encryption: ${MUSEUM_ENCRYPTION_KEY}
-          hash: ${MUSEUM_HASH_KEY}
-        jwt:
-          secret: ${MUSEUM_JWT_SECRET}
-        EOF
-        } > ./museum.yaml
-        exec /museum
+    env_file:
+      - .env
     volumes:
       - ./data:/data:ro
     healthcheck:
@@ -185,12 +168,17 @@ services:
 YAML
     if ((${#WEB_PORT_LINES[@]})); then
       echo "    ports:"
-      printf '%s\n' "${WEB_PORT_LINES[@]}"
+      for port_line in "${WEB_PORT_LINES[@]}"; do
+        if [[ $port_line == \#* ]]; then
+          echo "      $port_line"
+        else
+          echo "      - $port_line"
+        fi
+      done
     fi
     cat <<'YAML'
     env_file:
       - .env
-
   postgres:
     image: postgres:15
     env_file:
@@ -211,19 +199,21 @@ YAML
     command: server /data --address ":3200" --console-address ":3201"
     volumes:
       - minio-data:/data
+    post_start:
+      - command: |
+          sh -c '
+          #!/bin/sh
 
-  minio-init:
-    image: minio/mc
-    depends_on:
-      minio:
-        condition: service_started
-    entrypoint: ["sh","-c"]
-    command: |
-      set -e
-      until mc alias set h0 http://minio:3200 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD} 2>/dev/null; do
-        echo "Waiting for minio..."; sleep 1;
-      done
-      mc mb -p h0/b2-eu-cen || true
+          while ! mc alias set h0 http://minio:3200 ${ENTE_S3_B2_EU_CEN_KEY} ${ENTE_S3_B2_EU_CEN_SECRET} 2>/dev/null
+          do
+            echo "Waiting for minio..."
+            sleep 0.5
+          done
+
+          cd /data
+
+          mc mb -p ${ENTE_S3_B2_EU_CEN_BUCKET}
+          '
 
 YAML
   if [[ "$INCLUDE_CADDY" == true ]]; then
@@ -244,76 +234,46 @@ YAML
       - 443:443
     env_file:
       - .env
-    command:
-      - sh
-      - -c
-      - |
-        {
-          if [ -n "${ENTE_PHOTOS_DOMAIN}" ]; then
-            cat <<EOF
-        ${ENTE_PHOTOS_DOMAIN} {
-          reverse_proxy web:3000
-        }
-        EOF
-          fi
-          if [ -n "${ENTE_ACCOUNTS_DOMAIN}" ]; then
-            cat <<EOF
-        ${ENTE_ACCOUNTS_DOMAIN} {
-          reverse_proxy web:3001
-        }
-        EOF
-          fi
-          if [ -n "${ENTE_ALBUMS_DOMAIN}" ]; then
-            cat <<EOF
-        ${ENTE_ALBUMS_DOMAIN} {
-          reverse_proxy web:3002
-        }
-        EOF
-          fi
-          if [ -n "${ENTE_AUTH_DOMAIN}" ]; then
-            cat <<EOF
-        ${ENTE_AUTH_DOMAIN} {
-          reverse_proxy web:3003
-        }
-        EOF
-          fi
-          if [ -n "${ENTE_CAST_DOMAIN}" ]; then
-            cat <<EOF
-        ${ENTE_CAST_DOMAIN} {
-          reverse_proxy web:3004
-        }
-        EOF
-          fi
-          if [ -n "${ENTE_SHARE_DOMAIN}" ]; then
-            cat <<EOF
-        ${ENTE_SHARE_DOMAIN} {
-          reverse_proxy web:3005
-        }
-        EOF
-          fi
-          if [ -n "${ENTE_EMBED_DOMAIN}" ]; then
-            cat <<EOF
-        ${ENTE_EMBED_DOMAIN} {
-          reverse_proxy web:3006
-        }
-        EOF
-          fi
-          if [ -n "${ENTE_S3_DOMAIN}" ]; then
-            cat <<EOF
-        ${ENTE_S3_DOMAIN} {
-          reverse_proxy minio:3200
-        }
-        EOF
-          fi
-          if [ -n "${ENTE_API_DOMAIN}" ]; then
-            cat <<EOF
-        ${ENTE_API_DOMAIN} {
-          reverse_proxy museum:8080
-        }
-        EOF
-          fi
-        } > ./caddyfile
-        caddy run --config ./caddyfile --adapter caddyfile
+    command: >
+      sh -c "
+        echo '# Global Caddy configuration' > ./Caddyfile
+        [ -n \"${CADDY_EMAIL}\" ] || [ -n \"${CADDY_ACME_CA}\" ] || [ -n \"${CADDY_ACME_EAB_KEY_ID}\" ] && echo '{' >> ./Caddyfile
+        [ -n \"${CADDY_EMAIL}\" ] && echo \"    email ${CADDY_EMAIL}\" >> ./Caddyfile
+        [ -n \"${CADDY_ACME_CA}\" ] && echo \"    acme_ca ${CADDY_ACME_CA}\" >> ./Caddyfile
+        [ -n \"${CADDY_ACME_EAB_KEY_ID}\" ] && [ -n \"${CADDY_ACME_EAB_MAC_KEY}\" ] && echo '    acme_eab {' >> ./Caddyfile
+        [ -n \"${CADDY_ACME_EAB_KEY_ID}\" ] && [ -n \"${CADDY_ACME_EAB_MAC_KEY}\" ] && echo \"        key_id ${CADDY_ACME_EAB_KEY_ID}\" >> ./Caddyfile
+        [ -n \"${CADDY_ACME_EAB_KEY_ID}\" ] && [ -n \"${CADDY_ACME_EAB_MAC_KEY}\" ] && echo \"        mac_key ${CADDY_ACME_EAB_MAC_KEY}\" >> ./Caddyfile
+        [ -n \"${CADDY_ACME_EAB_KEY_ID}\" ] && [ -n \"${CADDY_ACME_EAB_MAC_KEY}\" ] && echo '    }' >> ./Caddyfile
+        [ -n \"${CADDY_EMAIL}\" ] || [ -n \"${CADDY_ACME_CA}\" ] || [ -n \"${CADDY_ACME_EAB_KEY_ID}\" ] && echo '}' >> ./Caddyfile
+        [ -n \"${ENTE_PHOTOS_DOMAIN}\" ] && echo \"${ENTE_PHOTOS_DOMAIN} {\" >> ./Caddyfile
+        [ -n \"${ENTE_PHOTOS_DOMAIN}\" ] && echo '    reverse_proxy web:3000' >> ./Caddyfile
+        [ -n \"${ENTE_PHOTOS_DOMAIN}\" ] && echo '}' >> ./Caddyfile
+        [ -n \"${ENTE_ACCOUNTS_DOMAIN}\" ] && echo \"${ENTE_ACCOUNTS_DOMAIN} {\" >> ./Caddyfile
+        [ -n \"${ENTE_ACCOUNTS_DOMAIN}\" ] && echo '    reverse_proxy web:3001' >> ./Caddyfile
+        [ -n \"${ENTE_ACCOUNTS_DOMAIN}\" ] && echo '}' >> ./Caddyfile
+        [ -n \"${ENTE_ALBUMS_DOMAIN}\" ] && echo \"${ENTE_ALBUMS_DOMAIN} {\" >> ./Caddyfile
+        [ -n \"${ENTE_ALBUMS_DOMAIN}\" ] && echo '    reverse_proxy web:3002' >> ./Caddyfile
+        [ -n \"${ENTE_ALBUMS_DOMAIN}\" ] && echo '}' >> ./Caddyfile
+        [ -n \"${ENTE_AUTH_DOMAIN}\" ] && echo \"${ENTE_AUTH_DOMAIN} {\" >> ./Caddyfile
+        [ -n \"${ENTE_AUTH_DOMAIN}\" ] && echo '    reverse_proxy web:3003' >> ./Caddyfile
+        [ -n \"${ENTE_AUTH_DOMAIN}\" ] && echo '}' >> ./Caddyfile
+        [ -n \"${ENTE_CAST_DOMAIN}\" ] && echo \"${ENTE_CAST_DOMAIN} {\" >> ./Caddyfile
+        [ -n \"${ENTE_CAST_DOMAIN}\" ] && echo '    reverse_proxy web:3004' >> ./Caddyfile
+        [ -n \"${ENTE_CAST_DOMAIN}\" ] && echo '}' >> ./Caddyfile
+        [ -n \"${ENTE_SHARE_DOMAIN}\" ] && echo \"${ENTE_SHARE_DOMAIN} {\" >> ./Caddyfile
+        [ -n \"${ENTE_SHARE_DOMAIN}\" ] && echo '    reverse_proxy web:3005' >> ./Caddyfile
+        [ -n \"${ENTE_SHARE_DOMAIN}\" ] && echo '}' >> ./Caddyfile
+        [ -n \"${ENTE_EMBED_DOMAIN}\" ] && echo \"${ENTE_EMBED_DOMAIN} {\" >> ./Caddyfile
+        [ -n \"${ENTE_EMBED_DOMAIN}\" ] && echo '    reverse_proxy web:3006' >> ./Caddyfile
+        [ -n \"${ENTE_EMBED_DOMAIN}\" ] && echo '}' >> ./Caddyfile
+        [ -n \"${ENTE_S3_DOMAIN}\" ] && echo \"${ENTE_S3_DOMAIN} {\" >> ./Caddyfile
+        [ -n \"${ENTE_S3_DOMAIN}\" ] && echo '    reverse_proxy minio:3200' >> ./Caddyfile
+        [ -n \"${ENTE_S3_DOMAIN}\" ] && echo '}' >> ./Caddyfile
+        [ -n \"${ENTE_API_DOMAIN}\" ] && echo \"${ENTE_API_DOMAIN} {\" >> ./Caddyfile
+        [ -n \"${ENTE_API_DOMAIN}\" ] && echo '    reverse_proxy museum:8080' >> ./Caddyfile
+        [ -n \"${ENTE_API_DOMAIN}\" ] && echo '}' >> ./Caddyfile
+        caddy run --config ./Caddyfile --adapter caddyfile
+      "
 YAML
   fi
   cat <<'YAML'
@@ -321,288 +281,322 @@ YAML
 volumes:
   postgres-data:
   minio-data:
+
 YAML
   } > compose.yaml
 }
 
 start_compose() {
+  local is_existing_setup="${1:-false}"
+  say "\n"
+  # Check if Ente containers or volumes exist
+  local cleanup_mode="none"
+  if [[ "$is_existing_setup" == true ]]; then
+    # For existing setups, don't ask about volume cleanup - just clean containers
+    cleanup_mode="containers"
+    VOLUMES_REMOVED=false
+  elif docker compose ps -q | grep -q . || docker volume ls | grep -q my-ente; then
+    say "\n${YELLOW}[WRN]${NC} Delete existing Ente Data? (Say Y for clean-install) [y/N]: "
+    read -r cleanup_input || true
+    cleanup_input=${cleanup_input:-n}
+    case "$cleanup_input" in
+      [Yy][Ee][Ss]|[Yy]|true|TRUE) 
+        cleanup_mode="volumes"
+        VOLUMES_REMOVED=true
+        ;;
+      *) 
+        cleanup_mode="containers"
+        VOLUMES_REMOVED=false
+        ;;
+    esac
+  else
+    cleanup_mode="containers"
+    VOLUMES_REMOVED=true
+  fi
   # Check if ports 80 and 443 are free
   if command -v netstat >/dev/null 2>&1; then
     if netstat -tln 2>/dev/null | grep -q :80; then
-      say "${YELLOW}Port 80 is in use. Please free it for Caddy.${NC}"
+      say "${YELLOW}Port 80 is in use. Please free it for Caddy.${NC}\n"
     fi
     if netstat -tln 2>/dev/null | grep -q :443; then
-      say "${YELLOW}Port 443 is in use. Please free it for Caddy.${NC}"
+      say "${YELLOW}Port 443 is in use. Please free it for Caddy.${NC}\n"
     fi
   elif command -v ss >/dev/null 2>&1; then
     if ss -tln | grep -q :80; then
-      say "${YELLOW}Port 80 is in use. Please free it for Caddy.${NC}"
+      say "${YELLOW}Port 80 is in use. Please free it for Caddy.${NC}\n"
     fi
     if ss -tln | grep -q :443; then
-      say "${YELLOW}Port 443 is in use. Please free it for Caddy.${NC}"
+      say "${YELLOW}Port 443 is in use. Please free it for Caddy.${NC}\n"
     fi
   else
-    say "${YELLOW}Unable to check port availability (netstat/ss not found). Ensure ports 80 and 443 are free.${NC}"
+    say "${YELLOW}Unable to check port availability (netstat/ss not found). Ensure ports 80 and 443 are free.${NC}\n"
   fi
 
   local url="NOT CONFIGURED"
   if [[ -n "$ENTE_PHOTOS_DOMAIN" ]]; then
     url="https://$ENTE_PHOTOS_DOMAIN"
   fi
-  say "${GREEN}Hey, it's ready to compose up!${NC}"
-  say "${GREEN}Run: cd my-ente && docker compose up -d${NC}"
-  say "${GREEN}Then visit:${NC} $url"
 
-  # Remove the old compose file if it exists
-  if [[ -f "../compose.yml" ]]; then
-    rm "../compose.yml"
-    say "${GREEN}Removed old compose.yml${NC}"
+  say "\n${ORANGE}[Q]${NC} Do you want to start Ente? [Y/n]: "
+  read -r start_input || true
+  start_input=${start_input:-y}
+  case "$start_input" in
+    [Yy][Ee][Ss]|[Yy]|true|TRUE|"") START=true ;;
+    *) START=false ;;
+  esac
+
+  if [[ "$START" == true ]]; then
+    say "${BLUE}[INF]${NC} Starting Ente...\n"
+    # Perform cleanup based on user choice
+    case "$cleanup_mode" in
+      "volumes")
+        docker compose down -v --remove-orphans
+        ;;
+      "containers")
+        docker compose down --remove-orphans
+        ;;
+    esac
+    docker compose up -d
+    if [[ "$VOLUMES_REMOVED" == true ]]; then
+      # Show visit instructions
+      say "\n${BLUE}[INF]${NC} Hey, visit: ${BOLD}$url/credentials${NC} and sign up\n"
+      say "\n${ORANGE}[Q]${NC} Fetch verification code? [Y/n]: "
+      read -r fetch_input || true
+      fetch_input=${fetch_input:-y}
+      case "$fetch_input" in
+        [Yy][Ee][Ss]|[Yy]|true|TRUE|"") FETCH=true ;;
+        *) FETCH=false ;;
+      esac
+      if [[ "$FETCH" == true ]]; then
+        docker compose --env-file .env logs museum 2>&1 | grep "Verification code:" || say "${BLUE}[INF]${NC} Verification code not found yet. Did you sign up yet?\n"
+      fi
+    fi
   fi
+
+  if [[ "$START" == false ]]; then
+    say "\nTo start the cluster manually:\n"
+    say " $ cd my-ente\n"
+    say " $ docker compose --env-file .env up -d\n"
+    say "\n"
+  fi
+  say "${GREEN}[OK]${NC} Ente setup complete!\n"
 }
 
 main() {
-  TARGET_DIR="my-ente"
-  if [[ -d "$TARGET_DIR" ]]; then
-    say "${RED}Directory $TARGET_DIR already exists. Exiting.${NC}"
-    exit 1
-  fi
-  mkdir -p "$TARGET_DIR"
-  say "${GREEN}Created ${TARGET_DIR}${NC}"
-  cd "$TARGET_DIR"
-
   header
+  TARGET_DIR="my-ente"
+  local config_msg=""
+  local is_existing_setup=false
+  if [[ -d "$TARGET_DIR" ]]; then
+    config_msg="Directory $TARGET_DIR exists, loading existing configuration"
+    is_existing_setup=true
+    cd "$TARGET_DIR"
+    load_env
+  else
+    mkdir -p "$TARGET_DIR"
+    cd "$TARGET_DIR"
+  fi
+
+  [[ -n "$config_msg" ]] && say "${BLUE}[INF]${NC} $config_msg\n"
   require base64 "Install base64 (coreutils) to generate credentials."
   if ! docker_compose_version_ok; then
-    say "${RED}ERROR:${NC} Install Docker Compose v2.30+ (Docker Desktop ≥ 4.27)."
+    say "${RED}[ERR]${NC} Install Docker Compose v2.30+ (Docker Desktop ≥ 4.27).\n"
     exit 1
   fi
-
   load_env
 
-  # Initialize domain variables
-  ENTE_S3_DOMAIN=""
-  ENTE_API_DOMAIN=""
-  ENTE_PHOTOS_DOMAIN=""
-  ENTE_ACCOUNTS_DOMAIN=""
-  ENTE_ALBUMS_DOMAIN=""
-  ENTE_AUTH_DOMAIN=""
-  ENTE_CAST_DOMAIN=""
-  ENTE_SHARE_DOMAIN=""
-  ENTE_EMBED_DOMAIN=""
-
-  say "${YELLOW}Preferences Wizard${NC}"
-  say "Press Enter to accept defaults in brackets."
+  # Initialize domain variables (only if not already loaded)
+  ENTE_S3_DOMAIN="${ENTE_S3_DOMAIN:-}"
+  ENTE_API_DOMAIN="${ENTE_API_DOMAIN:-}"
+  ENTE_PHOTOS_DOMAIN="${ENTE_PHOTOS_DOMAIN:-}"
+  ENTE_ACCOUNTS_DOMAIN="${ENTE_ACCOUNTS_DOMAIN:-}"
+  ENTE_ALBUMS_DOMAIN="${ENTE_ALBUMS_DOMAIN:-}"
+  ENTE_AUTH_DOMAIN="${ENTE_AUTH_DOMAIN:-}"
+  ENTE_CAST_DOMAIN="${ENTE_CAST_DOMAIN:-}"
+  ENTE_SHARE_DOMAIN="${ENTE_SHARE_DOMAIN:-}"
+  ENTE_EMBED_DOMAIN="${ENTE_EMBED_DOMAIN:-}"
+  say "${BLUE}[INF]${NC} Hit ${GREEN}[ENTER]${NC} to accept defaults, or enter new values.\n"
+  say "\n"
 
   # Core DB settings
-  POSTGRES_USER="${POSTGRES_USER:-pguser}"
-  POSTGRES_DB="${POSTGRES_DB:-ente_db}"
+  ENTE_DB_USER="${PG:-pguser}"
+  ENTE_DB_NAME="${ENTE_DB_NAME:-ente_db}"
 
   # Secrets (generate if empty)
-  POSTGRES_PASSWORD="${POSTGRES_PASSWORD:-$(gen_password)}"
-  MINIO_ROOT_USER="${MINIO_ROOT_USER:-minio-user-$(gen_user_suffix)}"
-  MINIO_ROOT_PASSWORD="${MINIO_ROOT_PASSWORD:-$(gen_password)}"
-  MUSEUM_ENCRYPTION_KEY="${MUSEUM_ENCRYPTION_KEY:-$(gen_key)}"
-  MUSEUM_HASH_KEY="${MUSEUM_HASH_KEY:-$(gen_hash)}"
-  MUSEUM_JWT_SECRET="${MUSEUM_JWT_SECRET:-$(gen_jwt_secret)}"
-
-  # Admin/registration toggles
-  MUSEUM_ADMIN="${MUSEUM_ADMIN:-}"
-  MUSEUM_DISABLE_REGISTRATION="${MUSEUM_DISABLE_REGISTRATION:-false}"
+  ENTE_DB_PASSWORD="${ENTE_DB_PASSWORD:-$(gen_password)}"
+  ENTE_S3_B2_EU_CEN_KEY="${ENTE_S3_B2_EU_CEN_KEY:-minio-user-$(gen_user_suffix)}"
+  ENTE_S3_B2_EU_CEN_SECRET="${ENTE_S3_B2_EU_CEN_SECRET:-$(gen_password)}"
+  ENTE_KEY_ENCRYPTION="${ENTE_KEY_ENCRYPTION:-$(gen_key)}"
+  ENTE_KEY_HASH="${ENTE_KEY_HASH:-$(gen_hash)}"
+  ENTE_JWT_SECRET="${ENTE_JWT_SECRET:-$(gen_jwt_secret)}"
 
   # Domains - S3 and API required, others optional
-  ask_domain_input ENTE_S3_DOMAIN "S3"
-  ask_domain_input ENTE_API_DOMAIN "API"
-  ask_domain_input ENTE_PHOTOS_DOMAIN "Photos"
-  ask_domain_input ENTE_ACCOUNTS_DOMAIN "Accounts"
-  ask_domain_input ENTE_ALBUMS_DOMAIN "Albums"
-  ask_domain_input ENTE_AUTH_DOMAIN "Auth"
-  ask_domain_input ENTE_CAST_DOMAIN "Cast"
-  ask_domain_input ENTE_SHARE_DOMAIN "Share/Locker"
-  ask_domain_input ENTE_EMBED_DOMAIN "Embed"
-
-  # Check required domains
-  if [[ -z "$ENTE_S3_DOMAIN" ]]; then
-    say "${RED}ERROR:${NC} S3 domain is required."
-    exit 1
-  fi
-  if [[ -z "$ENTE_API_DOMAIN" ]]; then
-    say "${RED}ERROR:${NC} API domain is required."
-    exit 1
-  fi
-  if [[ -z "$ENTE_PHOTOS_DOMAIN" ]]; then
-    say "${RED}ERROR:${NC} Photos domain is required."
-    exit 1
-  fi
   while true; do
-    say "${YELLOW}Current DNS records:${NC}"
-    local domains_to_check=()
+    ask_domain_input ENTE_S3_DOMAIN "S3"
+    ask_domain_input ENTE_API_DOMAIN "API"
+    ask_domain_input ENTE_PHOTOS_DOMAIN "Photos"
+    ask_domain_input ENTE_ACCOUNTS_DOMAIN "Accounts"
+    ask_domain_input ENTE_ALBUMS_DOMAIN "Albums"
+    ask_domain_input ENTE_AUTH_DOMAIN "Auth"
+    ask_domain_input ENTE_CAST_DOMAIN "Cast"
+    ask_domain_input ENTE_SHARE_DOMAIN "Share/Locker"
+    ask_domain_input ENTE_EMBED_DOMAIN "Embed"
+
+    if [[ -z "$ENTE_S3_DOMAIN" ]]; then
+      say "\n${RED}[ERR]${NC} S3 domain is required. Restarting domain configuration...\n\n"
+      continue
+    fi
+    if [[ -z "$ENTE_API_DOMAIN" ]]; then
+      say "\n${RED}[ERR]${NC} API domain is required. Restarting domain configuration...\n\n"
+      continue
+    fi
+    if [[ -z "$ENTE_PHOTOS_DOMAIN" ]]; then
+      say "\n${RED}[ERR]${NC} Photos domain is required. Restarting domain configuration...\n\n"
+      continue
+    fi
+
+    # Show DNS records and ask for confirmation
+    say "\n${BLUE}[INF]${NC} DNS A records for configured domains:\n"
     for domain_var in ENTE_S3_DOMAIN ENTE_API_DOMAIN ENTE_PHOTOS_DOMAIN ENTE_ACCOUNTS_DOMAIN ENTE_ALBUMS_DOMAIN ENTE_AUTH_DOMAIN ENTE_CAST_DOMAIN ENTE_SHARE_DOMAIN ENTE_EMBED_DOMAIN; do
       eval "domain=\$$domain_var"
       if [[ -n "$domain" ]]; then
         local ips
         ips=$(dig +short "$domain" | tr '\n' ' ' | sed 's/ $//')
-        say "  $domain: ${ips:-No records}"
-        domains_to_check+=("$domain_var:$domain")
+        say "  $domain: ${ips:-No records}\n"
       fi
     done
 
-    if ((${#domains_to_check[@]} == 0)); then
-      break
-    fi
-
-    read -r -p "Add/update DNS A records and press Enter to validate: " || true
-
-    local failing=()
-    for item in "${domains_to_check[@]}"; do
-      local domain_var="${item%%:*}"
-      local domain="${item#*:}"
-      local ip
-      ip=$(dig +short "$domain" | head -1)
-      if [[ -z "$ip" ]]; then
-        failing+=("$domain_var:$domain")
-      fi
-    done
-
-    if ((${#failing[@]} == 0)); then
-      say "${GREEN}All domains resolve successfully!${NC}"
-      break
+    say "\n${ORANGE}[Q]${NC} Continue with these DNS records? (Y/n): "
+    read -r confirm || true
+    if [[ "$confirm" =~ ^[Nn]$ ]]; then
+      say "${YELLOW}Restarting domain configuration...${NC}\n\n"
+      continue
     else
-      say "${RED}The following domains do not resolve:${NC}"
-      for item in "${failing[@]}"; do
-        local domain="${item#*:}"
-        say "  $domain"
-      done
-      say "${YELLOW}Please re-enter them:${NC}"
-      for item in "${failing[@]}"; do
-        local domain_var="${item%%:*}"
-        local domain="${item#*:}"
-        while true; do
-          read -r -p "Re-enter $domain [subdomain.domain.tld]: " val || true
-          if [[ -z "$val" ]]; then
-            printf -v "$domain_var" ""
-            break
-          fi
-          if [[ "$val" =~ ^https?:// ]]; then
-            say "${YELLOW}Please omit http/https.${NC}"
-            continue
-          fi
-          local ip
-          ip=$(dig +short "$val" | head -1)
-          if [[ -z "$ip" ]]; then
-            say "${RED}Still does not resolve. Try again.${NC}"
-            continue
-          fi
-          say "${GREEN}Domain $val resolves to: $ip${NC}"
-          printf -v "$domain_var" "$val"
-          break
-        done
-      done
+      break
     fi
   done
 
-  # Port exposure choices - auto-set based on enabled domains
-  EXPOSE_PHOTOS=${EXPOSE_PHOTOS:-${ENTE_PHOTOS_DOMAIN:+true}}
-  EXPOSE_PHOTOS=${EXPOSE_PHOTOS:-false}
-  EXPOSE_ALBUMS=${EXPOSE_ALBUMS:-${ENTE_ALBUMS_DOMAIN:+true}}
-  EXPOSE_ALBUMS=${EXPOSE_ALBUMS:-false}
-  EXPOSE_CAST=${EXPOSE_CAST:-${ENTE_CAST_DOMAIN:+true}}
-  EXPOSE_CAST=${EXPOSE_CAST:-false}
-  EXPOSE_EMBED=${EXPOSE_EMBED:-${ENTE_EMBED_DOMAIN:+true}}
-  EXPOSE_EMBED=${EXPOSE_EMBED:-false}
-  EXPOSE_ACCOUNTS=${EXPOSE_ACCOUNTS:-${ENTE_ACCOUNTS_DOMAIN:+true}}
-  EXPOSE_ACCOUNTS=${EXPOSE_ACCOUNTS:-false}
-  EXPOSE_AUTH=${EXPOSE_AUTH:-${ENTE_AUTH_DOMAIN:+true}}
-  EXPOSE_AUTH=${EXPOSE_AUTH:-false}
-  EXPOSE_SHARE=${EXPOSE_SHARE:-${ENTE_SHARE_DOMAIN:+true}}
-  EXPOSE_SHARE=${EXPOSE_SHARE:-false}
+  # Set all ENTE_ environment variables
+  ENTE_APPS_ACCOUNTS=
+  ENTE_APPS_CAST=
+  ENTE_APPS_EMBED_ALBUMS=
+  ENTE_APPS_PUBLIC_ALBUMS=
+  ENTE_APPS_PUBLIC_LOCKER=
+  ENTE_DB_HOST=postgres
+  ENTE_DB_NAME=ente_db
+  ENTE_DB_PORT=5432
+  ENTE_DB_USER=pguser
 
+  ENTE_INTERNAL_ADMIN="${ENTE_INTERNAL_ADMIN:-}"
+  ENTE_INTERNAL_DISABLE_REGISTRATION="${ENTE_INTERNAL_DISABLE_REGISTRATION:-false}"
+  
+  ENTE_S3_ARE_LOCAL_BUCKETS=true
+  ENTE_S3_B2_EU_CEN_BUCKET=b2-eu-cen
+  ENTE_S3_B2_EU_CEN_ENDPOINT="${ENTE_S3_DOMAIN:+https://$ENTE_S3_DOMAIN}"
+  ENTE_S3_B2_EU_CEN_REGION=eu-central-2
+  ENTE_S3_BUCKET=b2-eu-cen
+  ENTE_S3_REGION=eu-central-2
+  ENTE_S3_USE_PATH_STYLE_URLS=false
+
+  # Origins
+  ENTE_API_ORIGIN="${ENTE_API_DOMAIN:+https://$ENTE_API_DOMAIN}"
+  ENTE_PHOTOS_ORIGIN="${ENTE_PHOTOS_DOMAIN:+https://$ENTE_PHOTOS_DOMAIN}"
+  ENTE_ALBUMS_ORIGIN="${ENTE_ALBUMS_DOMAIN:+https://$ENTE_ALBUMS_DOMAIN}"
+  ENTE_CAST_ORIGIN="${ENTE_CAST_DOMAIN:+https://$ENTE_CAST_DOMAIN}"
+  ENTE_EMBED_ORIGIN="${ENTE_EMBED_DOMAIN:+https://$ENTE_EMBED_DOMAIN}"
+  ENTE_ACCOUNTS_ORIGIN="${ENTE_ACCOUNTS_DOMAIN:+https://$ENTE_ACCOUNTS_DOMAIN}"
+  ENTE_AUTH_ORIGIN="${ENTE_AUTH_DOMAIN:+https://$ENTE_AUTH_DOMAIN}"
+  ENTE_SHARE_ORIGIN="${ENTE_SHARE_DOMAIN:+https://$ENTE_SHARE_DOMAIN}"
+
+  # Expose web ports based on configured domains
   WEB_PORT_LINES=()
-  add_port() { WEB_PORT_LINES+=("      - $1"); }
-  [[ "$EXPOSE_PHOTOS" == true ]] && add_port "3000:3000"
-  [[ "$EXPOSE_ACCOUNTS" == true ]] && add_port "3001:3001"
-  [[ "$EXPOSE_ALBUMS" == true ]] && add_port "3002:3002"
-  [[ "$EXPOSE_AUTH" == true ]] && add_port "3003:3003"
-  [[ "$EXPOSE_CAST" == true ]] && add_port "3004:3004"
-  [[ "$EXPOSE_SHARE" == true ]] && add_port "3005:3005"
-  [[ "$EXPOSE_EMBED" == true ]] && add_port "3006:3006"
-
-  # Origins: prefer https://domain when set
-  ENTE_API_ORIGIN="${ENTE_API_ORIGIN:-${ENTE_API_DOMAIN:+https://$ENTE_API_DOMAIN}}"
-  ENTE_PHOTOS_ORIGIN="${ENTE_PHOTOS_ORIGIN:-${ENTE_PHOTOS_DOMAIN:+https://$ENTE_PHOTOS_DOMAIN}}"
-  ENTE_ALBUMS_ORIGIN="${ENTE_ALBUMS_ORIGIN:-${ENTE_ALBUMS_DOMAIN:+https://$ENTE_ALBUMS_DOMAIN}}"
-  ENTE_CAST_ORIGIN="${ENTE_CAST_ORIGIN:-${ENTE_CAST_DOMAIN:+https://$ENTE_CAST_DOMAIN}}"
-  ENTE_EMBED_ORIGIN="${ENTE_EMBED_ORIGIN:-${ENTE_EMBED_DOMAIN:+https://$ENTE_EMBED_DOMAIN}}"
-  ENTE_ACCOUNTS_ORIGIN="${ENTE_ACCOUNTS_ORIGIN:-${ENTE_ACCOUNTS_DOMAIN:+https://$ENTE_ACCOUNTS_DOMAIN}}"
-  ENTE_AUTH_ORIGIN="${ENTE_AUTH_ORIGIN:-${ENTE_AUTH_DOMAIN:+https://$ENTE_AUTH_DOMAIN}}"
-  ENTE_SHARE_ORIGIN="${ENTE_SHARE_ORIGIN:-${ENTE_SHARE_DOMAIN:+https://$ENTE_SHARE_DOMAIN}}"
-
-  ENTE_S3_ENDPOINT="${ENTE_S3_ENDPOINT:-${ENTE_S3_DOMAIN:+https://$ENTE_S3_DOMAIN}}"
-  ENTE_S3_REGION="${ENTE_S3_REGION:-eu-central-2}"
-  ENTE_S3_BUCKET="${ENTE_S3_BUCKET:-b2-eu-cen}"
-
-  say "${GREEN}[OK] Preferences captured${NC}"
+  add_port() { WEB_PORT_LINES+=("$1 # $2"); }
+  add_commented_port() { WEB_PORT_LINES+=("# $1 # $2"); }
+  [[ -n "$ENTE_PHOTOS_DOMAIN" ]] && add_port "3000:3000" "Photos Web" || add_commented_port "3000:3000" "Photos Web"
+  [[ -n "$ENTE_ACCOUNTS_DOMAIN" ]] && add_port "3001:3001" "Accounts" || add_commented_port "3001:3001" "Accounts"
+  [[ -n "$ENTE_ALBUMS_DOMAIN" ]] && add_port "3002:3002" "Public albums" || add_commented_port "3002:3002" "Public albums"
+  [[ -n "$ENTE_AUTH_DOMAIN" ]] && add_port "3003:3003" "Auth" || add_commented_port "3003:3003" "Auth"
+  [[ -n "$ENTE_CAST_DOMAIN" ]] && add_port "3004:3004" "Cast" || add_commented_port "3004:3004" "Cast"
+  [[ -n "$ENTE_SHARE_DOMAIN" ]] && add_port "3005:3005" "Share" || add_commented_port "3005:3005" "Share"
+  [[ -n "$ENTE_EMBED_DOMAIN" ]] && add_port "3006:3006" "Embed" || add_commented_port "3006:3006" "Embed"
 
   # Write .env
-  for kv in \
-    "POSTGRES_USER=$POSTGRES_USER" \
-    "POSTGRES_DB=$POSTGRES_DB" \
-    "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" \
-    "MINIO_ROOT_USER=$MINIO_ROOT_USER" \
-    "MINIO_ROOT_PASSWORD=$MINIO_ROOT_PASSWORD" \
-    "MUSEUM_ADMIN=$MUSEUM_ADMIN" \
-    "MUSEUM_DISABLE_REGISTRATION=$MUSEUM_DISABLE_REGISTRATION" \
-    "MUSEUM_ENCRYPTION_KEY=$MUSEUM_ENCRYPTION_KEY" \
-    "MUSEUM_HASH_KEY=$MUSEUM_HASH_KEY" \
-    "MUSEUM_JWT_SECRET=$MUSEUM_JWT_SECRET" \
-    "ENTE_S3_DOMAIN=${ENTE_S3_DOMAIN-}" \
-    "ENTE_S3_ENDPOINT=$ENTE_S3_ENDPOINT" \
-    "ENTE_S3_REGION=$ENTE_S3_REGION" \
-    "ENTE_S3_BUCKET=$ENTE_S3_BUCKET" \
-    "ENTE_API_DOMAIN=${ENTE_API_DOMAIN-}" \
-    "ENTE_PHOTOS_DOMAIN=${ENTE_PHOTOS_DOMAIN-}" \
-    "ENTE_ALBUMS_DOMAIN=${ENTE_ALBUMS_DOMAIN-}" \
-    "ENTE_CAST_DOMAIN=${ENTE_CAST_DOMAIN-}" \
-    "ENTE_EMBED_DOMAIN=${ENTE_EMBED_DOMAIN-}" \
-    "ENTE_ACCOUNTS_DOMAIN=${ENTE_ACCOUNTS_DOMAIN-}" \
-    "ENTE_AUTH_DOMAIN=${ENTE_AUTH_DOMAIN-}" \
-    "ENTE_SHARE_DOMAIN=${ENTE_SHARE_DOMAIN-}" \
-    "ENTE_API_ORIGIN=$ENTE_API_ORIGIN" \
-    "ENTE_PHOTOS_ORIGIN=$ENTE_PHOTOS_ORIGIN" \
-    "ENTE_ALBUMS_ORIGIN=$ENTE_ALBUMS_ORIGIN" \
-    "ENTE_CAST_ORIGIN=$ENTE_CAST_ORIGIN" \
-    "ENTE_EMBED_ORIGIN=$ENTE_EMBED_ORIGIN" \
-    "ENTE_ACCOUNTS_ORIGIN=$ENTE_ACCOUNTS_ORIGIN" \
-    "ENTE_AUTH_ORIGIN=$ENTE_AUTH_ORIGIN" \
-    "ENTE_SHARE_ORIGIN=$ENTE_SHARE_ORIGIN"; do
-    update_env "${kv%%=*}" "${kv#*=}"
+  kv=(
+    # Database settings
+    "ENTE_DB_HOST=$ENTE_DB_HOST"
+    "ENTE_DB_PORT=$ENTE_DB_PORT"
+    "ENTE_DB_NAME=$ENTE_DB_NAME"
+    "ENTE_DB_USER=$ENTE_DB_USER"
+    "ENTE_DB_PASSWORD=$ENTE_DB_PASSWORD"
+    "POSTGRES_DB=$ENTE_DB_NAME"
+    "POSTGRES_USER=$ENTE_DB_USER"
+    "POSTGRES_PASSWORD=$ENTE_DB_PASSWORD"
+
+    # S3 settings
+    "ENTE_S3_ARE_LOCAL_BUCKETS=$ENTE_S3_ARE_LOCAL_BUCKETS"
+    "ENTE_S3_USE_PATH_STYLE_URLS=$ENTE_S3_USE_PATH_STYLE_URLS"
+    "ENTE_S3_B2_EU_CEN_KEY=$ENTE_S3_B2_EU_CEN_KEY"
+    "ENTE_S3_B2_EU_CEN_SECRET=$ENTE_S3_B2_EU_CEN_SECRET"
+    "ENTE_S3_B2_EU_CEN_ENDPOINT=$ENTE_S3_B2_EU_CEN_ENDPOINT"
+    "ENTE_S3_B2_EU_CEN_REGION=$ENTE_S3_B2_EU_CEN_REGION"
+    "ENTE_S3_B2_EU_CEN_BUCKET=$ENTE_S3_B2_EU_CEN_BUCKET"
+    "MINIO_ROOT_USER=$ENTE_S3_B2_EU_CEN_KEY"
+    "MINIO_ROOT_PASSWORD=$ENTE_S3_B2_EU_CEN_SECRET"
+
+    # Museum 
+    ## Application settings
+    "ENTE_APPS_PUBLIC_ALBUMS=$ENTE_APPS_PUBLIC_ALBUMS"
+    "ENTE_APPS_CAST=$ENTE_APPS_CAST"
+    "ENTE_APPS_PUBLIC_LOCKER=$ENTE_APPS_PUBLIC_LOCKER"
+    "ENTE_APPS_EMBED_ALBUMS=$ENTE_APPS_EMBED_ALBUMS"
+    "ENTE_APPS_ACCOUNTS=$ENTE_APPS_ACCOUNTS"
+    ## Security settings
+    "ENTE_KEY_ENCRYPTION=$ENTE_KEY_ENCRYPTION"
+    "ENTE_KEY_HASH=$ENTE_KEY_HASH"
+    "ENTE_JWT_SECRET=$ENTE_JWT_SECRET"
+    "ENTE_INTERNAL_ADMIN=$ENTE_INTERNAL_ADMIN"
+    "ENTE_INTERNAL_DISABLE_REGISTRATION=$ENTE_INTERNAL_DISABLE_REGISTRATION"
+    "ENTE_S3_DOMAIN=$ENTE_S3_DOMAIN"
+    "ENTE_API_DOMAIN=$ENTE_API_DOMAIN"
+    "ENTE_PHOTOS_DOMAIN=$ENTE_PHOTOS_DOMAIN"
+    "ENTE_ACCOUNTS_DOMAIN=$ENTE_ACCOUNTS_DOMAIN"
+    "ENTE_ALBUMS_DOMAIN=$ENTE_ALBUMS_DOMAIN"
+    "ENTE_AUTH_DOMAIN=$ENTE_AUTH_DOMAIN"
+    "ENTE_CAST_DOMAIN=$ENTE_CAST_DOMAIN"
+    "ENTE_SHARE_DOMAIN=$ENTE_SHARE_DOMAIN"
+    "ENTE_EMBED_DOMAIN=$ENTE_EMBED_DOMAIN"
+    "# Web app origins"
+    "ENTE_ACCOUNTS_ORIGIN=$ENTE_ACCOUNTS_ORIGIN"
+    "ENTE_ALBUMS_ORIGIN=$ENTE_ALBUMS_ORIGIN"
+    "ENTE_API_ORIGIN=$ENTE_API_ORIGIN"
+    "ENTE_AUTH_ORIGIN=$ENTE_AUTH_ORIGIN"
+    "ENTE_CAST_ORIGIN=$ENTE_CAST_ORIGIN"
+    "ENTE_EMBED_ORIGIN=$ENTE_EMBED_ORIGIN"
+    "ENTE_PHOTOS_ORIGIN=$ENTE_PHOTOS_ORIGIN"
+    "ENTE_SHARE_ORIGIN=$ENTE_SHARE_ORIGIN"
+  )
+
+  for item in "${kv[@]}"; do
+    if [[ "$item" =~ ^# ]]; then
+      if ! grep -q "^$item$" .env 2>/dev/null; then
+        echo "$item" >> .env
+      fi
+    else
+      update_env "${item%%=*}" "${item#*=}"
+    fi
   done
-ask_bool() {
-  local key="$1" prompt="$2" default="${3:-false}" value=""
-  local current="${!key-}"
-  local def="${current:-$default}"
-  local prompt_suffix
-  if [[ "$def" == true ]]; then
-    prompt_suffix="[Y/n]"
-  else
-    prompt_suffix="[y/N]"
-  fi
-  read -r -p "$prompt $prompt_suffix: " value || true
-  value=${value:-$def}
-  case "$value" in
-    [Yy][Ee][Ss]|[Yy]|true|TRUE) value=true ;;
-    *) value=false ;;
+
+  say "\n${ORANGE}[Q]${NC} Include Caddy reverse proxy? [Y/n]: "
+  read -r caddy_input || true
+  caddy_input=${caddy_input:-y}
+  case "$caddy_input" in
+    [Yy][Ee][Ss]|[Yy]|true|TRUE|"") INCLUDE_CADDY=true ;;
+    *) INCLUDE_CADDY=false ;;
   esac
-  printf -v "$key" "%s" "$value"
-}
-  say "${GREEN}[OK] Wrote .env${NC}"
 
-  ask_bool INCLUDE_CADDY "Include Caddy reverse proxy?" true
-
-  # Generate compose.yaml
   generate_compose
-  say "${GREEN}[OK] Wrote compose.yaml${NC}"
-
-  start_compose
+  say "${GREEN}[OK]${NC} Written to compose.yaml"
+  start_compose "$is_existing_setup"
 }
 
 main "$@"
