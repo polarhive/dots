@@ -1,0 +1,79 @@
+ente.polarhive.net {
+    log {
+        output file /var/log/caddy/ente.access.log {
+            roll_size 10mb
+            roll_keep 0
+        }
+        format json
+    }
+
+    handle_path /api/* {
+        reverse_proxy museum:8080 {
+            header_up X-Real-IP {http.request.header.X-Forwarded-For}
+        }
+    }
+
+    handle {
+        reverse_proxy web:3000 {
+            header_up X-Real-IP {http.request.header.X-Forwarded-For}
+        }
+    }
+}
+
+photos.polarhive.net {
+
+    log {
+        output file /var/log/caddy/photos.access.log {
+            roll_size 10mb
+            roll_keep 0
+        }
+        format json
+    }
+
+    reverse_proxy web:3002 {
+        header_up X-Real-IP {http.request.header.X-Forwarded-For}
+    }
+}
+
+cast.polarhive.net {
+
+    log {
+        output file /var/log/caddy/cast.access.log {
+            roll_size 10mb
+            roll_keep 0
+        }
+        format json
+    }
+
+    reverse_proxy web:3004 {
+        header_up X-Real-IP {http.request.header.X-Forwarded-For}
+    }
+}
+
+cdn.polarhive.net {
+
+    log {
+        output file /var/log/caddy/cdn.access.log {
+            roll_size 10mb
+            roll_keep 0
+        }
+        format json
+    }
+
+    reverse_proxy web:3006 {
+        header_up X-Real-IP {http.request.header.X-Forwarded-For}
+    }
+}
+
+x.polarhive.net {
+    log {
+        output file /var/log/caddy/x.access.log {
+            roll_size 10mb
+            roll_keep 0
+        }
+        format json
+    }
+
+    reverse_proxy minio:3200
+}
+

@@ -145,6 +145,16 @@ services:
         condition: service_healthy
     env_file:
       - .env
+    environment:
+YAML
+    cat <<YAML
+      ENTE_APPS_ACCOUNTS: ${ENTE_APPS_ACCOUNTS:-$ENTE_ACCOUNTS_ORIGIN}
+      ENTE_APPS_CAST: ${ENTE_APPS_CAST:-$ENTE_CAST_ORIGIN}
+      ENTE_APPS_EMBED_ALBUMS: ${ENTE_APPS_EMBED_ALBUMS:-$ENTE_EMBED_ORIGIN}
+      ENTE_APPS_PUBLIC_ALBUMS: ${ENTE_APPS_PUBLIC_ALBUMS:-$ENTE_ALBUMS_ORIGIN}
+      ENTE_APPS_PUBLIC_LOCKER: ${ENTE_APPS_PUBLIC_LOCKER:-$ENTE_SHARE_ORIGIN}
+YAML
+    cat <<'YAML'
     volumes:
       - ./data:/data:ro
     healthcheck:
@@ -183,8 +193,12 @@ YAML
     image: postgres:15
     env_file:
       - .env
+    environment:
+      POSTGRES_DB: ${ENTE_DB_NAME}
+      POSTGRES_USER: ${ENTE_DB_USER}
+      POSTGRES_PASSWORD: ${ENTE_DB_PASSWORD}
     healthcheck:
-      test: pg_isready -q -d ${POSTGRES_DB} -U ${POSTGRES_USER}
+      test: pg_isready -q -d ${ENTE_DB_NAME} -U ${ENTE_DB_USER}
       start_period: 40s
       start_interval: 1s
     volumes:
@@ -196,6 +210,9 @@ YAML
       - 3200:3200
     env_file:
       - .env
+    environment:
+      MINIO_ROOT_USER: ${ENTE_S3_B2_EU_CEN_KEY}
+      MINIO_ROOT_PASSWORD: ${ENTE_S3_B2_EU_CEN_SECRET}
     command: server /data --address ":3200" --console-address ":3201"
     volumes:
       - minio-data:/data
@@ -232,12 +249,15 @@ YAML
       - .env
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./logs:/var/log/caddy
       - caddy_data:/data
+      - caddy_config:/config
     command: ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
 volumes:
   postgres-data:
   minio-data:
   caddy_data:
+  caddy_config:
 
 YAML
   } > compose.yaml
@@ -245,7 +265,15 @@ YAML
 
 generate_caddyfile() {
   cat <<-EOF
-$ENTE_PHOTOS_DOMAIN {
+$CADDY_PHOTOS_DOMAIN {
+	log {
+		output file /var/log/caddy/$CADDY_PHOTOS_DOMAIN.access.log {
+			roll_size 10mb
+			roll_keep 0
+		}
+		format json
+	}
+
 	handle_path /api/* {
 		reverse_proxy museum:8080
 	}
@@ -257,56 +285,112 @@ $ENTE_PHOTOS_DOMAIN {
 EOF
   echo ""
 
-  if [[ -n "$ENTE_ACCOUNTS_DOMAIN" ]]; then
+  if [[ -n "$CADDY_ACCOUNTS_DOMAIN" ]]; then
     cat <<-EOF
-$ENTE_ACCOUNTS_DOMAIN {
+$CADDY_ACCOUNTS_DOMAIN {
+	log {
+		output file /var/log/caddy/$CADDY_ACCOUNTS_DOMAIN.access.log {
+			roll_size 10mb
+			roll_keep 0
+		}
+		format json
+	}
+
 	reverse_proxy web:3001
 }
 EOF
     echo ""
   fi
-  if [[ -n "$ENTE_ALBUMS_DOMAIN" ]]; then
+  if [[ -n "$CADDY_ALBUMS_DOMAIN" ]]; then
     cat <<-EOF
-$ENTE_ALBUMS_DOMAIN {
+$CADDY_ALBUMS_DOMAIN {
+	log {
+		output file /var/log/caddy/$CADDY_ALBUMS_DOMAIN.access.log {
+			roll_size 10mb
+			roll_keep 0
+		}
+		format json
+	}
+
 	reverse_proxy web:3002
 }
 EOF
     echo ""
   fi
-  if [[ -n "$ENTE_AUTH_DOMAIN" ]]; then
+  if [[ -n "$CADDY_AUTH_DOMAIN" ]]; then
     cat <<-EOF
-$ENTE_AUTH_DOMAIN {
+$CADDY_AUTH_DOMAIN {
+	log {
+		output file /var/log/caddy/$CADDY_AUTH_DOMAIN.access.log {
+			roll_size 10mb
+			roll_keep 0
+		}
+		format json
+	}
+
 	reverse_proxy web:3003
 }
 EOF
     echo ""
   fi
-  if [[ -n "$ENTE_CAST_DOMAIN" ]]; then
+  if [[ -n "$CADDY_CAST_DOMAIN" ]]; then
     cat <<-EOF
-$ENTE_CAST_DOMAIN {
+$CADDY_CAST_DOMAIN {
+	log {
+		output file /var/log/caddy/$CADDY_CAST_DOMAIN.access.log {
+			roll_size 10mb
+			roll_keep 0
+		}
+		format json
+	}
+
 	reverse_proxy web:3004
 }
 EOF
     echo ""
   fi
-  if [[ -n "$ENTE_SHARE_DOMAIN" ]]; then
+  if [[ -n "$CADDY_SHARE_DOMAIN" ]]; then
     cat <<-EOF
-$ENTE_SHARE_DOMAIN {
+$CADDY_SHARE_DOMAIN {
+	log {
+		output file /var/log/caddy/$CADDY_SHARE_DOMAIN.access.log {
+			roll_size 10mb
+			roll_keep 0
+		}
+		format json
+	}
+
 	reverse_proxy web:3005
 }
 EOF
     echo ""
   fi
-  if [[ -n "$ENTE_EMBED_DOMAIN" ]]; then
+  if [[ -n "$CADDY_EMBED_DOMAIN" ]]; then
     cat <<-EOF
-$ENTE_EMBED_DOMAIN {
+$CADDY_EMBED_DOMAIN {
+	log {
+		output file /var/log/caddy/$CADDY_EMBED_DOMAIN.access.log {
+			roll_size 10mb
+			roll_keep 0
+		}
+		format json
+	}
+
 	reverse_proxy web:3006
 }
 EOF
     echo ""
   fi
   cat <<-EOF
-$ENTE_S3_DOMAIN {
+$CADDY_S3_DOMAIN {
+	log {
+		output file /var/log/caddy/$CADDY_S3_DOMAIN.access.log {
+			roll_size 10mb
+			roll_keep 0
+		}
+		format json
+	}
+
 	reverse_proxy minio:3200
 }
 EOF
@@ -358,10 +442,7 @@ start_compose() {
     say "${YELLOW}Unable to check port availability (netstat/ss not found). Ensure ports 80 and 443 are free.${NC}\n"
   fi
 
-  local url="NOT CONFIGURED"
-  if [[ -n "$ENTE_PHOTOS_DOMAIN" ]]; then
-    url="https://$ENTE_PHOTOS_DOMAIN"
-  fi
+  local url="https://$CADDY_PHOTOS_DOMAIN"
 
   say "\n${ORANGE}[Q]${NC} Do you want to start Ente? [Y/n]: "
   read -r start_input || true
@@ -432,16 +513,16 @@ main() {
   load_env
 
   # Initialize domain variables (only if not already loaded)
-  ENTE_S3_DOMAIN="${ENTE_S3_DOMAIN:-}"
-  ENTE_API_DOMAIN="${ENTE_API_DOMAIN:-}"
-  ENTE_PHOTOS_DOMAIN="${ENTE_PHOTOS_DOMAIN:-}"
-  ENTE_ACCOUNTS_DOMAIN="${ENTE_ACCOUNTS_DOMAIN:-}"
-  ENTE_ALBUMS_DOMAIN="${ENTE_ALBUMS_DOMAIN:-}"
-  ENTE_AUTH_DOMAIN="${ENTE_AUTH_DOMAIN:-}"
-  ENTE_CAST_DOMAIN="${ENTE_CAST_DOMAIN:-}"
-  ENTE_SHARE_DOMAIN="${ENTE_SHARE_DOMAIN:-}"
-  ENTE_EMBED_DOMAIN="${ENTE_EMBED_DOMAIN:-}"
-  say "${BLUE}[INF]${NC} Hit ${GREEN}[ENTER]${NC} to accept defaults, or enter new values.\n"
+  CADDY_S3_DOMAIN="${CADDY_S3_DOMAIN:-}"
+  CADDY_API_DOMAIN="${CADDY_API_DOMAIN:-}"
+  CADDY_PHOTOS_DOMAIN="${CADDY_PHOTOS_DOMAIN:-}"
+  CADDY_ACCOUNTS_DOMAIN="${CADDY_ACCOUNTS_DOMAIN:-}"
+  CADDY_ALBUMS_DOMAIN="${CADDY_ALBUMS_DOMAIN:-}"
+  CADDY_AUTH_DOMAIN="${CADDY_AUTH_DOMAIN:-}"
+  CADDY_CAST_DOMAIN="${CADDY_CAST_DOMAIN:-}"
+  CADDY_SHARE_DOMAIN="${CADDY_SHARE_DOMAIN:-}"
+  CADDY_EMBED_DOMAIN="${CADDY_EMBED_DOMAIN:-}"
+  say "${BLUE}[INF]${NC} Hit ${GREEN}[ENTER]${NC} to skip / enter new values.\n"
   say "\n"
 
   # Core DB settings
@@ -458,34 +539,34 @@ main() {
 
   # Domains - S3 and Photos required, others optional
   while true; do
-    ask_domain_input ENTE_S3_DOMAIN "S3"
-    ask_domain_input ENTE_PHOTOS_DOMAIN "Photos"
-    ask_domain_input ENTE_ACCOUNTS_DOMAIN "Accounts"
-    ask_domain_input ENTE_ALBUMS_DOMAIN "Albums"
-    ask_domain_input ENTE_AUTH_DOMAIN "Auth"
-    ask_domain_input ENTE_CAST_DOMAIN "Cast"
-    ask_domain_input ENTE_SHARE_DOMAIN "Share/Locker"
-    ask_domain_input ENTE_EMBED_DOMAIN "Embed"
+    ask_domain_input CADDY_S3_DOMAIN "S3"
+    ask_domain_input CADDY_PHOTOS_DOMAIN "Photos"
+    ask_domain_input CADDY_ACCOUNTS_DOMAIN "Accounts"
+    ask_domain_input CADDY_ALBUMS_DOMAIN "Albums"
+    ask_domain_input CADDY_AUTH_DOMAIN "Auth"
+    ask_domain_input CADDY_CAST_DOMAIN "Cast"
+    ask_domain_input CADDY_SHARE_DOMAIN "Share/Locker"
+    ask_domain_input CADDY_EMBED_DOMAIN "Embed"
 
-    if [[ -z "$ENTE_S3_DOMAIN" ]]; then
+    if [[ -z "$CADDY_S3_DOMAIN" ]]; then
       say "\n${RED}[ERR]${NC} S3 domain is required. Restarting domain configuration...\n\n"
       continue
     fi
-    if [[ -z "$ENTE_PHOTOS_DOMAIN" ]]; then
+    if [[ -z "$CADDY_PHOTOS_DOMAIN" ]]; then
       say "\n${RED}[ERR]${NC} Photos domain is required. Restarting domain configuration...\n\n"
       continue
     fi
 
     # Set API domain to Photos domain for unified routing
-    ENTE_API_DOMAIN="$ENTE_PHOTOS_DOMAIN"
-    if [[ -z "$ENTE_PHOTOS_DOMAIN" ]]; then
+    CADDY_API_DOMAIN="$CADDY_PHOTOS_DOMAIN"
+    if [[ -z "$CADDY_PHOTOS_DOMAIN" ]]; then
       say "\n${RED}[ERR]${NC} Photos domain is required. Restarting domain configuration...\n\n"
       continue
     fi
 
     # Show DNS records and ask for confirmation
     say "\n${BLUE}[INF]${NC} DNS A records for configured domains:\n"
-    for domain_var in ENTE_S3_DOMAIN ENTE_PHOTOS_DOMAIN ENTE_ACCOUNTS_DOMAIN ENTE_ALBUMS_DOMAIN ENTE_AUTH_DOMAIN ENTE_CAST_DOMAIN ENTE_SHARE_DOMAIN ENTE_EMBED_DOMAIN; do
+    for domain_var in CADDY_S3_DOMAIN CADDY_PHOTOS_DOMAIN CADDY_ACCOUNTS_DOMAIN CADDY_ALBUMS_DOMAIN CADDY_AUTH_DOMAIN CADDY_CAST_DOMAIN CADDY_SHARE_DOMAIN CADDY_EMBED_DOMAIN; do
       eval "domain=\$$domain_var"
       if [[ -n "$domain" ]]; then
         local ips
@@ -505,63 +586,58 @@ main() {
   done
 
   # Origins
-  ENTE_API_ORIGIN="${ENTE_API_DOMAIN:+https://$ENTE_API_DOMAIN/api}"
-  ENTE_PHOTOS_ORIGIN="${ENTE_PHOTOS_DOMAIN:+https://$ENTE_PHOTOS_DOMAIN}"
-  ENTE_ALBUMS_ORIGIN="${ENTE_ALBUMS_DOMAIN:+https://$ENTE_ALBUMS_DOMAIN}"
-  ENTE_CAST_ORIGIN="${ENTE_CAST_DOMAIN:+https://$ENTE_CAST_DOMAIN}"
-  ENTE_EMBED_ORIGIN="${ENTE_EMBED_DOMAIN:+https://$ENTE_EMBED_DOMAIN}"
-  ENTE_ACCOUNTS_ORIGIN="${ENTE_ACCOUNTS_DOMAIN:+https://$ENTE_ACCOUNTS_DOMAIN}"
-  ENTE_AUTH_ORIGIN="${ENTE_AUTH_DOMAIN:+https://$ENTE_AUTH_DOMAIN}"
-  ENTE_SHARE_ORIGIN="${ENTE_SHARE_DOMAIN:+https://$ENTE_SHARE_DOMAIN}"
+  ENTE_API_ORIGIN="${CADDY_API_DOMAIN:+https://$CADDY_API_DOMAIN/api}"
+  ENTE_PHOTOS_ORIGIN="${CADDY_PHOTOS_DOMAIN:+https://$CADDY_PHOTOS_DOMAIN}"
+  ENTE_ALBUMS_ORIGIN="${CADDY_ALBUMS_DOMAIN:+https://$CADDY_ALBUMS_DOMAIN}"
+  ENTE_CAST_ORIGIN="${CADDY_CAST_DOMAIN:+https://$CADDY_CAST_DOMAIN}"
+  ENTE_EMBED_ORIGIN="${CADDY_EMBED_DOMAIN:+https://$CADDY_EMBED_DOMAIN}"
+  ENTE_ACCOUNTS_ORIGIN="${CADDY_ACCOUNTS_DOMAIN:+https://$CADDY_ACCOUNTS_DOMAIN}"
+  ENTE_AUTH_ORIGIN="${CADDY_AUTH_DOMAIN:+https://$CADDY_AUTH_DOMAIN}"
+  ENTE_SHARE_ORIGIN="${CADDY_SHARE_DOMAIN:+https://$CADDY_SHARE_DOMAIN}"
 
   # Set all ENTE_ environment variables
-  ENTE_DB_HOST=postgres
-  ENTE_DB_PORT=5432
-  ENTE_DB_USER=pguser
+  ENTE_DB_HOST="${ENTE_DB_HOST:-postgres}"
+  ENTE_DB_PORT="${ENTE_DB_PORT:-5432}"
+  ENTE_DB_USER="${ENTE_DB_USER:-pguser}"
 
   ENTE_INTERNAL_ADMIN="${ENTE_INTERNAL_ADMIN:-}"
   ENTE_INTERNAL_DISABLE_REGISTRATION="${ENTE_INTERNAL_DISABLE_REGISTRATION:-false}"
   
-  ENTE_S3_ARE_LOCAL_BUCKETS=true
+  ENTE_S3_ARE_LOCAL_BUCKETS="${ENTE_S3_ARE_LOCAL_BUCKETS:-true}"
+  ENTE_S3_USE_PATH_STYLE_URLS="${ENTE_S3_USE_PATH_STYLE_URLS:-false}"
+
+  ENTE_S3_B2_EU_CEN_ENDPOINT="${CADDY_S3_DOMAIN:+https://$CADDY_S3_DOMAIN}"
   ENTE_S3_B2_EU_CEN_BUCKET=b2-eu-cen
-  ENTE_S3_B2_EU_CEN_ENDPOINT="${ENTE_S3_DOMAIN:+https://$ENTE_S3_DOMAIN}"
   ENTE_S3_B2_EU_CEN_REGION=eu-central-2
-  ENTE_S3_BUCKET=b2-eu-cen
-  ENTE_S3_REGION=eu-central-2
-  ENTE_S3_USE_PATH_STYLE_URLS=false
-
-  ENTE_APPS_ACCOUNTS="${ENTE_ACCOUNTS_ORIGIN}"
-  ENTE_APPS_CAST="${ENTE_CAST_ORIGIN}"
-  ENTE_APPS_EMBED_ALBUMS="${ENTE_EMBED_ORIGIN}"
-  ENTE_APPS_PUBLIC_ALBUMS="${ENTE_ALBUMS_ORIGIN}"
-  ENTE_APPS_PUBLIC_LOCKER="${ENTE_SHARE_ORIGIN}"
-
 
   # Expose web ports based on configured domains
   WEB_PORT_LINES=()
   add_port() { WEB_PORT_LINES+=("$1 # $2"); }
   add_commented_port() { WEB_PORT_LINES+=("# $1 # $2"); }
-  [[ -n "$ENTE_PHOTOS_DOMAIN" ]] && add_port "3000:3000" "Photos Web" || add_commented_port "3000:3000" "Photos Web"
-  [[ -n "$ENTE_ACCOUNTS_DOMAIN" ]] && add_port "3001:3001" "Accounts" || add_commented_port "3001:3001" "Accounts"
-  [[ -n "$ENTE_ALBUMS_DOMAIN" ]] && add_port "3002:3002" "Public albums" || add_commented_port "3002:3002" "Public albums"
-  [[ -n "$ENTE_AUTH_DOMAIN" ]] && add_port "3003:3003" "Auth" || add_commented_port "3003:3003" "Auth"
-  [[ -n "$ENTE_CAST_DOMAIN" ]] && add_port "3004:3004" "Cast" || add_commented_port "3004:3004" "Cast"
-  [[ -n "$ENTE_SHARE_DOMAIN" ]] && add_port "3005:3005" "Share" || add_commented_port "3005:3005" "Share"
-  [[ -n "$ENTE_EMBED_DOMAIN" ]] && add_port "3006:3006" "Embed" || add_commented_port "3006:3006" "Embed"
+  [[ -n "$CADDY_PHOTOS_DOMAIN" ]] && add_port "3000:3000" "Photos Web" || add_commented_port "3000:3000" "Photos Web"
+  [[ -n "$CADDY_ACCOUNTS_DOMAIN" ]] && add_port "3001:3001" "Accounts" || add_commented_port "3001:3001" "Accounts"
+  [[ -n "$CADDY_ALBUMS_DOMAIN" ]] && add_port "3002:3002" "Public albums" || add_commented_port "3002:3002" "Public albums"
+  [[ -n "$CADDY_AUTH_DOMAIN" ]] && add_port "3003:3003" "Auth" || add_commented_port "3003:3003" "Auth"
+  [[ -n "$CADDY_CAST_DOMAIN" ]] && add_port "3004:3004" "Cast" || add_commented_port "3004:3004" "Cast"
+  [[ -n "$CADDY_SHARE_DOMAIN" ]] && add_port "3005:3005" "Share" || add_commented_port "3005:3005" "Share"
+  [[ -n "$CADDY_EMBED_DOMAIN" ]] && add_port "3006:3006" "Embed" || add_commented_port "3006:3006" "Embed"
 
   # Write .env
   kv=(
-    # Database settings
+    "CADDY_S3_DOMAIN=$CADDY_S3_DOMAIN"
+    "CADDY_API_DOMAIN=$CADDY_API_DOMAIN"
+    "CADDY_PHOTOS_DOMAIN=$CADDY_PHOTOS_DOMAIN"
+    "CADDY_ACCOUNTS_DOMAIN=$CADDY_ACCOUNTS_DOMAIN"
+    "CADDY_ALBUMS_DOMAIN=$CADDY_ALBUMS_DOMAIN"
+    "CADDY_AUTH_DOMAIN=$CADDY_AUTH_DOMAIN"
+    "CADDY_CAST_DOMAIN=$CADDY_CAST_DOMAIN"
+    "CADDY_SHARE_DOMAIN=$CADDY_SHARE_DOMAIN"
+    "CADDY_EMBED_DOMAIN=$CADDY_EMBED_DOMAIN"
     "ENTE_DB_HOST=$ENTE_DB_HOST"
     "ENTE_DB_PORT=$ENTE_DB_PORT"
     "ENTE_DB_NAME=$ENTE_DB_NAME"
     "ENTE_DB_USER=$ENTE_DB_USER"
     "ENTE_DB_PASSWORD=$ENTE_DB_PASSWORD"
-    "POSTGRES_DB=$ENTE_DB_NAME"
-    "POSTGRES_USER=$ENTE_DB_USER"
-    "POSTGRES_PASSWORD=$ENTE_DB_PASSWORD"
-
-    # S3 settings
     "ENTE_S3_ARE_LOCAL_BUCKETS=$ENTE_S3_ARE_LOCAL_BUCKETS"
     "ENTE_S3_USE_PATH_STYLE_URLS=$ENTE_S3_USE_PATH_STYLE_URLS"
     "ENTE_S3_B2_EU_CEN_KEY=$ENTE_S3_B2_EU_CEN_KEY"
@@ -569,32 +645,11 @@ main() {
     "ENTE_S3_B2_EU_CEN_ENDPOINT=$ENTE_S3_B2_EU_CEN_ENDPOINT"
     "ENTE_S3_B2_EU_CEN_REGION=$ENTE_S3_B2_EU_CEN_REGION"
     "ENTE_S3_B2_EU_CEN_BUCKET=$ENTE_S3_B2_EU_CEN_BUCKET"
-    "MINIO_ROOT_USER=$ENTE_S3_B2_EU_CEN_KEY"
-    "MINIO_ROOT_PASSWORD=$ENTE_S3_B2_EU_CEN_SECRET"
-
-    # Museum 
-    ## Application settings
-    "ENTE_APPS_PUBLIC_ALBUMS=$ENTE_APPS_PUBLIC_ALBUMS"
-    "ENTE_APPS_CAST=$ENTE_APPS_CAST"
-    "ENTE_APPS_PUBLIC_LOCKER=$ENTE_APPS_PUBLIC_LOCKER"
-    "ENTE_APPS_EMBED_ALBUMS=$ENTE_APPS_EMBED_ALBUMS"
-    "ENTE_APPS_ACCOUNTS=$ENTE_APPS_ACCOUNTS"
-    ## Security settings
     "ENTE_KEY_ENCRYPTION=$ENTE_KEY_ENCRYPTION"
     "ENTE_KEY_HASH=$ENTE_KEY_HASH"
     "ENTE_JWT_SECRET=$ENTE_JWT_SECRET"
     "ENTE_INTERNAL_ADMIN=$ENTE_INTERNAL_ADMIN"
     "ENTE_INTERNAL_DISABLE_REGISTRATION=$ENTE_INTERNAL_DISABLE_REGISTRATION"
-    "ENTE_S3_DOMAIN=$ENTE_S3_DOMAIN"
-    "ENTE_API_DOMAIN=$ENTE_API_DOMAIN"
-    "ENTE_PHOTOS_DOMAIN=$ENTE_PHOTOS_DOMAIN"
-    "ENTE_ACCOUNTS_DOMAIN=$ENTE_ACCOUNTS_DOMAIN"
-    "ENTE_ALBUMS_DOMAIN=$ENTE_ALBUMS_DOMAIN"
-    "ENTE_AUTH_DOMAIN=$ENTE_AUTH_DOMAIN"
-    "ENTE_CAST_DOMAIN=$ENTE_CAST_DOMAIN"
-    "ENTE_SHARE_DOMAIN=$ENTE_SHARE_DOMAIN"
-    "ENTE_EMBED_DOMAIN=$ENTE_EMBED_DOMAIN"
-    "# Web app origins"
     "ENTE_ACCOUNTS_ORIGIN=$ENTE_ACCOUNTS_ORIGIN"
     "ENTE_ALBUMS_ORIGIN=$ENTE_ALBUMS_ORIGIN"
     "ENTE_API_ORIGIN=$ENTE_API_ORIGIN"

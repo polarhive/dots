@@ -1,0 +1,116 @@
+services:
+  museum:
+    image: ghcr.io/ente-io/server
+    ports:
+      - 8080:8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      ENTE_APPS_ACCOUNTS: 
+      ENTE_APPS_CAST: https://cast.polarhive.net
+      ENTE_APPS_EMBED_ALBUMS: https://cdn.polarhive.net
+      ENTE_APPS_PUBLIC_ALBUMS: https://photos.polarhive.net
+      ENTE_APPS_PUBLIC_LOCKER: 
+    volumes:
+      - ./data:/data:ro
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/ping"]
+      interval: 60s
+      timeout: 5s
+      retries: 3
+      start_period: 120s
+
+  socat:
+    image: alpine/socat
+    network_mode: service:museum
+    depends_on: [museum]
+    command: "TCP-LISTEN:3200,fork,reuseaddr TCP:minio:3200"
+
+  web:
+    image: ghcr.io/ente-io/web
+    depends_on:
+      museum:
+        condition: service_healthy
+    ports:
+      - 3000:3000 # Photos Web
+      # 3001:3001 # Accounts
+      - 3002:3002 # Public albums
+      # 3003:3003 # Auth
+      - 3004:3004 # Cast
+      # 3005:3005 # Share
+      - 3006:3006 # Embed
+    env_file:
+      - .env
+  postgres:
+    image: postgres:15
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${ENTE_DB_NAME}
+      POSTGRES_USER: ${ENTE_DB_USER}
+      POSTGRES_PASSWORD: ${ENTE_DB_PASSWORD}
+    healthcheck:
+      test: pg_isready -q -d ${ENTE_DB_NAME} -U ${ENTE_DB_USER}
+      start_period: 40s
+      start_interval: 1s
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  minio:
+    image: minio/minio
+    ports:
+      - 3200:3200
+    env_file:
+      - .env
+    environment:
+      MINIO_ROOT_USER: ${ENTE_S3_B2_EU_CEN_KEY}
+      MINIO_ROOT_PASSWORD: ${ENTE_S3_B2_EU_CEN_SECRET}
+    command: server /data --address ":3200" --console-address ":3201"
+    volumes:
+      - minio-data:/data
+    post_start:
+      - command: |
+          sh -c '
+          #!/bin/sh
+
+          while ! mc alias set h0 http://minio:3200 ${ENTE_S3_B2_EU_CEN_KEY} ${ENTE_S3_B2_EU_CEN_SECRET} 2>/dev/null
+          do
+            echo "Waiting for minio..."
+            sleep 0.5
+          done
+
+          cd /data
+
+          mc mb -p ${ENTE_S3_B2_EU_CEN_BUCKET}
+          '
+  caddy:
+    image: caddy:latest
+    depends_on:
+      museum:
+        condition: service_healthy
+      web:
+        condition: service_started
+      minio:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+    ports:
+      - 80:80
+      - 443:443
+    env_file:
+      - .env
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./logs:/var/log/caddy
+      - caddy_data:/data
+      - caddy_config:/config
+    command: ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
+volumes:
+  postgres-data:
+  minio-data:
+  caddy_data:
+  caddy_config:
+
