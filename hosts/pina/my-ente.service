@@ -1,0 +1,13 @@
+[Unit]
+Description=My Ente Docker Compose
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/bin/my-ente-start.sh
+WorkingDirectory=/home/ubuntu/my-ente
+
+[Install]
+WantedBy=multi-user.target
