@@ -1,0 +1,41 @@
+#!/bin/sh
+set -e
+
+# Detect OS type and set paths accordingly
+case "$(uname)" in
+  Darwin*)
+    todo_file="$HOME/.config/obsidian/wiki/daily/todo.md"
+    workdir="$HOME/Movies/.tmp"
+    ;;
+  Linux*)
+    todo_file="$HOME/.config/obsidian/wiki/daily/todo.md"
+    workdir="$HOME/Videos/.tmp"
+    ;;
+  *)
+    echo "Unsupported OS: $(uname)" >&2
+    exit 1
+    ;;
+esac
+
+# Prepare directories and log file
+mkdir -p "$workdir"
+cd "$workdir"
+log_file="$workdir/completed.log"
+touch "$log_file"
+
+# Process each line in the todo file
+while IFS= read -r p || [ -n "$p" ]; do
+    [ -z "$p" ] && continue
+
+    if echo "$p" | grep -qE "(youtu\.be|youtube\.com|yewtu\.be)"; then
+        echo "Downloading YouTube: $p"
+        if yt-dlp "$p"; then
+            echo "$(date '+%F %T') [YouTube] $p" >> "$log_file"
+            sed -i.bak "\|$p|d" "$todo_file"
+        fi
+    fi
+done < "$todo_file"
+
+# Cleanup backup file created by sed on macOS
+[ -f "${todo_file}.bak" ] && rm -f "${todo_file}.bak"
+
