@@ -1,7 +1,7 @@
 # =========================================================
 # 00. XDG env.d loader (must be first)
 # =========================================================
-for f in "$HOME/.config/env.d/"*.sh; do
+for f in "$HOME/.local/repos/github.com/polarhive/dots/config/env.d/"*.sh; do
   [ -r "$f" ] && . "$f"
 done
 
