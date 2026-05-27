@@ -43,7 +43,7 @@ setopt prompt_subst
 # =========================================================
 # 05. Load aliases
 # =========================================================
-[ -f "$HOME/.config/zsh/aliases" ] && source "$HOME/.config/zsh/aliases"
+[ -f "$ZDOTDIR/aliases" ] && source "$ZDOTDIR/aliases"
 
 # =========================================================
 # 06. Keybindings
@@ -61,9 +61,10 @@ zle -N history-beginning-search-forward-end history-search-end
 # 07. Lightweight plugins
 # =========================================================
 # zoxide
-if [ -x "$PLUGIN_DIR/zoxide/zoxide" ]; then
-  eval "$($PLUGIN_DIR/zoxide/zoxide init zsh)"
-fi
+#if [ -x "$PLUGIN_DIR/zoxide/zoxide" ]; then
+  #eval "$($PLUGIN_DIR/zoxide/zoxide init zsh)"
+#fi
+eval "$(zoxide init zsh)"
 
 # =========================================================
 # 08. Heavy plugins
@@ -139,3 +140,8 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 # 11. Disable .lesshst creation
 # =========================================================
 export LESSHISTFILE=/dev/null
+
+# bun completions
+[ -s "/Users/polarhive/.local/share/bun/_bun" ] && source "/Users/polarhive/.local/share/bun/_bun"
+. "/Users/polarhive/.local/share/cargo/env"
+
