@@ -18,7 +18,7 @@
 	format = ssh
 
 [gpg "ssh"]
-	allowedSignersFile = /home/polarhive/.ssh/allowed_signers
+	allowedSignersFile = /Users/polarhive/.ssh/allowed_signers
 
 [push]
 	autoSetupRemote = true
@@ -48,20 +48,29 @@
 
 [include]
 	path = ~/.config/git/aliases
+
 [column]
 	ui = auto
+
 [branch]
 	sort = -committerdate
+
 [diff]
 	algorithm = histogram
 	colorMoved = plain
 	mnemonicPrefix = true
 	renames = true
+
 [fetch]
 	prune = true
 	pruneTags = true
 	all = true
+
 [help]
 	autocorrect = prompt
+
 [pull]
 	rebase = true
+
+[gitget]
+	root = /Users/polarhive/.local/repos

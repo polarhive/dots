@@ -1,3 +1,4 @@
+export ZDOTDIR="/Users/polarhive/.local/repos/github.com/polarhive/dots/config/zsh/"
 # =========================================================
 # 00. XDG env.d loader (must be first)
 # =========================================================
@@ -140,8 +141,4 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 # 11. Disable .lesshst creation
 # =========================================================
 export LESSHISTFILE=/dev/null
-
-# bun completions
-[ -s "/Users/polarhive/.local/share/bun/_bun" ] && source "/Users/polarhive/.local/share/bun/_bun"
-. "/Users/polarhive/.local/share/cargo/env"
 

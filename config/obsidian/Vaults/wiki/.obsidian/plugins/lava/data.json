@@ -1,0 +1,13 @@
+{
+  "linkBookmarkFilePath": "daily/todo.md",
+  "clippingFolder": "lava",
+  "lavaServerUrl": "https://lava-linkstash.onrender.com/api",
+  "useExternalService": true,
+  "stabilityThresholdSeconds": 10,
+  "watchDailyNote": false,
+  "dailyNotePath": "daily/clippings",
+  "dailyNoteFormat": "YYYY-MM-DD",
+  "blockedDomains": "docs.google.com,sheets.google.com,sites.google.com,drive.google.com",
+  "defaultTags": "clippings",
+  "parserType": "jsdom"
+}

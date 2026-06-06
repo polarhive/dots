@@ -1,0 +1,17 @@
+{
+  "cssTheme": "Flexoki Warm",
+  "interfaceFontFamily": "Inter",
+  "textFontFamily": "Inter,Iowan Old Style",
+  "monospaceFontFamily": "",
+  "showViewHeader": false,
+  "accentColor": "",
+  "theme": "system",
+  "showRibbon": false,
+  "translucency": false,
+  "nativeMenus": false,
+  "baseFontSize": 16,
+  "baseFontSizeAction": false,
+  "floatingNavigation": false,
+  "slidingSidebar": false,
+  "autoFullScreen": true
+}

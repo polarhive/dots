@@ -1,0 +1,15 @@
+{
+    "id": "lava",
+    "name": "lava",
+    "version": "1.0.0",
+    "minAppVersion": "0.15.0",
+    "description": "Extract links from your vault and save them as durable Markdown clippings.",
+    "author": "polarhive",
+    "authorUrl": "https://polarhive.net",
+    "fundingUrl": {
+        "Buy Me a Coffee": "https://buymeacoffee.com/polarhive",
+        "GitHub Sponsor": "https://github.com/sponsors/polarhive",
+        "UPI": "https://polarhive.net/donate"
+    },
+    "isDesktopOnly": false
+}

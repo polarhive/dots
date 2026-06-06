@@ -5,7 +5,7 @@
   "hideSidebarButtons": true,
   "hideTooltips": false,
   "hideFileNavButtons": true,
-  "hideSearchSuggestions": true,
+  "hideSearchSuggestions": false,
   "hideSearchCounts": true,
   "hideInstructions": true,
   "hidePropertiesReading": true,

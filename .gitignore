@@ -20,3 +20,7 @@ config/obsidian/workspaces.json
 config/pulse/cookie
 config/zsh/.zcompdump
 hosts/pina/my-ente
+config/obsidian/workspace-mobile.json
+config/zed/prompts
+config/obsidian/Vaults/wiki/.obsidian/workspace-mobile.json
+config/obsidian/Vaults/wiki/.obsidian/workspace.json

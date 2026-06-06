@@ -8,7 +8,6 @@
       "key": "E"
     }
   ],
-  "editor:save-file": [],
   "remotely-save:start-sync": [
     {
       "modifiers": [
@@ -25,23 +24,6 @@
       "key": "Z"
     }
   ],
-  "switcher:open": [
-    {
-      "modifiers": [
-        "Alt"
-      ],
-      "key": " "
-    }
-  ],
-  "command-palette:open": [
-    {
-      "modifiers": [
-        "Alt"
-      ],
-      "key": "Enter"
-    }
-  ],
-  "editor:follow-link": [],
   "obsidian-linter:lint-file": [
     {
       "modifiers": [
@@ -61,7 +43,7 @@
     {
       "modifiers": [
         "Alt",
-        "Shift"
+        "Mod"
       ],
       "key": "ArrowLeft"
     }
@@ -70,7 +52,7 @@
     {
       "modifiers": [
         "Alt",
-        "Shift"
+        "Mod"
       ],
       "key": "ArrowRight"
     }
@@ -79,7 +61,7 @@
     {
       "modifiers": [
         "Alt",
-        "Shift"
+        "Mod"
       ],
       "key": "ArrowDown"
     }
@@ -90,15 +72,49 @@
         "Alt"
       ],
       "key": "K"
+    },
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "K"
     }
   ],
-  "editor:insert-link": [],
   "app:toggle-left-sidebar": [
     {
       "modifiers": [
-        "Alt"
+        "Mod"
       ],
       "key": "J"
+    }
+  ],
+  "editor:save-file": [],
+  "editor:open-link-in-new-leaf": [],
+  "app:go-back": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "ArrowLeft"
+    }
+  ],
+  "app:go-forward": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "ArrowRight"
+    }
+  ],
+  "editor:insert-link": [],
+  "app:delete-file": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "."
     }
   ]
 }

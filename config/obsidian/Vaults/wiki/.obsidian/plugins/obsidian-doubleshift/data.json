@@ -1,0 +1,11 @@
+{
+  "delay": 500,
+  "key": "ShiftLeft",
+  "shortcuts": [
+    {
+      "command": "switcher:open",
+      "key": "ShiftLeft",
+      "lastKeyUpTime": 0
+    }
+  ]
+}
