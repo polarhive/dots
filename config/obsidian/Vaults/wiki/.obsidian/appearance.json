@@ -1,7 +1,7 @@
 {
   "cssTheme": "Flexoki Warm",
   "interfaceFontFamily": "Inter",
-  "textFontFamily": "Inter,Iowan Old Style",
+  "textFontFamily": "Inter",
   "monospaceFontFamily": "",
   "showViewHeader": false,
   "accentColor": "",
@@ -11,7 +11,7 @@
   "nativeMenus": false,
   "baseFontSize": 16,
   "baseFontSizeAction": false,
-  "floatingNavigation": false,
-  "slidingSidebar": false,
+  "floatingNavigation": true,
+  "slidingSidebar": true,
   "autoFullScreen": true
 }

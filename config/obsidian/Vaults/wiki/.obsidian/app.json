@@ -5,7 +5,7 @@
   "attachmentFolderPath": "./attachments",
   "trashOption": "local",
   "promptDelete": false,
-  "propertiesInDocument": "visible",
+  "propertiesInDocument": "hidden",
   "vimMode": true,
   "pdfExportSettings": {
     "includeName": false,
@@ -43,7 +43,7 @@
     "editor:configure-toolbar",
     "command-palette:open"
   ],
-  "spellcheck": true,
+  "spellcheck": false,
   "tabSize": 4,
   "mobilePullAction": "switcher:open",
   "mobileQuickRibbonItem": "",
